@@ -1,8 +1,13 @@
 {
   "name": "xyjson",
   "displayName": "XYJson",
-  "description": "xyjson description",
+  "description": "Mutual conversion between XML, JSON, and YAML formats",
   "version": "0.0.1",
+  "author": "Ryo Hasegawa",
+  "publisher": "ryo8000",
+  "icon": "icon.png",
+  "license": "MIT",
+  "repository": "https://github.com/ryo8000/xyjson.git",
   "engines": {
     "vscode": "^1.108.1"
   },
@@ -14,10 +19,37 @@
   "contributes": {
     "commands": [
       {
-        "command": "xyjson.helloWorld",
-        "title": "Hello World"
+        "command": "xyjson.toJson",
+        "title": "Convert to JSON"
+      },
+      {
+        "command": "xyjson.toXml",
+        "title": "Convert to XML"
+      },
+      {
+        "command": "xyjson.toYaml",
+        "title": "Convert to YAML"
       }
-    ]
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "xyjson.toJson",
+          "group": "xyjson",
+          "when": "editorLangId == xml || editorLangId == yaml"
+        },
+        {
+          "command": "xyjson.toXml",
+          "group": "xyjson",
+          "when": "editorLangId == json || editorLangId == jsonc || editorLangId == yaml"
+        },
+        {
+          "command": "xyjson.toYaml",
+          "group": "xyjson",
+          "when": "editorLangId == json || editorLangId == jsonc || editorLangId == xml"
+        }
+      ]
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
@@ -27,14 +59,19 @@
     "lint": "eslint src",
     "test": "vscode-test"
   },
+  "dependencies": {
+    "fast-xml-parser": "5.3.3",
+    "js-yaml": "4.1.1"
+  },
   "devDependencies": {
-    "@types/mocha": "^10.0.10",
+    "@types/js-yaml": "4.0.9",
+    "@types/mocha": "10.0.10",
     "@types/node": "22.x",
-    "@types/vscode": "^1.108.1",
-    "@vscode/test-cli": "^0.0.12",
-    "@vscode/test-electron": "^2.5.2",
-    "eslint": "^9.39.2",
-    "typescript": "^5.9.3",
-    "typescript-eslint": "^8.52.0"
+    "@types/vscode": "1.108.1",
+    "@vscode/test-cli": "0.0.11",
+    "@vscode/test-electron": "2.5.2",
+    "eslint": "9.39.2",
+    "typescript": "5.9.3",
+    "typescript-eslint": "8.52.0"
   }
 }

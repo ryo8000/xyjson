@@ -1,26 +1,47 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
+import { convert } from './converter';
+import { SupportedFormat } from './types';
 
-// This method is called when your extension is activated
-// Your extension is activated the very first time the command is executed
-export function activate(context: vscode.ExtensionContext) {
+async function convertAndReplace(to: SupportedFormat): Promise<void> {
+  const editor = vscode.window.activeTextEditor;
 
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
-	console.log('Congratulations, your extension "xyjson" is now active!');
+  if (!editor) {
+    vscode.window.showErrorMessage('Conversion failed: No active editor found');
+    return;
+  }
 
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with registerCommand
-	// The commandId parameter must match the command field in package.json
-	const disposable = vscode.commands.registerCommand('xyjson.helloWorld', () => {
-		// The code you place here will be executed every time your command is executed
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World from xyjson!');
-	});
+  const document = editor.document;
+  const content = document.getText().trim();
 
-	context.subscriptions.push(disposable);
+  if (!content) {
+    vscode.window.showErrorMessage('Conversion failed: Document is empty');
+    return;
+  }
+
+  try {
+    const result = convert(content, to);
+
+    const fullRange = new vscode.Range(
+      document.lineAt(0).range.start,
+      document.lineAt(document.lineCount - 1).range.end,
+    );
+
+    await editor.edit((editBuilder) => {
+      editBuilder.replace(fullRange, result);
+    });
+
+    vscode.window.showInformationMessage(`Converted to ${to}`);
+  } catch (err: any) {
+    vscode.window.showErrorMessage(`Conversion failed: ${err.message}`);
+  }
 }
 
-// This method is called when your extension is deactivated
+export function activate(context: vscode.ExtensionContext) {
+  context.subscriptions.push(
+    vscode.commands.registerCommand('xyjson.toJson', () => convertAndReplace('json')),
+    vscode.commands.registerCommand('xyjson.toXml', () => convertAndReplace('xml')),
+    vscode.commands.registerCommand('xyjson.toYaml', () => convertAndReplace('yaml')),
+  );
+}
+
 export function deactivate() {}
