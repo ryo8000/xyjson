@@ -1,9 +1,10 @@
 # Change Log
 
-All notable changes to the "xyjson" extension will be documented in this file.
+## [0.0.1] - 2026-01-24
 
-Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
+### Added
 
-## [Unreleased]
-
-- Initial release
+- Conversion commands:
+  - `Convert to JSON` — Convert current document to JSON
+  - `Convert to XML` — Convert current document to XML
+  - `Convert to YAML` — Convert current document to YAML
