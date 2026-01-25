@@ -35,7 +35,7 @@ The file content will be replaced with the converted result.
 
 | Setting         | Type    | Default | Description                                           |
 |-----------------|---------|---------|-------------------------------------------------------|
-| `xyjson.minify` | boolean | `false` |Whether to minify output instead of pretty formatting. |
+| `xyjson.minify` | boolean | `false` | Whether to minify output instead of pretty formatting. |
 
 ## License
 
