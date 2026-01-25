@@ -1,5 +1,19 @@
 # Change Log
 
+## [Unreleased]
+
+## [0.0.2] - 2026-01-26
+
+### Added
+
+- User-configurable settings:
+  - `xyjson.minify` — Control whether the output should be minified or formatted (default: `false`).
+- Pretty-formatted output for JSON, XML, and YAML when `minify` is disabled.
+
+### Changed
+
+- Conversion output is now formatted by default instead of minified.
+
 ## [0.0.1] - 2026-01-24
 
 ### Added

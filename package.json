@@ -2,7 +2,7 @@
   "name": "xyjson",
   "displayName": "XYJson",
   "description": "Mutual conversion between XML, JSON, and YAML formats",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "author": "Ryo Hasegawa",
   "publisher": "ryo8000",
   "icon": "icon.png",
@@ -49,6 +49,15 @@
           "when": "editorLangId == json || editorLangId == jsonc || editorLangId == xml"
         }
       ]
+    },
+    "configuration": {
+      "properties": {
+        "xyjson.minify": {
+          "type": "boolean",
+          "default": false,
+          "description": "Minify output instead of pretty formatting when converting XML/JSON/YAML."
+        }
+      }
     }
   },
   "scripts": {
