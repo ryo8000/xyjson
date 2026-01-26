@@ -1,34 +1,47 @@
 import { XMLParser, XMLBuilder } from 'fast-xml-parser';
 import yaml from 'js-yaml';
-import { SupportedFormat } from './types';
 
-const parser = new XMLParser({
-  ignoreAttributes: false,
-  attributeNamePrefix: '@_',
-});
+export type SupportedFormat = 'json' | 'xml' | 'yaml';
 
-const builder = new XMLBuilder({
-  ignoreAttributes: false,
-  attributeNamePrefix: '@_',
-});
+type ConvertOptions = {
+  minify: boolean;
+};
 
-export const convert = (content: string, to: SupportedFormat): string => {
+const INDENT_SIZE = 2;
+
+export const convert = (content: string, to: SupportedFormat, options: ConvertOptions): string => {
   let intermediate: unknown;
   if (content.startsWith('{') || content.startsWith('[')) {
     intermediate = JSON.parse(content);
   } else if (content.startsWith('<')) {
+    const parser = new XMLParser({
+      ignoreAttributes: false,
+      attributeNamePrefix: '@_',
+    });
     intermediate = parser.parse(content);
   } else {
     intermediate = yaml.load(content);
   }
 
-  let result: string;
   if (to === 'json') {
-    result = JSON.stringify(intermediate);
-  } else if (to === 'xml') {
-    result = builder.build(intermediate);
-  } else {
-    result = yaml.dump(intermediate);
+    return options.minify
+      ? JSON.stringify(intermediate)
+      : JSON.stringify(intermediate, null, INDENT_SIZE) + '\n';
   }
-  return result;
+
+  if (to === 'xml') {
+    const builder = new XMLBuilder({
+      ignoreAttributes: false,
+      attributeNamePrefix: '@_',
+      format: !options.minify,
+    });
+    return builder.build(intermediate);
+  }
+
+  return yaml.dump(intermediate, {
+    indent: INDENT_SIZE,
+    lineWidth: -1,
+    noRefs: true,
+    flowLevel: options.minify ? 0 : -1,
+  });
 };

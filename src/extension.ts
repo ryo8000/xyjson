@@ -1,6 +1,5 @@
 import * as vscode from 'vscode';
-import { convert } from './converter';
-import { SupportedFormat } from './types';
+import { convert, SupportedFormat } from './converter';
 
 async function convertAndReplace(to: SupportedFormat): Promise<void> {
   const editor = vscode.window.activeTextEditor;
@@ -18,8 +17,11 @@ async function convertAndReplace(to: SupportedFormat): Promise<void> {
     return;
   }
 
+  const config = vscode.workspace.getConfiguration('xyjson');
+  const minify = config.get<boolean>('minify', false);
+
   try {
-    const result = convert(content, to);
+    const result = convert(content, to, { minify });
 
     const fullRange = new vscode.Range(
       document.lineAt(0).range.start,
@@ -30,7 +32,9 @@ async function convertAndReplace(to: SupportedFormat): Promise<void> {
       editBuilder.replace(fullRange, result);
     });
 
-    vscode.window.showInformationMessage(`Converted to ${to}`);
+    vscode.window.showInformationMessage(
+      `Converted to ${to} (${minify ? 'minified' : 'formatted'})`,
+    );
   } catch (err: any) {
     vscode.window.showErrorMessage(`Conversion failed: ${err.message}`);
   }
