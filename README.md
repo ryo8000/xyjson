@@ -7,16 +7,16 @@ You can convert the entire document with a single command via the Command Palett
 ## Features
 
 - Conversion commands:
-   - **Convert to JSON** - Transform XML or YAML content to JSON
-   - **Convert to XML** - Transform JSON or YAML content to XML
-   - **Convert to YAML** - Transform JSON or XML content to YAML
+  - **Convert to JSON** - Transform XML or YAML content to JSON
+  - **Convert to XML** - Transform JSON or YAML content to XML
+  - **Convert to YAML** - Transform JSON or XML content to YAML
 - Available from:
   - Command Palette
   - Editor right-click context menu
 - Automatic input format detection:
-   - Content starting with `{` or `[` is parsed as JSON
-   - Content starting with `<` is parsed as XML
-   - All other content is parsed as YAML
+  - Content starting with `{` or `[` is parsed as JSON
+  - Content starting with `<` is parsed as XML
+  - All other content is parsed as YAML
 - Entire document is replaced with the converted output
 - Output formatting is configurable (pretty / minified)
 
