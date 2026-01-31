@@ -14,7 +14,7 @@
   // "forwardPorts": [],
 
   // Use 'postCreateCommand' to run commands after the container is created.
-  "postCreateCommand": "curl -fsSL https://claude.ai/install.sh | bash && npm install -g vsce",
+  "postCreateCommand": "curl -fsSL -o claude_install.sh https://claude.ai/install.sh && bash ./claude_install.sh && rm ./claude_install.sh && npm install -g vsce",
 
   // Configure tool-specific properties.
   "customizations": {
