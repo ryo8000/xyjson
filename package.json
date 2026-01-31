@@ -14,6 +14,18 @@
   "categories": [
     "Other"
   ],
+  "keywords": [
+    "converter",
+    "xml converter",
+    "json converter",
+    "yaml converter",
+    "xml json",
+    "xml yaml",
+    "json xml",
+    "json yaml",
+    "yaml xml",
+    "yaml json"
+  ],
   "activationEvents": [],
   "main": "./out/extension.js",
   "contributes": {
