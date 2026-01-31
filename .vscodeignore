@@ -1,3 +1,5 @@
+.claude/**
+.devcontainer/**
 .github/**
 .vscode/**
 .vscode-test/**

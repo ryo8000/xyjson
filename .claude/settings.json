@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "ask": [],
+    "allow": [
+      "Bash(npm run compile)",
+      "Bash(npm lint)",
+      "Bash(npm test)",
+      "Bash(git add:*)",
+      "Bash(git fetch:*)"
+    ],
+    "deny": [
+      "Bash(git push:*)",
+      "Bash(rm -rf /)",
+      "Bash(rm -rf ~)",
+      "Bash(rm -rf ~/*)",
+      "Bash(rm -rf /*)",
+      "Bash(sudo:*)",
+      "Read(./.env)",
+      "Read(./.env.*)"
+    ]
+  },
+  "enableAllProjectMcpServers": false
+}
