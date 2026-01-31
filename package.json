@@ -14,21 +14,33 @@
   "categories": [
     "Other"
   ],
+  "keywords": [
+    "converter",
+    "xml converter",
+    "json converter",
+    "yaml converter",
+    "xml json",
+    "xml yaml",
+    "json xml",
+    "json yaml",
+    "yaml xml",
+    "yaml json"
+  ],
   "activationEvents": [],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
       {
         "command": "xyjson.toJson",
-        "title": "Convert to JSON"
+        "title": "Convert JSON"
       },
       {
         "command": "xyjson.toXml",
-        "title": "Convert to XML"
+        "title": "Convert XML"
       },
       {
         "command": "xyjson.toYaml",
-        "title": "Convert to YAML"
+        "title": "Convert YAML"
       }
     ],
     "menus": {
