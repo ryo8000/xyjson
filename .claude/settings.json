@@ -3,8 +3,8 @@
     "ask": [],
     "allow": [
       "Bash(npm run compile)",
-      "Bash(npm lint)",
-      "Bash(npm test)",
+      "Bash(npm run lint)",
+      "Bash(npm run test)",
       "Bash(git add:*)",
       "Bash(git fetch:*)"
     ],
