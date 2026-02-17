@@ -9,7 +9,7 @@
   "license": "MIT",
   "repository": "https://github.com/ryo8000/xyjson.git",
   "engines": {
-    "vscode": "^1.108.1"
+    "vscode": "^1.109.0"
   },
   "categories": [
     "Other"
@@ -74,9 +74,10 @@
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
-    "compile": "tsc -p ./ && cpx \"src/test/fixtures/**\" \"out/test/fixtures\"",
+    "compile": "tsc -p ./",
+    "copy-fixtures": "cpx \"src/test/fixtures/**\" \"out/test/fixtures\"",
     "watch": "tsc -watch -p ./",
-    "pretest": "npm run compile && npm run lint",
+    "pretest": "npm run compile && npm run copy-fixtures && npm run lint",
     "lint": "eslint src",
     "test": "vscode-test"
   },
@@ -91,7 +92,7 @@
     "@types/vscode": "1.109.0",
     "@vscode/test-cli": "0.0.12",
     "@vscode/test-electron": "2.5.2",
-    "cpx": "1.5.0",
+    "cpx2": "8.0.0",
     "eslint": "9.39.2",
     "typescript": "5.9.3",
     "typescript-eslint": "8.55.0"
