@@ -2,6 +2,15 @@
 
 ## [Unreleased]
 
+## [0.0.4] - 2026-02-18
+
+### Changed
+
+- Updated minimum VS Code engine version from 1.108.0 to 1.109.0.
+- Updated `.vscodeignore` to exclude test output files.
+- Updated dependencies:
+  - `fast-xml-parser` from 5.3.4 to 5.3.5
+
 ## [0.0.3] - 2026-01-31
 
 ### Added
@@ -12,8 +21,6 @@
 
 - Updated dependencies:
   - `fast-xml-parser` from 5.3.3 to 5.3.4
-  - `typescript-eslint` from 8.53.1 to 8.54.0
-  - `@types/node` from 25.0.10 to 25.1.0
 
 ## [0.0.2] - 2026-01-27
 
