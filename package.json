@@ -2,7 +2,7 @@
   "name": "xyjson",
   "displayName": "XYJson",
   "description": "Mutual conversion between XML, JSON, and YAML formats",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "author": "Ryo Hasegawa",
   "publisher": "ryo8000",
   "icon": "icon.png",
