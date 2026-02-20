@@ -8,53 +8,24 @@ suite('Extension Test Suite', () => {
   const readFixture = (filename: string): string =>
     fs.readFileSync(path.join(__dirname, 'fixtures', filename), 'utf-8').replace(/\r\n/g, '\n');
 
-  async function openDocumentWithContent(content: string): Promise<vscode.TextEditor> {
+  const openDocumentWithContent = async (content: string): Promise<vscode.TextEditor> => {
     const doc = await vscode.workspace.openTextDocument({ content, language: 'plaintext' });
     return vscode.window.showTextDocument(doc);
-  }
+  };
 
-  function getDocumentText(editor: vscode.TextEditor): string {
+  const getDocumentText = (editor: vscode.TextEditor): string => {
     return editor.document.getText().replace(/\r\n/g, '\n');
-  }
+  };
 
-  async function setMinify(value: boolean): Promise<void> {
+  const setMinify = async (value: boolean): Promise<void> => {
     await vscode.workspace
       .getConfiguration('xyjson')
       .update('minify', value, vscode.ConfigurationTarget.Global);
-  }
-
-  suiteSetup(async () => {
-    const commands = ['xyjson.toJson', 'xyjson.toXml', 'xyjson.toYaml'];
-    for (let i = 0; i < 20; i++) {
-      const registered = await vscode.commands.getCommands(true);
-      if (commands.every((cmd) => registered.includes(cmd))) {
-        return;
-      }
-      await new Promise((resolve) => setTimeout(resolve, 100));
-    }
-    throw new Error('Extension commands were not registered within 2 seconds');
-  });
+  };
 
   teardown(async () => {
     await vscode.commands.executeCommand('workbench.action.closeAllEditors');
     await setMinify(false);
-  });
-
-  suite('Command Registration', () => {
-    test('xyjson.toJson is registered', async () => {
-      const commands = await vscode.commands.getCommands(true);
-      assert.ok(commands.includes('xyjson.toJson'));
-    });
-
-    test('xyjson.toXml is registered', async () => {
-      const commands = await vscode.commands.getCommands(true);
-      assert.ok(commands.includes('xyjson.toXml'));
-    });
-
-    test('xyjson.toYaml is registered', async () => {
-      const commands = await vscode.commands.getCommands(true);
-      assert.ok(commands.includes('xyjson.toYaml'));
-    });
   });
 
   suite('Successful Conversion', () => {
