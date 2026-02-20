@@ -82,7 +82,7 @@
     "test": "vscode-test"
   },
   "dependencies": {
-    "fast-xml-parser": "5.3.5",
+    "fast-xml-parser": "5.3.7",
     "js-yaml": "4.1.1"
   },
   "devDependencies": {
