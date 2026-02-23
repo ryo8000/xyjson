@@ -2,6 +2,13 @@
 
 ## [Unreleased]
 
+## [0.0.5] - 2026-02-23
+
+### Changed
+
+- Updated dependencies:
+  - `fast-xml-parser` from 5.3.5 to 5.3.7
+
 ## [0.0.4] - 2026-02-18
 
 ### Changed
