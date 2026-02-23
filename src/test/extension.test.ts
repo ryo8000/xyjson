@@ -6,9 +6,7 @@ import * as vscode from 'vscode';
 suite('Extension Test Suite', () => {
   const commandLabel = (command: string): string => command.replace(/^xyjson\./, '');
 
-  const formatOfFixture = (fixture: string): string => {
-    return path.extname(fixture).slice(1).toUpperCase();
-  };
+  const formatOfFixture = (fixture: string): string => path.extname(fixture).slice(1).toUpperCase();
 
   const readFixture = (filename: string): string =>
     fs.readFileSync(path.join(__dirname, 'fixtures', filename), 'utf-8').replace(/\r\n/g, '\n');
