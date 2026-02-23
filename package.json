@@ -75,7 +75,7 @@
   "scripts": {
     "vscode:prepublish": "npm run compile",
     "compile": "tsc -p ./",
-    "copy-fixtures": "cpx \"src/test/fixtures/**\" \"out/test/fixtures\"",
+    "copy-fixtures": "node ./scripts/copy-fixtures.js",
     "watch": "tsc -watch -p ./",
     "pretest": "npm run compile && npm run copy-fixtures && npm run lint",
     "lint": "eslint src",
@@ -92,7 +92,6 @@
     "@types/vscode": "1.109.0",
     "@vscode/test-cli": "0.0.12",
     "@vscode/test-electron": "2.5.2",
-    "cpx2": "8.0.0",
     "eslint": "10.0.1",
     "typescript": "5.9.3",
     "typescript-eslint": "8.56.0"
