@@ -1,6 +1,6 @@
 # XYJson - XML YAML JSON Converter
 
-Convert **JSON ⇄ XML ⇄ YAML** directly inside VS Code.
+Convert **XML ⇄ YAML ⇄ JSON** directly inside VS Code.
 
 - Convert between formats with one command
 - Pretty format or minify output
