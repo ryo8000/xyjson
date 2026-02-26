@@ -1,8 +1,11 @@
-# XYJson
+# XYJson - XML YAML JSON Converter
 
-**XYJson** is a VS Code extension that enables bidirectional conversion between **XML, JSON, and YAML**.
+Convert **JSON ⇄ XML ⇄ YAML** directly inside VS Code.
 
-You can convert the entire document with a single command via the Command Palette or right-click context menu.
+- Convert between formats with one command
+- Pretty format or minify output
+- Works from Command Palette and right-click menu
+- Automatic input format detection
 
 ## Features
 

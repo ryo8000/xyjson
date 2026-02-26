@@ -1,7 +1,7 @@
 {
   "name": "xyjson",
-  "displayName": "XYJson",
-  "description": "Mutual conversion between XML, JSON, and YAML formats",
+  "displayName": "XYJson - XML YAML JSON Converter",
+  "description": "Convert and format XML, YAML, and JSON directly in VS Code. Supports minify and pretty formatting.",
   "version": "0.0.5",
   "author": "Ryo Hasegawa",
   "publisher": "ryo8000",
@@ -12,19 +12,26 @@
     "vscode": "^1.109.0"
   },
   "categories": [
+    "Formatters",
     "Other"
   ],
   "keywords": [
+    "json",
+    "xml",
+    "yaml",
+    "yml",
     "converter",
-    "xml converter",
-    "json converter",
-    "yaml converter",
-    "xml json",
-    "xml yaml",
-    "json xml",
-    "json yaml",
-    "yaml xml",
-    "yaml json"
+    "formatter",
+    "format",
+    "minify",
+    "beautify",
+    "transform",
+    "json to xml",
+    "xml to json",
+    "json to yaml",
+    "yaml to json",
+    "xml to yaml",
+    "yaml to xml"
   ],
   "activationEvents": [],
   "main": "./out/extension.js",
