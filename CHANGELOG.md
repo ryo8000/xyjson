@@ -2,6 +2,18 @@
 
 ## [Unreleased]
 
+## [0.0.6] - 2026-02-27
+
+### Changed
+
+- Updated extension display name to "XYJson - XML YAML JSON Converter".
+- Updated extension description.
+- Added `Formatters` to extension categories.
+- Updated keywords for better discoverability in the VS Code Marketplace.
+- Updated `.vscodeignore` to exclude `scripts/` directory.
+- Updated dependencies:
+  - `fast-xml-parser` from 5.3.7 to 5.3.8
+
 ## [0.0.5] - 2026-02-23
 
 ### Changed
