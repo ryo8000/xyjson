@@ -2,7 +2,7 @@
   "name": "xyjson",
   "displayName": "XYJson - XML YAML JSON Converter",
   "description": "Convert and format XML, YAML, and JSON directly in VS Code. Supports minify and pretty formatting.",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "author": "Ryo Hasegawa",
   "publisher": "ryo8000",
   "icon": "icon.png",
