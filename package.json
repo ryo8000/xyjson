@@ -39,15 +39,15 @@
     "commands": [
       {
         "command": "xyjson.toJson",
-        "title": "Convert to JSON"
+        "title": "XYJson: Convert to JSON"
       },
       {
         "command": "xyjson.toXml",
-        "title": "Convert to XML"
+        "title": "XYJson: Convert to XML"
       },
       {
         "command": "xyjson.toYaml",
-        "title": "Convert to YAML"
+        "title": "XYJson: Convert to YAML"
       }
     ],
     "menus": {
