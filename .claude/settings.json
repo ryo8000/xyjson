@@ -5,6 +5,7 @@
       "Bash(npm run compile)",
       "Bash(npm run lint)",
       "Bash(npm run test)",
+      "Bash(npm test)",
       "Bash(git add:*)",
       "Bash(git fetch:*)"
     ],
