@@ -17,7 +17,7 @@ suite('Converter Test Suite', () => {
       },
       xml: {
         pretty: readFixture('xml-pretty.xml'),
-        minified: readFixture('xml-minified.xml')
+        minified: readFixture('xml-minified.xml'),
       },
       yaml: {
         pretty: readFixture('yaml-pretty.yaml'),
@@ -43,15 +43,16 @@ suite('Converter Test Suite', () => {
   type TestCase = {
     to: SupportedFormat;
     minify: boolean;
+    attributeNamePrefix?: string;
     expected: string;
     description: string;
   };
 
   const createTestSuite = (suiteName: string, input: string, testCases: TestCase[]) => {
     suite(suiteName, () => {
-      for (const { to, minify, expected, description } of testCases) {
+      for (const { to, minify, attributeNamePrefix = '@_', expected, description } of testCases) {
         test(description, () => {
-          const actual = convert(input, to, { minify });
+          const actual = convert(input, to, { minify, attributeNamePrefix });
           assert.strictEqual(actual, expected);
         });
       }
@@ -92,5 +93,23 @@ suite('Converter Test Suite', () => {
     { to: 'xml', minify: true, expected: fixtures.object.xml.minified, description: 'YAML to XML (minified)' },
     { to: 'yaml', minify: false, expected: fixtures.object.yaml.pretty, description: 'YAML to YAML (pretty)' },
     { to: 'yaml', minify: true, expected: fixtures.object.yaml.minified, description: 'YAML to YAML (minified)' },
+  ]);
+
+  createTestSuite('XML input with attributeNamePrefix "$"', fixtures.object.xml.pretty, [
+    { to: 'json', minify: false, attributeNamePrefix: '$', expected: '{\n  "profiles": {\n    "name": "test",\n    "value": 123,\n    "$id": "1"\n  }\n}\n', description: 'XML to JSON (pretty)' },
+    { to: 'json', minify: true, attributeNamePrefix: '$', expected: '{"profiles":{"name":"test","value":123,"$id":"1"}}', description: 'XML to JSON (minified)' },
+    { to: 'xml', minify: false, attributeNamePrefix: '$', expected: fixtures.object.xml.pretty, description: 'XML to XML (pretty)' },
+    { to: 'xml', minify: true, attributeNamePrefix: '$', expected: fixtures.object.xml.minified, description: 'XML to XML (minified)' },
+    { to: 'yaml', minify: false, attributeNamePrefix: '$', expected: 'profiles:\n  name: test\n  value: 123\n  $id: \'1\'\n', description: 'XML to YAML (pretty)' },
+    { to: 'yaml', minify: true, attributeNamePrefix: '$', expected: '{profiles: {name: test, value: 123, $id: \'1\'}}\n', description: 'XML to YAML (minified)' },
+  ]);
+
+  createTestSuite('XML input with attributeNamePrefix ""', fixtures.object.xml.pretty, [
+    { to: 'json', minify: false, attributeNamePrefix: '', expected: '{\n  "profiles": {\n    "name": "test",\n    "value": 123,\n    "id": "1"\n  }\n}\n', description: 'XML to JSON (pretty)' },
+    { to: 'json', minify: true, attributeNamePrefix: '', expected: '{"profiles":{"name":"test","value":123,"id":"1"}}', description: 'XML to JSON (minified)' },
+    { to: 'xml', minify: false, attributeNamePrefix: '', expected: '<profiles name="test" value="123" id="1"></profiles>\n', description: 'XML to XML (pretty)' },
+    { to: 'xml', minify: true, attributeNamePrefix: '', expected: '<profiles name="test" value="123" id="1"></profiles>', description: 'XML to XML (minified)' },
+    { to: 'yaml', minify: false, attributeNamePrefix: '', expected: 'profiles:\n  name: test\n  value: 123\n  id: \'1\'\n', description: 'XML to YAML (pretty)' },
+    { to: 'yaml', minify: true, attributeNamePrefix: '', expected: '{profiles: {name: test, value: 123, id: \'1\'}}\n', description: 'XML to YAML (minified)' },
   ]);
 });

@@ -36,9 +36,10 @@ The file content will be replaced with the converted result.
 
 ## Settings
 
-| Setting         | Type    | Default | Description                                           |
-|-----------------|---------|---------|-------------------------------------------------------|
-| `xyjson.minify` | boolean | `false` | Whether to minify output instead of pretty formatting. |
+| Setting                         | Type    | Default | Description                                                       |
+|---------------------------------|---------|---------|-------------------------------------------------------------------|
+| `xyjson.minify`                 | boolean | `false` | Whether to minify output instead of pretty formatting.            |
+| `xyjson.xmlAttributeNamePrefix` | string  | `"@_"`  | Prefix added to XML attribute names when parsing or building XML. |
 
 ## License
 

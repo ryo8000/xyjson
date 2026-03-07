@@ -5,6 +5,7 @@ export type SupportedFormat = 'json' | 'xml' | 'yaml';
 
 type ConvertOptions = {
   minify: boolean;
+  attributeNamePrefix: string;
 };
 
 const INDENT_SIZE = 2;
@@ -16,7 +17,7 @@ export const convert = (content: string, to: SupportedFormat, options: ConvertOp
   } else if (content.startsWith('<')) {
     const parser = new XMLParser({
       ignoreAttributes: false,
-      attributeNamePrefix: '@_',
+      attributeNamePrefix: options.attributeNamePrefix,
     });
     intermediate = parser.parse(content);
   } else {
@@ -32,7 +33,7 @@ export const convert = (content: string, to: SupportedFormat, options: ConvertOp
   if (to === 'xml') {
     const builder = new XMLBuilder({
       ignoreAttributes: false,
-      attributeNamePrefix: '@_',
+      attributeNamePrefix: options.attributeNamePrefix,
       format: !options.minify,
     });
     return builder.build(intermediate);

@@ -26,9 +26,16 @@ suite('Extension Test Suite', () => {
       .update('minify', value, vscode.ConfigurationTarget.Global);
   };
 
+  const setAttributeNamePrefix = async (value: string): Promise<void> => {
+    await vscode.workspace
+      .getConfiguration('xyjson')
+      .update('xmlAttributeNamePrefix', value, vscode.ConfigurationTarget.Global);
+  };
+
   teardown(async () => {
     await vscode.commands.executeCommand('workbench.action.closeAllEditors');
     await setMinify(false);
+    await setAttributeNamePrefix('@_');
   });
 
   suite('Successful Conversion', () => {
@@ -72,6 +79,33 @@ suite('Extension Test Suite', () => {
         assert.strictEqual(getEditorText(editor), readFixture(c.expectedFixture));
       });
     }
+  });
+
+  suite('AttributeNamePrefix Configuration', () => {
+    const cases = [
+      { prefix: '$', expectedKey: '$id' },
+      { prefix: '', expectedKey: 'id' },
+      { prefix: 'a_', expectedKey: 'a_id' },
+    ] as const;
+
+    for (const { prefix, expectedKey } of cases) {
+      test(`toJson maps attribute key with prefix "${prefix}"`, async () => {
+        await setAttributeNamePrefix(prefix);
+        const editor = await openEditorWithContent(readFixture('xml-pretty.xml'));
+        await vscode.commands.executeCommand('xyjson.toJson');
+        const parsed = JSON.parse(getEditorText(editor));
+        assert.strictEqual(parsed.profiles[expectedKey], '1');
+      });
+    }
+
+    test('toXml round-trip preserves attribute with custom prefix "$"', async () => {
+      await setAttributeNamePrefix('$');
+      const editor = await openEditorWithContent(readFixture('xml-pretty.xml'));
+      await vscode.commands.executeCommand('xyjson.toXml');
+      const first = getEditorText(editor);
+      await vscode.commands.executeCommand('xyjson.toXml');
+      assert.strictEqual(getEditorText(editor), first);
+    });
   });
 
   suite('Error Cases', () => {

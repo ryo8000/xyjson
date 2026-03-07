@@ -1,4 +1,5 @@
 import * as vscode from 'vscode';
+
 import { convert, SupportedFormat } from './converter';
 
 async function convertAndReplace(to: SupportedFormat): Promise<void> {
@@ -19,9 +20,10 @@ async function convertAndReplace(to: SupportedFormat): Promise<void> {
 
   const config = vscode.workspace.getConfiguration('xyjson');
   const minify = config.get<boolean>('minify', false);
+  const attributeNamePrefix = config.get<string>('xmlAttributeNamePrefix', '@_');
 
   try {
-    const result = convert(content, to, { minify });
+    const result = convert(content, to, { minify, attributeNamePrefix });
 
     const fullRange = new vscode.Range(
       document.lineAt(0).range.start,
