@@ -2,6 +2,18 @@
 
 ## [Unreleased]
 
+## [0.0.7] - 2026-03-11
+
+### Added
+
+- New `xyjson.xmlAttributeNamePrefix` setting to configure the prefix added to XML attribute names when parsing or building XML (default: `@_`).
+
+### Changed
+
+- Updated command titles to include the `XYJson:` prefix for better discoverability in the Command Palette.
+- Updated dependencies:
+  - `fast-xml-parser` from 5.3.8 to 5.4.2
+
 ## [0.0.6] - 2026-02-27
 
 ### Changed
