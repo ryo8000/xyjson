@@ -11,7 +11,12 @@ async function convertAndReplace(to: SupportedFormat): Promise<void> {
   }
 
   const document = editor.document;
-  const content = document.getText().trim();
+  const selection = editor.selection;
+  const hasSelection = !selection.isEmpty;
+
+  const content = hasSelection
+    ? document.getText(selection).trim()
+    : document.getText().trim();
 
   if (!content) {
     vscode.window.showErrorMessage('Conversion failed: Document is empty');
@@ -25,13 +30,15 @@ async function convertAndReplace(to: SupportedFormat): Promise<void> {
   try {
     const result = convert(content, to, { minify, attributeNamePrefix });
 
-    const fullRange = new vscode.Range(
-      document.lineAt(0).range.start,
-      document.lineAt(document.lineCount - 1).range.end,
-    );
+    const replaceRange = hasSelection
+      ? selection
+      : new vscode.Range(
+          document.lineAt(0).range.start,
+          document.lineAt(document.lineCount - 1).range.end,
+        );
 
     await editor.edit((editBuilder) => {
-      editBuilder.replace(fullRange, result);
+      editBuilder.replace(replaceRange, result);
     });
 
     vscode.window.showInformationMessage(
