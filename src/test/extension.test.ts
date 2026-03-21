@@ -108,6 +108,34 @@ suite('Extension Test Suite', () => {
     });
   });
 
+  suite('Selection-only Conversion', () => {
+    test('converts only the selected text, leaving the rest unchanged', async () => {
+      const jsonSnippet = readFixture('json-pretty.json');
+      const prefix = 'prefix text\n';
+      const suffix = '\nsuffix text';
+      const editor = await openEditorWithContent(prefix + jsonSnippet + suffix);
+
+      const startPos = editor.document.positionAt(prefix.length);
+      const endPos = editor.document.positionAt(prefix.length + jsonSnippet.length);
+      editor.selection = new vscode.Selection(startPos, endPos);
+
+      await vscode.commands.executeCommand('xyjson.toYaml');
+
+      const text = getEditorText(editor);
+      assert.ok(text.startsWith(prefix), 'prefix should be unchanged');
+      assert.ok(text.endsWith(suffix), 'suffix should be unchanged');
+      const converted = text.slice(prefix.length, text.length - suffix.length);
+      assert.strictEqual(converted, readFixture('yaml-pretty.yaml'));
+    });
+
+    test('converts entire document when selection is empty', async () => {
+      const editor = await openEditorWithContent(readFixture('json-pretty.json'));
+      // selection is empty by default
+      await vscode.commands.executeCommand('xyjson.toYaml');
+      assert.strictEqual(getEditorText(editor), readFixture('yaml-pretty.yaml'));
+    });
+  });
+
   suite('Error Cases', () => {
     const commands = ['xyjson.toJson', 'xyjson.toXml', 'xyjson.toYaml'] as const;
 
