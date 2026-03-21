@@ -20,19 +20,21 @@ Convert **XML ⇄ YAML ⇄ JSON** directly inside VS Code.
   - Content starting with `{` or `[` is parsed as JSON
   - Content starting with `<` is parsed as XML
   - All other content is parsed as YAML
-- Entire document is replaced with the converted output
+- Convert the entire document, or just the selected text if a selection is active
 - Output formatting is configurable (pretty / minified)
 
 ## Usage
 
 1. Open an XML, JSON, or YAML file
-2. Right-click in the editor to open the context menu
-3. Select one of the conversion commands:
+2. Optionally, select a portion of text to convert only that range
+3. Right-click in the editor to open the context menu
+4. Select one of the conversion commands:
    - **XYJson: Convert to JSON**
    - **XYJson: Convert to XML**
    - **XYJson: Convert to YAML**
 
-The file content will be replaced with the converted result.
+If text is selected, only the selection is replaced with the converted result.
+If nothing is selected, the entire document is replaced.
 
 ## Settings
 
