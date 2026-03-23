@@ -2,6 +2,17 @@
 
 ## [Unreleased]
 
+## [0.0.8] - 2026-03-23
+
+### Added
+
+- Support selection-scoped conversion: when text is selected, only the selected portion is converted.
+
+### Changed
+
+- Updated dependencies:
+  - `fast-xml-parser` from 5.4.2 to 5.5.7
+
 ## [0.0.7] - 2026-03-11
 
 ### Added
