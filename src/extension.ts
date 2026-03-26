@@ -44,8 +44,8 @@ async function convertAndReplace(to: SupportedFormat): Promise<void> {
     vscode.window.showInformationMessage(
       `Converted to ${to} (${minify ? 'minified' : 'formatted'})`,
     );
-  } catch (err: any) {
-    vscode.window.showErrorMessage(`Conversion failed: ${err.message}`);
+  } catch (err) {
+    vscode.window.showErrorMessage(`Conversion failed: ${err instanceof Error ? err.message : String(err)}`);
   }
 }
 
