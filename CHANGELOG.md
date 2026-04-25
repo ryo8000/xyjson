@@ -2,6 +2,17 @@
 
 ## [Unreleased]
 
+## [0.0.9] - 2026-04-25
+
+### Fixed
+
+- Fix YAML flow style input being misdetected as JSON.
+
+### Changed
+
+- Updated dependencies:
+  - `fast-xml-parser` from 5.5.7 to 5.6.0
+
 ## [0.0.8] - 2026-03-23
 
 ### Added
