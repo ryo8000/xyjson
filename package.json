@@ -48,6 +48,18 @@
       {
         "command": "xyjson.toYaml",
         "title": "XYJson: Convert to YAML"
+      },
+      {
+        "command": "xyjson.formatJson",
+        "title": "XYJson: Format JSON"
+      },
+      {
+        "command": "xyjson.formatXml",
+        "title": "XYJson: Format XML"
+      },
+      {
+        "command": "xyjson.formatYaml",
+        "title": "XYJson: Format YAML"
       }
     ],
     "menus": {
@@ -66,6 +78,21 @@
           "command": "xyjson.toYaml",
           "group": "xyjson",
           "when": "editorLangId == json || editorLangId == jsonc || editorLangId == xml"
+        },
+        {
+          "command": "xyjson.formatJson",
+          "group": "xyjson",
+          "when": "editorLangId == json || editorLangId == jsonc"
+        },
+        {
+          "command": "xyjson.formatXml",
+          "group": "xyjson",
+          "when": "editorLangId == xml"
+        },
+        {
+          "command": "xyjson.formatYaml",
+          "group": "xyjson",
+          "when": "editorLangId == yaml"
         }
       ]
     },
