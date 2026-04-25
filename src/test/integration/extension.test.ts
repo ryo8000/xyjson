@@ -9,7 +9,7 @@ suite('Extension Test Suite', () => {
   const formatOfFixture = (fixture: string): string => path.extname(fixture).slice(1).toUpperCase();
 
   const readFixture = (filename: string): string =>
-    fs.readFileSync(path.join(__dirname, 'fixtures', filename), 'utf-8').replace(/\r\n/g, '\n');
+    fs.readFileSync(path.join(__dirname, '../fixtures', filename), 'utf-8').replace(/\r\n/g, '\n');
 
   const openEditorWithContent = async (content: string): Promise<vscode.TextEditor> => {
     const doc = await vscode.workspace.openTextDocument({ content, language: 'plaintext' });
