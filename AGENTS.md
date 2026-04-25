@@ -15,7 +15,8 @@
 1. `npm run compile`
 2. `npm run lint`
 3. `npm run copy-fixtures`
-4. `npm test` (when environment supports VS Code extension test runtime)
+4. `npm test` — unit tests only, no VS Code runtime required
+5. `npm run test:integration` — full tests including VS Code integration tests (requires VS Code runtime)
 
 ## Repository conventions
 - Use TypeScript and existing coding style in `src/`.
