@@ -13,7 +13,12 @@ const INDENT_SIZE = 2;
 export const convert = (content: string, to: SupportedFormat, options: ConvertOptions): string => {
   let intermediate: unknown;
   if (content.startsWith('{') || content.startsWith('[')) {
-    intermediate = JSON.parse(content);
+    try {
+      intermediate = JSON.parse(content);
+    } catch {
+      // YAML flow style also starts with '{' or '[', e.g. {key: value}
+      intermediate = yaml.load(content);
+    }
   } else if (content.startsWith('<')) {
     const parser = new XMLParser({
       ignoreAttributes: false,

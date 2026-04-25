@@ -17,8 +17,8 @@ Convert **XML ⇄ YAML ⇄ JSON** directly inside VS Code.
   - Command Palette
   - Editor right-click context menu
 - Automatic input format detection:
-  - Content starting with `{` or `[` is parsed as JSON
   - Content starting with `<` is parsed as XML
+  - Content starting with `{` or `[` is parsed as JSON, or YAML if JSON parsing fails (e.g. YAML flow style)
   - All other content is parsed as YAML
 - Convert the entire document, or just the selected text if a selection is active
 - Output formatting is configurable (pretty / minified)
