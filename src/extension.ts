@@ -54,6 +54,9 @@ export function activate(context: vscode.ExtensionContext) {
     vscode.commands.registerCommand('xyjson.toJson', () => convertAndReplace('json')),
     vscode.commands.registerCommand('xyjson.toXml', () => convertAndReplace('xml')),
     vscode.commands.registerCommand('xyjson.toYaml', () => convertAndReplace('yaml')),
+    vscode.commands.registerCommand('xyjson.formatJson', () => convertAndReplace('json')),
+    vscode.commands.registerCommand('xyjson.formatXml', () => convertAndReplace('xml')),
+    vscode.commands.registerCommand('xyjson.formatYaml', () => convertAndReplace('yaml')),
   );
 }
 
