@@ -2,12 +2,12 @@ import * as assert from 'assert';
 import * as fs from 'fs';
 import * as path from 'path';
 
-import type { SupportedFormat } from '../converter';
-import { convert } from '../converter';
+import type { SupportedFormat } from '../../converter';
+import { convert } from '../../converter';
 
 suite('Converter Test Suite', () => {
   const readFixture = (filename: string): string =>
-    fs.readFileSync(path.join(__dirname, 'fixtures', filename), 'utf-8').replace(/\r\n/g, '\n');
+    fs.readFileSync(path.join(__dirname, '../fixtures', filename), 'utf-8').replace(/\r\n/g, '\n');
 
   const fixtures = {
     object: {
