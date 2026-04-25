@@ -68,6 +68,15 @@ suite('Converter Test Suite', () => {
     { to: 'yaml', minify: true, expected: fixtures.object.yaml.minified, description: 'JSON to YAML (minified)' },
   ]);
 
+  createTestSuite('JSON minified input', fixtures.object.json.minified, [
+    { to: 'json', minify: false, expected: fixtures.object.json.pretty, description: 'JSON minified to JSON (pretty)' },
+    { to: 'json', minify: true, expected: fixtures.object.json.minified, description: 'JSON minified to JSON (minified)' },
+    { to: 'xml', minify: false, expected: fixtures.object.xml.pretty, description: 'JSON minified to XML (pretty)' },
+    { to: 'xml', minify: true, expected: fixtures.object.xml.minified, description: 'JSON minified to XML (minified)' },
+    { to: 'yaml', minify: false, expected: fixtures.object.yaml.pretty, description: 'JSON minified to YAML (pretty)' },
+    { to: 'yaml', minify: true, expected: fixtures.object.yaml.minified, description: 'JSON minified to YAML (minified)' },
+  ]);
+
   createTestSuite('JSON array input', fixtures.array.json.pretty, [
     { to: 'json', minify: false, expected: fixtures.array.json.pretty, description: 'Array to JSON (pretty)' },
     { to: 'json', minify: true, expected: fixtures.array.json.minified, description: 'Array to JSON (minified)' },
@@ -86,6 +95,15 @@ suite('Converter Test Suite', () => {
     { to: 'yaml', minify: true, expected: fixtures.object.yaml.minified, description: 'XML to YAML (minified)' },
   ]);
 
+  createTestSuite('XML minified input', fixtures.object.xml.minified, [
+    { to: 'json', minify: false, expected: fixtures.object.json.pretty, description: 'XML minified to JSON (pretty)' },
+    { to: 'json', minify: true, expected: fixtures.object.json.minified, description: 'XML minified to JSON (minified)' },
+    { to: 'xml', minify: false, expected: fixtures.object.xml.pretty, description: 'XML minified to XML (pretty)' },
+    { to: 'xml', minify: true, expected: fixtures.object.xml.minified, description: 'XML minified to XML (minified)' },
+    { to: 'yaml', minify: false, expected: fixtures.object.yaml.pretty, description: 'XML minified to YAML (pretty)' },
+    { to: 'yaml', minify: true, expected: fixtures.object.yaml.minified, description: 'XML minified to YAML (minified)' },
+  ]);
+
   createTestSuite('YAML input', fixtures.object.yaml.pretty, [
     { to: 'json', minify: false, expected: fixtures.object.json.pretty, description: 'YAML to JSON (pretty)' },
     { to: 'json', minify: true, expected: fixtures.object.json.minified, description: 'YAML to JSON (minified)' },
@@ -93,6 +111,15 @@ suite('Converter Test Suite', () => {
     { to: 'xml', minify: true, expected: fixtures.object.xml.minified, description: 'YAML to XML (minified)' },
     { to: 'yaml', minify: false, expected: fixtures.object.yaml.pretty, description: 'YAML to YAML (pretty)' },
     { to: 'yaml', minify: true, expected: fixtures.object.yaml.minified, description: 'YAML to YAML (minified)' },
+  ]);
+
+  createTestSuite('YAML minified input', fixtures.object.yaml.minified, [
+    { to: 'json', minify: false, expected: fixtures.object.json.pretty, description: 'YAML minified to JSON (pretty)' },
+    { to: 'json', minify: true, expected: fixtures.object.json.minified, description: 'YAML minified to JSON (minified)' },
+    { to: 'xml', minify: false, expected: fixtures.object.xml.pretty, description: 'YAML minified to XML (pretty)' },
+    { to: 'xml', minify: true, expected: fixtures.object.xml.minified, description: 'YAML minified to XML (minified)' },
+    { to: 'yaml', minify: false, expected: fixtures.object.yaml.pretty, description: 'YAML minified to YAML (pretty)' },
+    { to: 'yaml', minify: true, expected: fixtures.object.yaml.minified, description: 'YAML minified to YAML (minified)' },
   ]);
 
   createTestSuite('XML input with attributeNamePrefix "$"', fixtures.object.xml.pretty, [
