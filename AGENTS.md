@@ -24,6 +24,9 @@
   - `xyjson.toJson`
   - `xyjson.toXml`
   - `xyjson.toYaml`
+  - `xyjson.formatJson`
+  - `xyjson.formatXml`
+  - `xyjson.formatYaml`
 - Keep user-facing behavior aligned with README settings and usage docs.
 
 ## PR/commit expectations
