@@ -6,6 +6,8 @@
 out/test/**
 scripts/**
 src/**
+AGENTS.md
+CLAUDE.md
 .gitignore
 .yarnrc
 vsc-extension-quickstart.md
