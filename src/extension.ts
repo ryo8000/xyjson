@@ -46,8 +46,8 @@ async function convertAndReplace(to: SupportedFormat, action: Action): Promise<v
 
     vscode.window.showInformationMessage(
       action === 'format'
-        ? `Formatted ${to} (${minify ? 'minified' : 'formatted'})`
-        : `Converted to ${to} (${minify ? 'minified' : 'formatted'})`,
+        ? `Formatted ${to} (${minify ? 'minified' : 'pretty'})`
+        : `Converted to ${to} (${minify ? 'minified' : 'pretty'})`,
     );
   } catch (err) {
     vscode.window.showErrorMessage(`${label} failed: ${err instanceof Error ? err.message : String(err)}`);
