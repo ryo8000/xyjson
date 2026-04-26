@@ -6,8 +6,7 @@
       "Bash(npm run lint)",
       "Bash(npm run copy-fixtures)",
       "Bash(npm test)",
-      "Bash(npm run test)",
-      "Bash(npm run test:e2e)",
+      "Bash(npm run test:integration)",
       "Bash(git add:*)",
       "Bash(git fetch:*)"
     ],
