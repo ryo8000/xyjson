@@ -2,11 +2,14 @@ import * as vscode from 'vscode';
 
 import { convert, SupportedFormat } from './converter';
 
-async function convertAndReplace(to: SupportedFormat): Promise<void> {
+type Action = 'convert' | 'format';
+
+async function convertAndReplace(to: SupportedFormat, action: Action): Promise<void> {
   const editor = vscode.window.activeTextEditor;
+  const label = action === 'format' ? 'Formatting' : 'Conversion';
 
   if (!editor) {
-    vscode.window.showErrorMessage('Conversion failed: No active editor found');
+    vscode.window.showErrorMessage(`${label} failed: No active editor found`);
     return;
   }
 
@@ -19,7 +22,7 @@ async function convertAndReplace(to: SupportedFormat): Promise<void> {
     : document.getText().trim();
 
   if (!content) {
-    vscode.window.showErrorMessage('Conversion failed: Document is empty');
+    vscode.window.showErrorMessage(`${label} failed: Document is empty`);
     return;
   }
 
@@ -42,18 +45,23 @@ async function convertAndReplace(to: SupportedFormat): Promise<void> {
     });
 
     vscode.window.showInformationMessage(
-      `Converted to ${to} (${minify ? 'minified' : 'formatted'})`,
+      action === 'format'
+        ? `Formatted ${to} (${minify ? 'minified' : 'formatted'})`
+        : `Converted to ${to} (${minify ? 'minified' : 'formatted'})`,
     );
   } catch (err) {
-    vscode.window.showErrorMessage(`Conversion failed: ${err instanceof Error ? err.message : String(err)}`);
+    vscode.window.showErrorMessage(`${label} failed: ${err instanceof Error ? err.message : String(err)}`);
   }
 }
 
 export function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(
-    vscode.commands.registerCommand('xyjson.toJson', () => convertAndReplace('json')),
-    vscode.commands.registerCommand('xyjson.toXml', () => convertAndReplace('xml')),
-    vscode.commands.registerCommand('xyjson.toYaml', () => convertAndReplace('yaml')),
+    vscode.commands.registerCommand('xyjson.toJson', () => convertAndReplace('json', 'convert')),
+    vscode.commands.registerCommand('xyjson.toXml', () => convertAndReplace('xml', 'convert')),
+    vscode.commands.registerCommand('xyjson.toYaml', () => convertAndReplace('yaml', 'convert')),
+    vscode.commands.registerCommand('xyjson.formatJson', () => convertAndReplace('json', 'format')),
+    vscode.commands.registerCommand('xyjson.formatXml', () => convertAndReplace('xml', 'format')),
+    vscode.commands.registerCommand('xyjson.formatYaml', () => convertAndReplace('yaml', 'format')),
   );
 }
 

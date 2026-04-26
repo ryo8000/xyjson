@@ -64,6 +64,22 @@ suite('Extension Test Suite', () => {
     }
   });
 
+  suite('Format Commands', () => {
+    const cases = [
+      { command: 'xyjson.formatJson', input: 'json-minified.json', expectedFixture: 'json-pretty.json' },
+      { command: 'xyjson.formatXml',  input: 'xml-minified.xml',   expectedFixture: 'xml-pretty.xml'  },
+      { command: 'xyjson.formatYaml', input: 'yaml-minified.yaml', expectedFixture: 'yaml-pretty.yaml' },
+    ] as const;
+
+    for (const { command, input, expectedFixture } of cases) {
+      test(`${commandLabel(command)} reformats minified input`, async () => {
+        const editor = await openEditorWithContent(readFixture(input));
+        await vscode.commands.executeCommand(command);
+        assert.strictEqual(getEditorText(editor), readFixture(expectedFixture));
+      });
+    }
+  });
+
   suite('Minify Configuration', () => {
     const cases = [
       { command: 'xyjson.toJson', expectedFixture: 'json-minified.json' },
