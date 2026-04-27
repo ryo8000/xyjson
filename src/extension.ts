@@ -26,8 +26,22 @@ async function convertAndReplace(to: SupportedFormat, action: Action): Promise<v
     return;
   }
 
+  const pick = await vscode.window.showQuickPick(
+    [
+      { label: 'Pretty', description: 'indented with newlines' },
+      { label: 'Minified', description: 'single line, no whitespace' },
+    ],
+    {
+      placeHolder: 'Select output format',
+      title: action === 'format' ? `Format ${to.toUpperCase()}` : `Convert to ${to.toUpperCase()}`,
+    },
+  );
+  if (pick === undefined) {
+    return;
+  }
+  const minify = pick.label === 'Minified';
+
   const config = vscode.workspace.getConfiguration('xyjson');
-  const minify = config.get<boolean>('minify', false);
   const attributeNamePrefix = config.get<string>('xmlAttributeNamePrefix', '@_');
 
   try {
