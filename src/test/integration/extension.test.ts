@@ -4,6 +4,17 @@ import * as path from 'path';
 import * as vscode from 'vscode';
 
 suite('Extension Test Suite', () => {
+  let quickPickResponse: string | undefined = 'Pretty';
+  const originalShowQuickPick = (vscode.window as any).showQuickPick;
+
+  suiteSetup(() => {
+    (vscode.window as any).showQuickPick = async () => quickPickResponse;
+  });
+
+  suiteTeardown(() => {
+    (vscode.window as any).showQuickPick = originalShowQuickPick;
+  });
+
   const commandLabel = (command: string): string => command.replace(/^xyjson\./, '');
 
   const formatOfFixture = (fixture: string): string => path.extname(fixture).slice(1).toUpperCase();
@@ -20,12 +31,6 @@ suite('Extension Test Suite', () => {
     return editor.document.getText().replace(/\r\n/g, '\n');
   };
 
-  const setMinify = async (value: boolean): Promise<void> => {
-    await vscode.workspace
-      .getConfiguration('xyjson')
-      .update('minify', value, vscode.ConfigurationTarget.Global);
-  };
-
   const setAttributeNamePrefix = async (value: string): Promise<void> => {
     await vscode.workspace
       .getConfiguration('xyjson')
@@ -33,8 +38,8 @@ suite('Extension Test Suite', () => {
   };
 
   teardown(async () => {
+    quickPickResponse = 'Pretty';
     await vscode.commands.executeCommand('workbench.action.closeAllEditors');
-    await setMinify(false);
     await setAttributeNamePrefix('@_');
   });
 
@@ -80,7 +85,7 @@ suite('Extension Test Suite', () => {
     }
   });
 
-  suite('Minify Configuration', () => {
+  suite('Output Format Selection', () => {
     const cases = [
       { command: 'xyjson.toJson', expectedFixture: 'json-minified.json' },
       { command: 'xyjson.toXml', expectedFixture: 'xml-minified.xml' },
@@ -88,13 +93,21 @@ suite('Extension Test Suite', () => {
     ] as const;
 
     for (const c of cases) {
-      test(`${commandLabel(c.command)} produces minified output when xyjson.minify is true`, async () => {
-        await setMinify(true);
+      test(`${commandLabel(c.command)} produces minified output when "Minified" is selected`, async () => {
+        quickPickResponse = 'Minified';
         const editor = await openEditorWithContent(readFixture('json-pretty.json'));
         await vscode.commands.executeCommand(c.command);
         assert.strictEqual(getEditorText(editor), readFixture(c.expectedFixture));
       });
     }
+
+    test('cancelling Quick Pick leaves document unchanged', async () => {
+      quickPickResponse = undefined;
+      const content = readFixture('json-pretty.json');
+      const editor = await openEditorWithContent(content);
+      await vscode.commands.executeCommand('xyjson.toYaml');
+      assert.strictEqual(getEditorText(editor), content);
+    });
   });
 
   suite('AttributeNamePrefix Configuration', () => {

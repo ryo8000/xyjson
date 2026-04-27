@@ -26,8 +26,15 @@ async function convertAndReplace(to: SupportedFormat, action: Action): Promise<v
     return;
   }
 
+  const pick = await vscode.window.showQuickPick(['Pretty', 'Minified'], {
+    placeHolder: 'Select output format',
+  });
+  if (pick === undefined) {
+    return;
+  }
+  const minify = pick === 'Minified';
+
   const config = vscode.workspace.getConfiguration('xyjson');
-  const minify = config.get<boolean>('minify', false);
   const attributeNamePrefix = config.get<string>('xmlAttributeNamePrefix', '@_');
 
   try {
