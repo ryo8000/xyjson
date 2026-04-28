@@ -33,6 +33,12 @@ suite('Extension Test Suite', () => {
 
   const getActiveEditorText = (): string => getEditorText(vscode.window.activeTextEditor!);
 
+  const setIndentSize = async (value: number): Promise<void> => {
+    await vscode.workspace
+      .getConfiguration('xyjson')
+      .update('indentSize', value, vscode.ConfigurationTarget.Global);
+  };
+
   const setAttributeNamePrefix = async (value: string): Promise<void> => {
     await vscode.workspace
       .getConfiguration('xyjson')
@@ -42,6 +48,7 @@ suite('Extension Test Suite', () => {
   teardown(async () => {
     quickPickResponse = { label: 'Pretty' };
     await vscode.commands.executeCommand('workbench.action.closeAllEditors');
+    await setIndentSize(2);
     await setAttributeNamePrefix('@_');
   });
 
@@ -110,6 +117,23 @@ suite('Extension Test Suite', () => {
       await vscode.commands.executeCommand('xyjson.toYaml');
       assert.strictEqual(getEditorText(editor), content);
     });
+  });
+
+  suite('IndentSize Configuration', () => {
+    const cases = [
+      { command: 'xyjson.toJson', expectedFixture: 'json-4-space.json' },
+      { command: 'xyjson.toYaml', expectedFixture: 'yaml-4-space.yaml' },
+      { command: 'xyjson.toXml', expectedFixture: 'xml-4-space.xml' },
+    ] as const;
+
+    for (const { command, expectedFixture } of cases) {
+      test(`${commandLabel(command)} produces 4-space indented output when xyjson.indentSize is 4`, async () => {
+        await setIndentSize(4);
+        await openEditorWithContent(readFixture('json-pretty.json'));
+        await vscode.commands.executeCommand(command);
+        assert.strictEqual(getActiveEditorText(), readFixture(expectedFixture));
+      });
+    }
   });
 
   suite('AttributeNamePrefix Configuration', () => {

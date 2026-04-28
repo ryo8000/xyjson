@@ -124,6 +124,13 @@
     },
     "configuration": {
       "properties": {
+        "xyjson.indentSize": {
+          "type": "integer",
+          "default": 2,
+          "minimum": 1,
+          "maximum": 8,
+          "description": "Number of spaces used for indentation when pretty-formatting XML/YAML/JSON output."
+        },
         "xyjson.xmlAttributeNamePrefix": {
           "type": "string",
           "default": "@_",

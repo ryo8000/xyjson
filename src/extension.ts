@@ -1,6 +1,7 @@
 import * as vscode from 'vscode';
 
-import { convert, SupportedFormat } from './converter';
+import type { SupportedFormat } from './converter';
+import { convert } from './converter';
 
 type Action = 'convert' | 'format';
 
@@ -41,10 +42,11 @@ async function convertAndReplace(to: SupportedFormat, action: Action): Promise<v
   const minify = pick.label === 'Minified';
 
   const config = vscode.workspace.getConfiguration('xyjson');
+  const indentSize = config.get<number>('indentSize', 2);
   const attributeNamePrefix = config.get<string>('xmlAttributeNamePrefix', '@_');
 
   try {
-    const result = convert(content, to, { minify, attributeNamePrefix });
+    const result = convert(content, to, { minify, indentSize, attributeNamePrefix });
 
     if (action === 'convert') {
       const doc = await vscode.workspace.openTextDocument({ content: result, language: to });

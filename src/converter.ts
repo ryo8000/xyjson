@@ -5,10 +5,9 @@ export type SupportedFormat = 'json' | 'xml' | 'yaml';
 
 type ConvertOptions = {
   minify: boolean;
+  indentSize: number;
   attributeNamePrefix: string;
 };
-
-const INDENT_SIZE = 2;
 
 export const convert = (content: string, to: SupportedFormat, options: ConvertOptions): string => {
   let intermediate: unknown;
@@ -32,11 +31,12 @@ export const convert = (content: string, to: SupportedFormat, options: ConvertOp
   if (to === 'json') {
     return options.minify
       ? JSON.stringify(intermediate)
-      : JSON.stringify(intermediate, null, INDENT_SIZE) + '\n';
+      : JSON.stringify(intermediate, null, options.indentSize) + '\n';
   }
 
   if (to === 'xml') {
     const builder = new XMLBuilder({
+      indentBy: ' '.repeat(options.indentSize),
       ignoreAttributes: false,
       attributeNamePrefix: options.attributeNamePrefix,
       format: !options.minify,
@@ -45,7 +45,7 @@ export const convert = (content: string, to: SupportedFormat, options: ConvertOp
   }
 
   return yaml.dump(intermediate, {
-    indent: INDENT_SIZE,
+    indent: options.indentSize,
     lineWidth: -1,
     noRefs: true,
     flowLevel: options.minify ? 0 : -1,
