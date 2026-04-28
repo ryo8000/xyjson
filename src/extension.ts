@@ -17,9 +17,7 @@ async function convertAndReplace(to: SupportedFormat, action: Action): Promise<v
   const selection = editor.selection;
   const hasSelection = !selection.isEmpty;
 
-  const content = hasSelection
-    ? document.getText(selection).trim()
-    : document.getText().trim();
+  const content = hasSelection ? document.getText(selection).trim() : document.getText().trim();
 
   if (!content) {
     vscode.window.showErrorMessage(`${label} failed: Document is empty`);
@@ -47,16 +45,24 @@ async function convertAndReplace(to: SupportedFormat, action: Action): Promise<v
   try {
     const result = convert(content, to, { minify, attributeNamePrefix });
 
-    const replaceRange = hasSelection
-      ? selection
-      : new vscode.Range(
-          document.lineAt(0).range.start,
-          document.lineAt(document.lineCount - 1).range.end,
-        );
-
-    await editor.edit((editBuilder) => {
-      editBuilder.replace(replaceRange, result);
-    });
+    if (action === 'convert') {
+      const doc = await vscode.workspace.openTextDocument({ content: result, language: to });
+      await vscode.window.showTextDocument(doc, { preview: false });
+    } else {
+      const replaceRange = hasSelection
+        ? selection
+        : new vscode.Range(
+            document.lineAt(0).range.start,
+            document.lineAt(document.lineCount - 1).range.end,
+          );
+      const applied = await editor.edit((editBuilder) => {
+        editBuilder.replace(replaceRange, result);
+      });
+      if (!applied) {
+        vscode.window.showErrorMessage(`${label} failed: Could not apply edits`);
+        return;
+      }
+    }
 
     vscode.window.showInformationMessage(
       action === 'format'
@@ -64,7 +70,9 @@ async function convertAndReplace(to: SupportedFormat, action: Action): Promise<v
         : `Converted to ${to} (${minify ? 'minified' : 'pretty'})`,
     );
   } catch (err) {
-    vscode.window.showErrorMessage(`${label} failed: ${err instanceof Error ? err.message : String(err)}`);
+    vscode.window.showErrorMessage(
+      `${label} failed: ${err instanceof Error ? err.message : String(err)}`,
+    );
   }
 }
 
