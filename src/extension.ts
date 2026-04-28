@@ -14,6 +14,7 @@ async function convertAndReplace(to: SupportedFormat, action: Action): Promise<v
   }
 
   const document = editor.document;
+  const documentVersion = document.version;
   const selection = editor.selection;
   const hasSelection = !selection.isEmpty;
 
@@ -49,6 +50,15 @@ async function convertAndReplace(to: SupportedFormat, action: Action): Promise<v
       const doc = await vscode.workspace.openTextDocument({ content: result, language: to });
       await vscode.window.showTextDocument(doc, { preview: false });
     } else {
+      // showQuickPick is async; guard against document state changes while picker was open
+      if (
+        document.isClosed ||
+        vscode.window.activeTextEditor?.document !== document ||
+        document.version !== documentVersion
+      ) {
+        vscode.window.showErrorMessage(`${label} failed: active editor changed`);
+        return;
+      }
       const replaceRange = hasSelection
         ? selection
         : new vscode.Range(

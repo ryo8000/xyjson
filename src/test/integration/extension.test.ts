@@ -196,6 +196,45 @@ suite('Extension Test Suite', () => {
       });
     }
 
+    test('format command leaves document unchanged when active editor changes during Quick Pick', async () => {
+      const content = readFixture('json-minified.json');
+      const editor = await openEditorWithContent(content);
+      const suiteMock = (vscode.window as any).showQuickPick;
+
+      (vscode.window as any).showQuickPick = async () => {
+        await openEditorWithContent('other content');
+        return { label: 'Pretty' };
+      };
+
+      try {
+        await vscode.commands.executeCommand('xyjson.formatJson');
+        assert.strictEqual(getEditorText(editor), content);
+      } finally {
+        (vscode.window as any).showQuickPick = suiteMock;
+      }
+    });
+
+    test('format command leaves document unchanged when document is edited during Quick Pick', async () => {
+      const content = readFixture('json-minified.json');
+      const editor = await openEditorWithContent(content);
+      const suiteMock = (vscode.window as any).showQuickPick;
+      let editedContent: string;
+
+      (vscode.window as any).showQuickPick = async () => {
+        const lastLine = editor.document.lineAt(editor.document.lineCount - 1);
+        await editor.edit((b) => b.insert(lastLine.range.end, ' '));
+        editedContent = getEditorText(editor);
+        return { label: 'Pretty' };
+      };
+
+      try {
+        await vscode.commands.executeCommand('xyjson.formatJson');
+        assert.strictEqual(getEditorText(editor), editedContent!);
+      } finally {
+        (vscode.window as any).showQuickPick = suiteMock;
+      }
+    });
+
     test('format command leaves document unchanged when document is readonly', async () => {
       const content = readFixture('json-minified.json');
       const editor = await openEditorWithContent(content);
