@@ -31,6 +31,8 @@ suite('Extension Test Suite', () => {
     return editor.document.getText().replace(/\r\n/g, '\n');
   };
 
+  const getActiveEditorText = (): string => getEditorText(vscode.window.activeTextEditor!);
+
   const setAttributeNamePrefix = async (value: string): Promise<void> => {
     await vscode.workspace
       .getConfiguration('xyjson')
@@ -60,9 +62,9 @@ suite('Extension Test Suite', () => {
       suite(`${commandLabel(c.command)} command`, () => {
         for (const inputFixture of inputFixtures) {
           test(`converts ${formatOfFixture(inputFixture)} to ${formatOfFixture(c.expectedFixture)}`, async () => {
-            const editor = await openEditorWithContent(readFixture(inputFixture));
+            await openEditorWithContent(readFixture(inputFixture));
             await vscode.commands.executeCommand(c.command);
-            assert.strictEqual(getEditorText(editor), readFixture(c.expectedFixture));
+            assert.strictEqual(getActiveEditorText(), readFixture(c.expectedFixture));
           });
         }
       });
@@ -95,9 +97,9 @@ suite('Extension Test Suite', () => {
     for (const c of cases) {
       test(`${commandLabel(c.command)} produces minified output when "Minified" is selected`, async () => {
         quickPickResponse = { label: 'Minified' };
-        const editor = await openEditorWithContent(readFixture('json-pretty.json'));
+        await openEditorWithContent(readFixture('json-pretty.json'));
         await vscode.commands.executeCommand(c.command);
-        assert.strictEqual(getEditorText(editor), readFixture(c.expectedFixture));
+        assert.strictEqual(getActiveEditorText(), readFixture(c.expectedFixture));
       });
     }
 
@@ -120,20 +122,20 @@ suite('Extension Test Suite', () => {
     for (const { prefix, expectedKey } of cases) {
       test(`toJson maps attribute key with prefix "${prefix}"`, async () => {
         await setAttributeNamePrefix(prefix);
-        const editor = await openEditorWithContent(readFixture('xml-pretty.xml'));
+        await openEditorWithContent(readFixture('xml-pretty.xml'));
         await vscode.commands.executeCommand('xyjson.toJson');
-        const parsed = JSON.parse(getEditorText(editor));
+        const parsed = JSON.parse(getActiveEditorText());
         assert.strictEqual(parsed.profiles[expectedKey], '1');
       });
     }
 
     test('toXml round-trip preserves attribute with custom prefix "$"', async () => {
       await setAttributeNamePrefix('$');
-      const editor = await openEditorWithContent(readFixture('xml-pretty.xml'));
+      await openEditorWithContent(readFixture('xml-pretty.xml'));
       await vscode.commands.executeCommand('xyjson.toXml');
-      const first = getEditorText(editor);
+      const first = getActiveEditorText();
       await vscode.commands.executeCommand('xyjson.toXml');
-      assert.strictEqual(getEditorText(editor), first);
+      assert.strictEqual(getActiveEditorText(), first);
     });
   });
 
@@ -150,18 +152,15 @@ suite('Extension Test Suite', () => {
 
       await vscode.commands.executeCommand('xyjson.toYaml');
 
-      const text = getEditorText(editor);
-      assert.ok(text.startsWith(prefix), 'prefix should be unchanged');
-      assert.ok(text.endsWith(suffix), 'suffix should be unchanged');
-      const converted = text.slice(prefix.length, text.length - suffix.length);
-      assert.strictEqual(converted, readFixture('yaml-pretty.yaml'));
+      assert.strictEqual(getEditorText(editor), prefix + jsonSnippet + suffix);
+      assert.strictEqual(getActiveEditorText(), readFixture('yaml-pretty.yaml'));
     });
 
     test('converts entire document when selection is empty', async () => {
-      const editor = await openEditorWithContent(readFixture('json-pretty.json'));
+      await openEditorWithContent(readFixture('json-pretty.json'));
       // selection is empty by default
       await vscode.commands.executeCommand('xyjson.toYaml');
-      assert.strictEqual(getEditorText(editor), readFixture('yaml-pretty.yaml'));
+      assert.strictEqual(getActiveEditorText(), readFixture('yaml-pretty.yaml'));
     });
   });
 
@@ -196,5 +195,15 @@ suite('Extension Test Suite', () => {
         });
       });
     }
+
+    test('format command leaves document unchanged when document is readonly', async () => {
+      const content = readFixture('json-minified.json');
+      const editor = await openEditorWithContent(content);
+      await vscode.commands.executeCommand(
+        'workbench.action.files.setActiveEditorReadonlyInSession',
+      );
+      await vscode.commands.executeCommand('xyjson.formatJson');
+      assert.strictEqual(getEditorText(editor), content);
+    });
   });
 });
