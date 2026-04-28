@@ -18,9 +18,7 @@ Convert **XML ⇄ YAML ⇄ JSON** directly inside VS Code.
   - **XYJson: Format JSON** - Reformat JSON content
   - **XYJson: Format XML** - Reformat XML content
   - **XYJson: Format YAML** - Reformat YAML content
-- Available from:
-  - Command Palette
-  - Editor right-click context menu
+- Available from Command Palette and editor right-click context menu
 - Works on the entire document, or just the selected text if a selection is active
 - Output format (pretty / minified) selected via Quick Pick on each command
 - Automatic input format detection:
@@ -32,7 +30,7 @@ Convert **XML ⇄ YAML ⇄ JSON** directly inside VS Code.
 
 1. Open an XML, JSON, or YAML file
 2. Optionally, select a portion of text to convert only that range
-3. Right-click in the editor to open the context menu
+3. Open the Command Palette (`Ctrl+Shift+P` / `Cmd+Shift+P`) or right-click in the editor to open the context menu
 4. Select one of the conversion commands:
    - **XYJson: Convert to JSON**
    - **XYJson: Convert to XML**

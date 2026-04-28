@@ -63,6 +63,32 @@
       }
     ],
     "menus": {
+      "commandPalette": [
+        {
+          "command": "xyjson.toJson",
+          "when": "editorLangId == xml || editorLangId == yaml"
+        },
+        {
+          "command": "xyjson.toXml",
+          "when": "editorLangId == json || editorLangId == jsonc || editorLangId == yaml"
+        },
+        {
+          "command": "xyjson.toYaml",
+          "when": "editorLangId == json || editorLangId == jsonc || editorLangId == xml"
+        },
+        {
+          "command": "xyjson.formatJson",
+          "when": "editorLangId == json || editorLangId == jsonc"
+        },
+        {
+          "command": "xyjson.formatXml",
+          "when": "editorLangId == xml"
+        },
+        {
+          "command": "xyjson.formatYaml",
+          "when": "editorLangId == yaml"
+        }
+      ],
       "editor/context": [
         {
           "command": "xyjson.toJson",
