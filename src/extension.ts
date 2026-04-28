@@ -56,7 +56,7 @@ async function convertAndReplace(to: SupportedFormat, action: Action): Promise<v
         vscode.window.activeTextEditor?.document !== document ||
         document.version !== documentVersion
       ) {
-        vscode.window.showErrorMessage(`${label} failed: active editor changed`);
+        vscode.window.showErrorMessage(`${label} failed: document state changed`);
         return;
       }
       const replaceRange = hasSelection
