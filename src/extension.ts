@@ -49,6 +49,10 @@ async function convertAndReplace(to: SupportedFormat, action: Action): Promise<v
       const doc = await vscode.workspace.openTextDocument({ content: result, language: to });
       await vscode.window.showTextDocument(doc, { preview: false });
     } else {
+      if (editor.document.isClosed || editor !== vscode.window.activeTextEditor) {
+        vscode.window.showErrorMessage(`${label} failed: active editor changed`);
+        return;
+      }
       const replaceRange = hasSelection
         ? selection
         : new vscode.Range(
