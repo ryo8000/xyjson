@@ -44,9 +44,10 @@ Convert **XML ⇄ YAML ⇄ JSON** directly inside VS Code.
 
 ## Settings
 
-| Setting                         | Type    | Default | Description                                                       |
-|---------------------------------|---------|---------|-------------------------------------------------------------------|
-| `xyjson.xmlAttributeNamePrefix` | string  | `@_`    | Prefix added to XML attribute names when parsing or building XML. |
+| Setting                         | Type    | Default | Description                                                                                        |
+|---------------------------------|---------|---------|----------------------------------------------------------------------------------------------------|
+| `xyjson.indentSize`             | integer | `2`     | Number of spaces used for indentation when pretty-formatting XML/YAML/JSON output. Min: 1, Max: 8. |
+| `xyjson.xmlAttributeNamePrefix` | string  | `@_`    | Prefix added to XML attribute names when parsing or building XML.                                  |
 
 ## License
 

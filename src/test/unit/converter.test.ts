@@ -14,14 +14,17 @@ suite('Converter Test Suite', () => {
       json: {
         pretty: readFixture('json-pretty.json'),
         minified: readFixture('json-minified.json'),
+        '4-space': readFixture('json-4-space.json'),
       },
       xml: {
         pretty: readFixture('xml-pretty.xml'),
         minified: readFixture('xml-minified.xml'),
+        '4-space': readFixture('xml-4-space.xml'),
       },
       yaml: {
         pretty: readFixture('yaml-pretty.yaml'),
         minified: readFixture('yaml-minified.yaml'),
+        '4-space': readFixture('yaml-4-space.yaml'),
       },
     },
     array: {
@@ -43,6 +46,7 @@ suite('Converter Test Suite', () => {
   type TestCase = {
     to: SupportedFormat;
     minify: boolean;
+    indentSize?: number;
     attributeNamePrefix?: string;
     expected: string;
     description: string;
@@ -50,9 +54,9 @@ suite('Converter Test Suite', () => {
 
   const createTestSuite = (suiteName: string, input: string, testCases: TestCase[]) => {
     suite(suiteName, () => {
-      for (const { to, minify, attributeNamePrefix = '@_', expected, description } of testCases) {
+      for (const { to, minify, indentSize = 2, attributeNamePrefix = '@_', expected, description } of testCases) {
         test(description, () => {
-          const actual = convert(input, to, { minify, attributeNamePrefix });
+          const actual = convert(input, to, { minify, indentSize, attributeNamePrefix });
           assert.strictEqual(actual, expected);
         });
       }
@@ -120,6 +124,15 @@ suite('Converter Test Suite', () => {
     { to: 'xml', minify: true, expected: fixtures.object.xml.minified, description: 'YAML minified to XML (minified)' },
     { to: 'yaml', minify: false, expected: fixtures.object.yaml.pretty, description: 'YAML minified to YAML (pretty)' },
     { to: 'yaml', minify: true, expected: fixtures.object.yaml.minified, description: 'YAML minified to YAML (minified)' },
+  ]);
+
+  createTestSuite('JSON input with indentSize 4', fixtures.object.json.pretty, [
+    { to: 'json', minify: false, indentSize: 4, expected: fixtures.object.json['4-space'], description: 'JSON to JSON (4-space)' },
+    { to: 'json', minify: true, indentSize: 4, expected: fixtures.object.json.minified, description: 'JSON to JSON (minified)' },
+    { to: 'xml', minify: false, indentSize: 4, expected: fixtures.object.xml['4-space'], description: 'JSON to XML (4-space)' },
+    { to: 'xml', minify: true, indentSize: 4, expected: fixtures.object.xml.minified, description: 'JSON to XML (minified)' },
+    { to: 'yaml', minify: false, indentSize: 4, expected: fixtures.object.yaml['4-space'], description: 'JSON to YAML (4-space)' },
+    { to: 'yaml', minify: true, indentSize: 4, expected: fixtures.object.yaml.minified, description: 'JSON to YAML (minified)' },
   ]);
 
   createTestSuite('XML input with attributeNamePrefix "$"', fixtures.object.xml.pretty, [
