@@ -25,7 +25,7 @@ Convert **XML ⇄ YAML ⇄ JSON** directly inside VS Code.
   - Content starting with `{` or `[` is parsed as JSON, or YAML if JSON parsing fails (e.g. YAML flow style)
   - All other content is parsed as YAML
 - Convert the entire document, or just the selected text if a selection is active
-- Output formatting is configurable (pretty / minified)
+- Output format (pretty / minified) selected via Quick Pick on each command
 
 ## Usage
 
@@ -47,7 +47,6 @@ If nothing is selected, the entire document is replaced.
 
 | Setting                         | Type    | Default | Description                                                       |
 |---------------------------------|---------|---------|-------------------------------------------------------------------|
-| `xyjson.minify`                 | boolean | `false` | Whether to minify output instead of pretty formatting.            |
 | `xyjson.xmlAttributeNamePrefix` | string  | `@_`    | Prefix added to XML attribute names when parsing or building XML. |
 
 ## License
