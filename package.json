@@ -2,7 +2,7 @@
   "name": "xyjson",
   "displayName": "XYJson - XML YAML JSON Converter",
   "description": "Convert between XML, YAML, and JSON. Pretty-print or minify your data. Supports converting selected text only.",
-  "version": "0.0.9",
+  "version": "0.1.0",
   "author": "Ryo Hasegawa",
   "publisher": "ryo8000",
   "icon": "icon.png",

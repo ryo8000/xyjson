@@ -2,6 +2,26 @@
 
 ## [Unreleased]
 
+## [0.1.0] - 2026-04-30
+
+### Added
+
+- New Format JSON, Format XML, and Format YAML commands for same-format reformatting.
+- New `xyjson.indentSize` setting to configure the number of spaces used for indentation (default: `2`).
+
+### Changed
+
+- Replaced `xyjson.minify` setting with a Quick Pick dialog for selecting formatting options at conversion time (breaking change).
+- Conversion result now opens in a new tab instead of overwriting the current editor.
+- Command palette entries are now filtered by the active file's language.
+- Updated minimum VS Code engine version to 1.116.0.
+- Updated dependencies:
+  - `fast-xml-parser` from 5.6.0 to 5.7.1
+
+### Fixed
+
+- Guard against stale editor state when the Quick Pick dialog is closed.
+
 ## [0.0.9] - 2026-04-25
 
 ### Fixed
