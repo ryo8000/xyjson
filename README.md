@@ -1,46 +1,40 @@
-# XYJson - XML YAML JSON Converter
+# XYJson — XML · YAML · JSON Converter
 
-Convert **XML ⇄ YAML ⇄ JSON** directly inside VS Code.
+Working with API responses, config files, or legacy XML? Convert between formats and pretty-print or minify your data in seconds — without leaving VS Code.
 
-- Convert between formats — result opens in a new tab
-- Reformat documents in place
-- Pretty or minified output via Quick Pick
-- Works from Command Palette and right-click menu
-- Automatic input format detection
+- **Convert** XML ↔ YAML ↔ JSON, or format (pretty-print / minify) in place
+- Works on a selection or the entire document
+- Automatic input format detection — no need to specify the source format
+- Available from Command Palette and editor right-click menu
 
 ## Features
 
 - Conversion commands — open the result in a new tab, leaving the original untouched:
-  - **XYJson: Convert to JSON** - Transform XML or YAML content to JSON
-  - **XYJson: Convert to XML** - Transform JSON or YAML content to XML
-  - **XYJson: Convert to YAML** - Transform JSON or XML content to YAML
+  - **XYJson: Convert to JSON** — from XML or YAML
+  - **XYJson: Convert to XML** — from JSON or YAML
+  - **XYJson: Convert to YAML** — from JSON or XML
 - Format commands — reformat the current document in place:
-  - **XYJson: Format JSON** - Reformat JSON content
-  - **XYJson: Format XML** - Reformat XML content
-  - **XYJson: Format YAML** - Reformat YAML content
-- Available from Command Palette and editor right-click context menu
+  - **XYJson: Format JSON**
+  - **XYJson: Format XML**
+  - **XYJson: Format YAML**
 - Works on the entire document, or just the selected text if a selection is active
 - Output format (pretty / minified) selected via Quick Pick on each command
 - Automatic input format detection:
-  - Content starting with `<` is parsed as XML
-  - Content starting with `{` or `[` is parsed as JSON, or YAML if JSON parsing fails (e.g. YAML flow style)
-  - All other content is parsed as YAML
+  - Content starting with `<` → parsed as XML
+  - Content starting with `{` or `[` → parsed as JSON (falls back to YAML for YAML flow style)
+  - Everything else → parsed as YAML
 
 ## Usage
 
 1. Open an XML, JSON, or YAML file
 2. Optionally, select a portion of text to convert only that range
-3. Open the Command Palette (`Ctrl+Shift+P` / `Cmd+Shift+P`) or right-click in the editor to open the context menu
-4. Select one of the conversion commands:
-   - **XYJson: Convert to JSON**
-   - **XYJson: Convert to XML**
-   - **XYJson: Convert to YAML**
-   - **XYJson: Format JSON** (shown only when editing a JSON file)
-   - **XYJson: Format XML** (shown only when editing an XML file)
-   - **XYJson: Format YAML** (shown only when editing a YAML file)
-5. In the Quick Pick dialog, select the output format:
-   - **Pretty** – indented with newlines
-   - **Minified** – single line, no whitespace
+3. Open the Command Palette (`Ctrl+Shift+P` / `Cmd+Shift+P`) or right-click in the editor
+4. Select a command:
+   - **XYJson: Convert to JSON / XML / YAML** — opens the result in a new tab
+   - **XYJson: Format JSON / XML / YAML** — reformats in place (shown only for matching file type)
+5. Choose the output style in the Quick Pick:
+   - **Pretty** — indented with newlines
+   - **Minified** — single line, no whitespace
 
 ## Settings
 
