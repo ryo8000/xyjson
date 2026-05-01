@@ -156,7 +156,7 @@
     "test:integration": "vscode-test"
   },
   "dependencies": {
-    "fast-xml-parser": "5.7.1",
+    "fast-xml-parser": "5.7.2",
     "js-yaml": "4.1.1"
   },
   "devDependencies": {
