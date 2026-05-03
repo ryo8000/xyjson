@@ -52,11 +52,14 @@ async function convertAndReplace(to: SupportedFormat, action: Action): Promise<v
       const doc = await vscode.workspace.openTextDocument({ content: result, language: to });
       await vscode.window.showTextDocument(doc, { preview: false });
     } else {
-      // showQuickPick is async; guard against document state changes while picker was open
+      // showQuickPick is async; guard against document state changes while picker was open.
+      // Selection is only checked when there was an initial selection — a cursor move on a
+      // whole-document format is harmless and should not abort the operation.
       if (
         document.isClosed ||
         vscode.window.activeTextEditor?.document !== document ||
-        document.version !== documentVersion
+        document.version !== documentVersion ||
+        (hasSelection && !editor.selection.isEqual(selection))
       ) {
         vscode.window.showErrorMessage(`${label} failed: document state changed`);
         return;
