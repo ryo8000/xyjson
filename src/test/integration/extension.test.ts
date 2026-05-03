@@ -259,6 +259,49 @@ suite('Extension Test Suite', () => {
       }
     });
 
+    test('format command leaves document unchanged when selection changes during Quick Pick', async () => {
+      const content = readFixture('json-minified.json');
+      const editor = await openEditorWithContent(content);
+      const suiteMock = (vscode.window as any).showQuickPick;
+
+      const startPos = editor.document.positionAt(0);
+      const endPos = editor.document.positionAt(content.length);
+      editor.selection = new vscode.Selection(startPos, endPos);
+
+      (vscode.window as any).showQuickPick = async () => {
+        editor.selection = new vscode.Selection(new vscode.Position(0, 0), new vscode.Position(0, 0));
+        return { label: 'Pretty' };
+      };
+
+      try {
+        await vscode.commands.executeCommand('xyjson.formatJson');
+        assert.strictEqual(getEditorText(editor), content);
+      } finally {
+        (vscode.window as any).showQuickPick = suiteMock;
+      }
+    });
+
+    test('format command applies to whole document when cursor moves during Quick Pick (no initial selection)', async () => {
+      const content = readFixture('json-minified.json');
+      const editor = await openEditorWithContent(content);
+      const suiteMock = (vscode.window as any).showQuickPick;
+
+      editor.selection = new vscode.Selection(new vscode.Position(0, 0), new vscode.Position(0, 0));
+
+      (vscode.window as any).showQuickPick = async () => {
+        const lastLine = editor.document.lineAt(editor.document.lineCount - 1);
+        editor.selection = new vscode.Selection(lastLine.range.end, lastLine.range.end);
+        return { label: 'Pretty' };
+      };
+
+      try {
+        await vscode.commands.executeCommand('xyjson.formatJson');
+        assert.strictEqual(getEditorText(editor), readFixture('json-pretty.json'));
+      } finally {
+        (vscode.window as any).showQuickPick = suiteMock;
+      }
+    });
+
     test('format command leaves document unchanged when document is readonly', async () => {
       const content = readFixture('json-minified.json');
       const editor = await openEditorWithContent(content);
