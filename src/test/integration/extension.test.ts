@@ -33,6 +33,12 @@ suite('Extension Test Suite', () => {
 
   const getActiveEditorText = (): string => getEditorText(vscode.window.activeTextEditor!);
 
+  const setOutputStyle = async (value: string): Promise<void> => {
+    await vscode.workspace
+      .getConfiguration('xyjson')
+      .update('outputStyle', value, vscode.ConfigurationTarget.Global);
+  };
+
   const setIndentSize = async (value: number): Promise<void> => {
     await vscode.workspace
       .getConfiguration('xyjson')
@@ -50,6 +56,7 @@ suite('Extension Test Suite', () => {
     await vscode.commands.executeCommand('workbench.action.closeAllEditors');
     await setIndentSize(2);
     await setAttributeNamePrefix('@_');
+    await setOutputStyle('ask');
   });
 
   suite('Successful Conversion', () => {
@@ -116,6 +123,32 @@ suite('Extension Test Suite', () => {
       const editor = await openEditorWithContent(content);
       await vscode.commands.executeCommand('xyjson.toYaml');
       assert.strictEqual(getEditorText(editor), content);
+    });
+  });
+
+  suite('OutputStyle Configuration', () => {
+    test('skips Quick Pick and produces pretty output when outputStyle is "pretty"', async () => {
+      await setOutputStyle('pretty');
+      quickPickResponse = undefined;
+      await openEditorWithContent(readFixture('json-pretty.json'));
+      await vscode.commands.executeCommand('xyjson.toYaml');
+      assert.strictEqual(getActiveEditorText(), readFixture('yaml-pretty.yaml'));
+    });
+
+    test('skips Quick Pick and produces minified output when outputStyle is "minified"', async () => {
+      await setOutputStyle('minified');
+      quickPickResponse = undefined;
+      await openEditorWithContent(readFixture('json-pretty.json'));
+      await vscode.commands.executeCommand('xyjson.toYaml');
+      assert.strictEqual(getActiveEditorText(), readFixture('yaml-minified.yaml'));
+    });
+
+    test('shows Quick Pick when outputStyle is "ask"', async () => {
+      await setOutputStyle('ask');
+      quickPickResponse = { label: 'Minified' };
+      await openEditorWithContent(readFixture('json-pretty.json'));
+      await vscode.commands.executeCommand('xyjson.toYaml');
+      assert.strictEqual(getActiveEditorText(), readFixture('yaml-minified.yaml'));
     });
   });
 
