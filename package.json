@@ -129,6 +129,17 @@
     },
     "configuration": {
       "properties": {
+        "xyjson.outputStyle": {
+          "type": "string",
+          "enum": ["ask", "pretty", "minified"],
+          "enumDescriptions": [
+            "Show a Quick Pick prompt each time to choose between pretty and minified.",
+            "Always output with indentation and newlines.",
+            "Always output as a single line with no whitespace."
+          ],
+          "default": "ask",
+          "description": "Output style used by convert and format commands."
+        },
         "xyjson.indentSize": {
           "type": "integer",
           "default": 2,

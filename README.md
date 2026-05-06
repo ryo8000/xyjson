@@ -18,7 +18,7 @@ Working with API responses, config files, or legacy XML? Convert between formats
   - **XYJson: Format XML**
   - **XYJson: Format YAML**
 - Works on the entire document, or just the selected text if a selection is active
-- Output format (pretty / minified) selected via Quick Pick on each command
+- Output format (pretty / minified) selected via Quick Pick on each command, or fixed via `xyjson.outputStyle` setting
 - Automatic input format detection:
   - Content starting with `<` → parsed as XML
   - Content starting with `{` or `[` → parsed as JSON (falls back to YAML for YAML flow style)
@@ -36,12 +36,15 @@ Working with API responses, config files, or legacy XML? Convert between formats
    - **Pretty** — indented with newlines
    - **Minified** — single line, no whitespace
 
+   > **Tip:** To skip the Quick Pick entirely, set `xyjson.outputStyle` to `"pretty"` or `"minified"` in your settings. This is useful when you always use the same style or want to bind a command to a keyboard shortcut.
+
 ## Settings
 
-| Setting                         | Type    | Default | Description                                                                                        |
-|---------------------------------|---------|---------|----------------------------------------------------------------------------------------------------|
-| `xyjson.indentSize`             | integer | `2`     | Number of spaces used for indentation when pretty-formatting XML/YAML/JSON output. Min: 1, Max: 8. |
-| `xyjson.xmlAttributeNamePrefix` | string  | `@_`    | Prefix added to XML attribute names when parsing or building XML.                                  |
+| Setting                         | Type    | Default | Description                                                                                                 |
+|---------------------------------|---------|---------|-------------------------------------------------------------------------------------------------------------|
+| `xyjson.outputStyle`            | string  | `ask`   | Output style for all commands. `ask` shows a Quick Pick each time; `pretty` or `minified` skips the prompt. |
+| `xyjson.indentSize`             | integer | `2`     | Number of spaces used for indentation when pretty-formatting XML/YAML/JSON output. Min: 1, Max: 8.          |
+| `xyjson.xmlAttributeNamePrefix` | string  | `@_`    | Prefix added to XML attribute names when parsing or building XML.                                           |
 
 ## License
 
