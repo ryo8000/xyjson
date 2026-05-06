@@ -40,11 +40,12 @@ Working with API responses, config files, or legacy XML? Convert between formats
 
 ## Settings
 
-| Setting                         | Type    | Default | Description                                                                                                 |
-|---------------------------------|---------|---------|-------------------------------------------------------------------------------------------------------------|
-| `xyjson.outputStyle`            | string  | `ask`   | Output style for all commands. `ask` shows a Quick Pick each time; `pretty` or `minified` skips the prompt. |
-| `xyjson.indentSize`             | integer | `2`     | Number of spaces used for indentation when pretty-formatting XML/YAML/JSON output. Min: 1, Max: 8.          |
-| `xyjson.xmlAttributeNamePrefix` | string  | `@_`    | Prefix added to XML attribute names when parsing or building XML.                                           |
+| Setting                         | Type    | Default  | Description                                                                                                          |
+|---------------------------------|---------|----------|----------------------------------------------------------------------------------------------------------------------|
+| `xyjson.outputStyle`            | string  | `ask`    | Output style for all commands. `ask` shows a Quick Pick each time; `pretty` or `minified` skips the prompt.          |
+| `xyjson.convertOutput`          | string  | `newTab` | Where to display the result of convert commands. `newTab` opens a new tab; `beside` opens beside the current editor. |
+| `xyjson.indentSize`             | integer | `2`      | Number of spaces used for indentation when pretty-formatting XML/YAML/JSON output. Min: 1, Max: 8.                   |
+| `xyjson.xmlAttributeNamePrefix` | string  | `@_`     | Prefix added to XML attribute names when parsing or building XML.                                                    |
 
 ## License
 

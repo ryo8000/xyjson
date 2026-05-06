@@ -140,6 +140,16 @@
           "default": "ask",
           "description": "Output style used by convert and format commands."
         },
+        "xyjson.convertOutput": {
+          "type": "string",
+          "enum": ["newTab", "beside"],
+          "enumDescriptions": [
+            "Open the converted result in a new tab.",
+            "Open the converted result beside the current editor."
+          ],
+          "default": "newTab",
+          "description": "Where to display the result of convert commands."
+        },
         "xyjson.indentSize": {
           "type": "integer",
           "default": 2,

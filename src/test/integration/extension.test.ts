@@ -39,6 +39,12 @@ suite('Extension Test Suite', () => {
       .update('outputStyle', value, vscode.ConfigurationTarget.Global);
   };
 
+  const setConvertOutput = async (value: string): Promise<void> => {
+    await vscode.workspace
+      .getConfiguration('xyjson')
+      .update('convertOutput', value, vscode.ConfigurationTarget.Global);
+  };
+
   const setIndentSize = async (value: number): Promise<void> => {
     await vscode.workspace
       .getConfiguration('xyjson')
@@ -54,9 +60,10 @@ suite('Extension Test Suite', () => {
   teardown(async () => {
     quickPickResponse = { label: 'Pretty' };
     await vscode.commands.executeCommand('workbench.action.closeAllEditors');
+    await setOutputStyle('ask');
+    await setConvertOutput('newTab');
     await setIndentSize(2);
     await setAttributeNamePrefix('@_');
-    await setOutputStyle('ask');
   });
 
   suite('Successful Conversion', () => {
@@ -149,6 +156,26 @@ suite('Extension Test Suite', () => {
       await openEditorWithContent(readFixture('json-pretty.json'));
       await vscode.commands.executeCommand('xyjson.toYaml');
       assert.strictEqual(getActiveEditorText(), readFixture('yaml-minified.yaml'));
+    });
+  });
+
+  suite('ConvertOutput Configuration', () => {
+    test('opens result in new tab, leaving original unchanged when convertOutput is "newTab"', async () => {
+      await setConvertOutput('newTab');
+      const editor = await openEditorWithContent(readFixture('json-pretty.json'));
+      await vscode.commands.executeCommand('xyjson.toYaml');
+      assert.strictEqual(getActiveEditorText(), readFixture('yaml-pretty.yaml'));
+      assert.strictEqual(getEditorText(editor), readFixture('json-pretty.json'));
+      assert.strictEqual(vscode.window.activeTextEditor?.viewColumn, editor.viewColumn, 'Output should be in the same column');
+    });
+
+    test('opens result beside current editor, leaving original unchanged when convertOutput is "beside"', async () => {
+      await setConvertOutput('beside');
+      const editor = await openEditorWithContent(readFixture('json-pretty.json'));
+      await vscode.commands.executeCommand('xyjson.toYaml');
+      assert.strictEqual(getActiveEditorText(), readFixture('yaml-pretty.yaml'));
+      assert.strictEqual(getEditorText(editor), readFixture('json-pretty.json'));
+      assert.notStrictEqual(vscode.window.activeTextEditor?.viewColumn, editor.viewColumn, 'Output should be in a different column');
     });
   });
 
