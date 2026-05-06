@@ -58,8 +58,13 @@ async function convertAndReplace(to: SupportedFormat, action: Action): Promise<v
     const result = convert(content, to, { minify, indentSize, attributeNamePrefix });
 
     if (action === 'convert') {
+      const convertOutput = config.get<string>('convertOutput', 'newTab');
       const doc = await vscode.workspace.openTextDocument({ content: result, language: to });
-      await vscode.window.showTextDocument(doc, { preview: false });
+      const showOptions: vscode.TextDocumentShowOptions = { preview: false };
+      if (convertOutput === 'beside') {
+        showOptions.viewColumn = vscode.ViewColumn.Beside;
+      }
+      await vscode.window.showTextDocument(doc, showOptions);
     } else {
       // showQuickPick is async; guard against document state changes while picker was open.
       // Selection is only checked when there was an initial selection — a cursor move on a
