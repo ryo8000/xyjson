@@ -129,6 +129,12 @@
     },
     "configuration": {
       "properties": {
+        "xyjson.outputStyle": {
+          "type": "string",
+          "enum": ["ask", "pretty", "minified"],
+          "default": "ask",
+          "description": "Output style for convert and format commands. \"ask\" shows a Quick Pick each time; \"pretty\" and \"minified\" skip the prompt."
+        },
         "xyjson.indentSize": {
           "type": "integer",
           "default": 2,
