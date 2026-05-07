@@ -105,6 +105,59 @@ async function convertAndReplace(to: SupportedFormat, action: Action): Promise<v
   }
 }
 
+async function convertFromClipboard(to: SupportedFormat): Promise<void> {
+  const content = (await vscode.env.clipboard.readText()).trim();
+  if (!content) {
+    vscode.window.showErrorMessage('Conversion failed: Clipboard is empty');
+    return;
+  }
+
+  const config = vscode.workspace.getConfiguration('xyjson');
+  const outputStyle = config.get<'ask' | 'pretty' | 'minified'>('outputStyle', 'ask');
+  const indentSize = config.get<number>('indentSize', 2);
+  const attributeNamePrefix = config.get<string>('xmlAttributeNamePrefix', '@_');
+
+  let minify: boolean;
+  if (outputStyle === 'minified') {
+    minify = true;
+  } else if (outputStyle === 'pretty') {
+    minify = false;
+  } else {
+    const pick = await vscode.window.showQuickPick(
+      [
+        { label: 'Pretty', description: 'indented with newlines' },
+        { label: 'Minified', description: 'single line, no whitespace' },
+      ],
+      {
+        placeHolder: 'Select output format',
+        title: `Paste Clipboard as ${to.toUpperCase()}`,
+      },
+    );
+    if (pick === undefined) {
+      return;
+    }
+    minify = pick.label === 'Minified';
+  }
+
+  try {
+    const result = convert(content, to, { minify, indentSize, attributeNamePrefix });
+    const convertOutput = config.get<'newTab' | 'beside'>('convertOutput', 'newTab');
+    const doc = await vscode.workspace.openTextDocument({ content: result, language: to });
+    const showOptions: vscode.TextDocumentShowOptions = { preview: false };
+    if (convertOutput === 'beside') {
+      showOptions.viewColumn = vscode.ViewColumn.Beside;
+    }
+    await vscode.window.showTextDocument(doc, showOptions);
+    vscode.window.showInformationMessage(
+      `Pasted clipboard as ${to} (${minify ? 'minified' : 'pretty'})`,
+    );
+  } catch (err) {
+    vscode.window.showErrorMessage(
+      `Conversion failed: ${err instanceof Error ? err.message : String(err)}`,
+    );
+  }
+}
+
 export function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(
     vscode.commands.registerCommand('xyjson.toJson', () => convertAndReplace('json', 'convert')),
@@ -113,6 +166,9 @@ export function activate(context: vscode.ExtensionContext) {
     vscode.commands.registerCommand('xyjson.formatJson', () => convertAndReplace('json', 'format')),
     vscode.commands.registerCommand('xyjson.formatXml', () => convertAndReplace('xml', 'format')),
     vscode.commands.registerCommand('xyjson.formatYaml', () => convertAndReplace('yaml', 'format')),
+    vscode.commands.registerCommand('xyjson.clipboardToJson', () => convertFromClipboard('json')),
+    vscode.commands.registerCommand('xyjson.clipboardToXml', () => convertFromClipboard('xml')),
+    vscode.commands.registerCommand('xyjson.clipboardToYaml', () => convertFromClipboard('yaml')),
   );
 }
 
