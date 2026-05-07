@@ -9,7 +9,7 @@ Working with API responses, config files, or legacy XML? Convert between formats
 
 ## Features
 
-- Conversion commands — open the result in a new tab, leaving the original untouched:
+- Conversion commands — open the result in a new tab or beside the current editor, leaving the original untouched:
   - **XYJson: Convert to JSON** — from XML or YAML
   - **XYJson: Convert to XML** — from JSON or YAML
   - **XYJson: Convert to YAML** — from JSON or XML
@@ -30,7 +30,7 @@ Working with API responses, config files, or legacy XML? Convert between formats
 2. Optionally, select a portion of text to convert only that range
 3. Open the Command Palette (`Ctrl+Shift+P` / `Cmd+Shift+P`) or right-click in the editor
 4. Select a command:
-   - **XYJson: Convert to JSON / XML / YAML** — opens the result in a new tab
+   - **XYJson: Convert to JSON / XML / YAML** — opens the result in a new tab or beside the current editor
    - **XYJson: Format JSON / XML / YAML** — reformats in place (shown only for matching file type)
 5. Choose the output style in the Quick Pick:
    - **Pretty** — indented with newlines
@@ -40,11 +40,12 @@ Working with API responses, config files, or legacy XML? Convert between formats
 
 ## Settings
 
-| Setting                         | Type    | Default | Description                                                                                                 |
-|---------------------------------|---------|---------|-------------------------------------------------------------------------------------------------------------|
-| `xyjson.outputStyle`            | string  | `ask`   | Output style for all commands. `ask` shows a Quick Pick each time; `pretty` or `minified` skips the prompt. |
-| `xyjson.indentSize`             | integer | `2`     | Number of spaces used for indentation when pretty-formatting XML/YAML/JSON output. Min: 1, Max: 8.          |
-| `xyjson.xmlAttributeNamePrefix` | string  | `@_`    | Prefix added to XML attribute names when parsing or building XML.                                           |
+| Setting                         | Type    | Default  | Description                                                                                                          |
+|---------------------------------|---------|----------|----------------------------------------------------------------------------------------------------------------------|
+| `xyjson.outputStyle`            | string  | `ask`    | Output style for all commands. `ask` shows a Quick Pick each time; `pretty` or `minified` skips the prompt.          |
+| `xyjson.convertOutput`          | string  | `newTab` | Where to display the result of convert commands. `newTab` opens a new tab; `beside` opens beside the current editor. |
+| `xyjson.indentSize`             | integer | `2`      | Number of spaces used for indentation when pretty-formatting XML/YAML/JSON output. Min: 1, Max: 8.                   |
+| `xyjson.xmlAttributeNamePrefix` | string  | `@_`     | Prefix added to XML attribute names when parsing or building XML.                                                    |
 
 ## License
 
