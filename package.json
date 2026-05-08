@@ -65,6 +65,18 @@
       {
         "command": "xyjson.formatYaml",
         "title": "XYJson: Format YAML"
+      },
+      {
+        "command": "xyjson.clipboardToJson",
+        "title": "XYJson: Paste Clipboard as JSON"
+      },
+      {
+        "command": "xyjson.clipboardToXml",
+        "title": "XYJson: Paste Clipboard as XML"
+      },
+      {
+        "command": "xyjson.clipboardToYaml",
+        "title": "XYJson: Paste Clipboard as YAML"
       }
     ],
     "menus": {
