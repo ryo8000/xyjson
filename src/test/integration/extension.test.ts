@@ -333,6 +333,58 @@ suite('Extension Test Suite', () => {
     });
   });
 
+  suite('Clipboard Paste Commands', () => {
+    const cases = [
+      { command: 'xyjson.clipboardToJson', expectedFixture: 'json-pretty.json' },
+      { command: 'xyjson.clipboardToXml', expectedFixture: 'xml-pretty.xml' },
+      { command: 'xyjson.clipboardToYaml', expectedFixture: 'yaml-pretty.yaml' },
+    ] as const;
+
+    const inputFixtures = ['json-pretty.json', 'xml-pretty.xml', 'yaml-pretty.yaml'] as const;
+
+    for (const c of cases) {
+      suite(`${commandLabel(c.command)} command`, () => {
+        for (const inputFixture of inputFixtures) {
+          test(`pastes ${formatOfFixture(inputFixture)} from clipboard as ${formatOfFixture(c.expectedFixture)}`, async () => {
+            await vscode.env.clipboard.writeText(readFixture(inputFixture));
+            await vscode.commands.executeCommand(c.command);
+            assert.strictEqual(getActiveEditorText(), readFixture(c.expectedFixture));
+          });
+        }
+
+        test('minified output when "Minified" is selected', async () => {
+          quickPickResponse = { label: 'Minified' };
+          await vscode.env.clipboard.writeText(readFixture('json-pretty.json'));
+          const expectedFixture = c.expectedFixture.replace('-pretty.', '-minified.');
+          await vscode.commands.executeCommand(c.command);
+          assert.strictEqual(getActiveEditorText(), readFixture(expectedFixture));
+        });
+
+        test('no active editor — command resolves without throwing', async () => {
+          await vscode.commands.executeCommand('workbench.action.closeAllEditors');
+          await vscode.env.clipboard.writeText(readFixture('json-pretty.json'));
+          await assert.doesNotReject(Promise.resolve(vscode.commands.executeCommand(c.command)));
+        });
+
+        test('cancelling Quick Pick — command resolves without throwing', async () => {
+          quickPickResponse = undefined;
+          await vscode.env.clipboard.writeText(readFixture('json-pretty.json'));
+          await assert.doesNotReject(Promise.resolve(vscode.commands.executeCommand(c.command)));
+        });
+
+        test('empty clipboard — command resolves without throwing', async () => {
+          await vscode.env.clipboard.writeText('');
+          await assert.doesNotReject(Promise.resolve(vscode.commands.executeCommand(c.command)));
+        });
+
+        test('invalid content — command resolves without throwing', async () => {
+          await vscode.env.clipboard.writeText('not valid json or xml or yaml: {{{');
+          await assert.doesNotReject(Promise.resolve(vscode.commands.executeCommand(c.command)));
+        });
+      });
+    }
+  });
+
   suite('Error Cases', () => {
     const commands = ['xyjson.toJson', 'xyjson.toXml', 'xyjson.toYaml'] as const;
 
