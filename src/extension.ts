@@ -5,6 +5,49 @@ import { convert } from './converter';
 
 type Action = 'convert' | 'format';
 
+function readConfig(resource?: vscode.Uri) {
+  const config = vscode.workspace.getConfiguration('xyjson', resource);
+  return {
+    outputStyle: config.get<'ask' | 'pretty' | 'minified'>('outputStyle', 'ask'),
+    convertOutput: config.get<'newTab' | 'beside'>('convertOutput', 'newTab'),
+    indentSize: config.get<number>('indentSize', 2),
+    attributeNamePrefix: config.get<string>('xmlAttributeNamePrefix', '@_'),
+  };
+}
+
+async function resolveMinify(
+  outputStyle: 'ask' | 'pretty' | 'minified',
+  title: string,
+): Promise<boolean | undefined> {
+  if (outputStyle === 'minified') {
+    return true;
+  }
+  if (outputStyle === 'pretty') {
+    return false;
+  }
+  const pick = await vscode.window.showQuickPick(
+    [
+      { label: 'Pretty', description: 'indented with newlines' },
+      { label: 'Minified', description: 'single line, no whitespace' },
+    ],
+    { placeHolder: 'Select output format', title },
+  );
+  return pick === undefined ? undefined : pick.label === 'Minified';
+}
+
+async function openConvertedDocument(
+  content: string,
+  language: SupportedFormat,
+  convertOutput: 'newTab' | 'beside',
+): Promise<void> {
+  const doc = await vscode.workspace.openTextDocument({ content, language });
+  const showOptions: vscode.TextDocumentShowOptions = { preview: false };
+  if (convertOutput === 'beside') {
+    showOptions.viewColumn = vscode.ViewColumn.Beside;
+  }
+  await vscode.window.showTextDocument(doc, showOptions);
+}
+
 async function convertAndReplace(to: SupportedFormat, action: Action): Promise<void> {
   const editor = vscode.window.activeTextEditor;
   const label = action === 'format' ? 'Formatting' : 'Conversion';
@@ -26,45 +69,20 @@ async function convertAndReplace(to: SupportedFormat, action: Action): Promise<v
     return;
   }
 
-  const config = vscode.workspace.getConfiguration('xyjson', document.uri);
-  const outputStyle = config.get<'ask' | 'pretty' | 'minified'>('outputStyle', 'ask');
-  const indentSize = config.get<number>('indentSize', 2);
-  const attributeNamePrefix = config.get<string>('xmlAttributeNamePrefix', '@_');
+  const { outputStyle, convertOutput, indentSize, attributeNamePrefix } = readConfig(document.uri);
+  const title =
+    action === 'format' ? `Format ${to.toUpperCase()}` : `Convert to ${to.toUpperCase()}`;
 
-  let minify: boolean;
-  if (outputStyle === 'minified') {
-    minify = true;
-  } else if (outputStyle === 'pretty') {
-    minify = false;
-  } else {
-    const pick = await vscode.window.showQuickPick(
-      [
-        { label: 'Pretty', description: 'indented with newlines' },
-        { label: 'Minified', description: 'single line, no whitespace' },
-      ],
-      {
-        placeHolder: 'Select output format',
-        title:
-          action === 'format' ? `Format ${to.toUpperCase()}` : `Convert to ${to.toUpperCase()}`,
-      },
-    );
-    if (pick === undefined) {
-      return;
-    }
-    minify = pick.label === 'Minified';
+  const minify = await resolveMinify(outputStyle, title);
+  if (minify === undefined) {
+    return;
   }
 
   try {
     const result = convert(content, to, { minify, indentSize, attributeNamePrefix });
 
     if (action === 'convert') {
-      const convertOutput = config.get<'newTab' | 'beside'>('convertOutput', 'newTab');
-      const doc = await vscode.workspace.openTextDocument({ content: result, language: to });
-      const showOptions: vscode.TextDocumentShowOptions = { preview: false };
-      if (convertOutput === 'beside') {
-        showOptions.viewColumn = vscode.ViewColumn.Beside;
-      }
-      await vscode.window.showTextDocument(doc, showOptions);
+      await openConvertedDocument(result, to, convertOutput);
     } else {
       // showQuickPick is async; guard against document state changes while picker was open.
       // Selection is only checked when there was an initial selection — a cursor move on a
@@ -105,6 +123,35 @@ async function convertAndReplace(to: SupportedFormat, action: Action): Promise<v
   }
 }
 
+async function convertFromClipboard(to: SupportedFormat): Promise<void> {
+  const content = (await vscode.env.clipboard.readText()).trim();
+  if (!content) {
+    vscode.window.showErrorMessage('Conversion failed: Clipboard is empty');
+    return;
+  }
+
+  const { outputStyle, convertOutput, indentSize, attributeNamePrefix } = readConfig(
+    vscode.window.activeTextEditor?.document.uri,
+  );
+
+  const minify = await resolveMinify(outputStyle, `Paste Clipboard as ${to.toUpperCase()}`);
+  if (minify === undefined) {
+    return;
+  }
+
+  try {
+    const result = convert(content, to, { minify, indentSize, attributeNamePrefix });
+    await openConvertedDocument(result, to, convertOutput);
+    vscode.window.showInformationMessage(
+      `Pasted clipboard as ${to} (${minify ? 'minified' : 'pretty'})`,
+    );
+  } catch (err) {
+    vscode.window.showErrorMessage(
+      `Conversion failed: ${err instanceof Error ? err.message : String(err)}`,
+    );
+  }
+}
+
 export function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(
     vscode.commands.registerCommand('xyjson.toJson', () => convertAndReplace('json', 'convert')),
@@ -113,6 +160,9 @@ export function activate(context: vscode.ExtensionContext) {
     vscode.commands.registerCommand('xyjson.formatJson', () => convertAndReplace('json', 'format')),
     vscode.commands.registerCommand('xyjson.formatXml', () => convertAndReplace('xml', 'format')),
     vscode.commands.registerCommand('xyjson.formatYaml', () => convertAndReplace('yaml', 'format')),
+    vscode.commands.registerCommand('xyjson.clipboardToJson', () => convertFromClipboard('json')),
+    vscode.commands.registerCommand('xyjson.clipboardToXml', () => convertFromClipboard('xml')),
+    vscode.commands.registerCommand('xyjson.clipboardToYaml', () => convertFromClipboard('yaml')),
   );
 }
 
