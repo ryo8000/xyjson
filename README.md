@@ -3,6 +3,7 @@
 Working with API responses, config files, or legacy XML? Convert between formats and pretty-print or minify your data in seconds — without leaving VS Code.
 
 - **Convert** XML ↔ YAML ↔ JSON, or format (pretty-print / minify) in place
+- **Paste from clipboard** — convert clipboard content directly, no need to open a file first
 - Works on a selection or the entire document
 - Automatic input format detection — no need to specify the source format
 - Available from Command Palette and editor right-click menu
@@ -17,6 +18,10 @@ Working with API responses, config files, or legacy XML? Convert between formats
   - **XYJson: Format JSON**
   - **XYJson: Format XML**
   - **XYJson: Format YAML**
+- Clipboard commands — read from clipboard and open the result in a new tab or beside the current editor:
+  - **XYJson: Paste Clipboard as JSON**
+  - **XYJson: Paste Clipboard as XML**
+  - **XYJson: Paste Clipboard as YAML**
 - Works on the entire document, or just the selected text if a selection is active
 - Output format (pretty / minified) selected via Quick Pick on each command, or fixed via `xyjson.outputStyle` setting
 - Automatic input format detection:
@@ -25,6 +30,8 @@ Working with API responses, config files, or legacy XML? Convert between formats
   - Everything else → parsed as YAML
 
 ## Usage
+
+### Convert an open file
 
 1. Open an XML, JSON, or YAML file
 2. Optionally, select a portion of text to convert only that range
@@ -37,6 +44,13 @@ Working with API responses, config files, or legacy XML? Convert between formats
    - **Minified** — single line, no whitespace
 
    > **Tip:** To skip the Quick Pick entirely, set `xyjson.outputStyle` to `"pretty"` or `"minified"` in your settings. This is useful when you always use the same style or want to bind a command to a keyboard shortcut.
+
+### Paste from clipboard
+
+1. Copy any XML, JSON, or YAML content to your clipboard
+2. Open the Command Palette (`Ctrl+Shift+P` / `Cmd+Shift+P`)
+3. Run **XYJson: Paste Clipboard as JSON / XML / YAML**
+4. The converted result opens in a new tab or beside the current editor — no need to open a file first
 
 ## Settings
 
