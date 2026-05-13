@@ -2,6 +2,23 @@
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-05-13
+
+### Added
+
+- New `xyjson.outputStyle` setting to control output style (ask / pretty / minified), replacing the per-command Quick Pick prompt.
+- New `xyjson.convertOutput` setting to control where convert results open (`newTab` or `beside`).
+- New Paste Clipboard as JSON, Paste Clipboard as XML, and Paste Clipboard as YAML commands.
+
+### Fixed
+
+- Fix stale selection being applied when the selection changes while the Quick Pick dialog is open.
+
+### Changed
+
+- Updated dependencies:
+  - `fast-xml-parser` from 5.7.1 to 5.7.3
+
 ## [0.1.0] - 2026-04-30
 
 ### Added
