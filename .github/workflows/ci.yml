@@ -6,6 +6,14 @@ on:
   pull_request:
     branches:
       - main
+    paths:
+      - 'src/**'
+      - 'scripts/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'tsconfig.json'
+      - 'eslint.config.mjs'
+      - '.github/workflows/**'
 
 jobs:
   build:
