@@ -8,6 +8,10 @@ Working with API responses, config files, or legacy XML? Convert between formats
 - Automatic input format detection — no need to specify the source format
 - Available from Command Palette and editor right-click menu
 
+## Demo
+
+![XYJson demo](images/demo.gif)
+
 ## Features
 
 - Conversion commands — open the result in a new tab or beside the current editor, leaving the original untouched:
