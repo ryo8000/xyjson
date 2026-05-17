@@ -4,6 +4,7 @@
 .vscode/**
 .vscode-test/**
 out/test/**
+images/**
 scripts/**
 src/**
 AGENTS.md
