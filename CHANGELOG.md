@@ -4,9 +4,9 @@
 
 ## [0.2.1] - 2026-05-17
 
-### Changed
+### Added
 
-- Added demo section and animated GIF to README for visual reference.
+- Demo section and animated GIF to README for visual reference.
 
 ## [0.2.0] - 2026-05-13
 
