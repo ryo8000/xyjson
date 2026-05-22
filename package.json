@@ -7,6 +7,7 @@
   "publisher": "ryo8000",
   "icon": "icon.png",
   "license": "MIT",
+  "private": true,
   "repository": "https://github.com/ryo8000/xyjson.git",
   "engines": {
     "vscode": "^1.116.0"
@@ -188,8 +189,8 @@
     "test": "mocha --ui tdd 'out/test/unit/**/*.test.js'",
     "pretest:integration": "npm run pretest",
     "test:integration": "vscode-test",
-    "package": "vsce package",
-    "publish": "vsce publish"
+    "vscode:package": "vsce package",
+    "vscode:publish": "vsce publish"
   },
   "dependencies": {
     "fast-xml-parser": "5.8.0",
