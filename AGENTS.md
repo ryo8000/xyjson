@@ -27,6 +27,9 @@
   - `xyjson.formatJson`
   - `xyjson.formatXml`
   - `xyjson.formatYaml`
+  - `xyjson.clipboardToJson`
+  - `xyjson.clipboardToXml`
+  - `xyjson.clipboardToYaml`
 - Keep user-facing behavior aligned with README settings and usage docs.
 
 ## PR/commit expectations
