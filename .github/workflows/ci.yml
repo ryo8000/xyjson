@@ -22,11 +22,12 @@ jobs:
 
       - name: Check changed files
         id: filter
+        env:
+          BASE: ${{ github.event.pull_request.base.sha }}
+          HEAD: ${{ github.event.pull_request.head.sha }}
         shell: bash
         run: |
-          BASE=${{ github.event.pull_request.base.sha }}
-          HEAD=${{ github.event.pull_request.head.sha }}
-          CHANGED=$(git diff --name-only "$BASE" "$HEAD")
+          CHANGED=$(git diff --name-only "$BASE...$HEAD")
           echo "Changed files:"
           echo "$CHANGED"
           if echo "$CHANGED" | grep -qE '^(src/|scripts/|package\.json$|package-lock\.json$|tsconfig\.json$|eslint\.config\.mjs$|\.github/workflows/)'; then
@@ -76,9 +77,15 @@ jobs:
 
     steps:
       - name: Check test result
+        env:
+          CHECK_CHANGES: ${{ needs.check-changes.result }}
+          TEST: ${{ needs.test.result }}
         shell: bash
         run: |
-          TEST="${{ needs.test.result }}"
+          if [[ "$CHECK_CHANGES" != "success" ]]; then
+            echo "CI failed (check-changes=$CHECK_CHANGES)"
+            exit 1
+          fi
           if [[ "$TEST" == "success" || "$TEST" == "skipped" ]]; then
             echo "CI passed (test=$TEST)"
           else
