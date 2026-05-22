@@ -8,7 +8,7 @@ suite('Extension Test Suite', () => {
   const originalShowQuickPick = (vscode.window as any).showQuickPick;
 
   suiteSetup(() => {
-    (vscode.window as any).showQuickPick = () => quickPickResponse;
+    (vscode.window as any).showQuickPick = () => Promise.resolve(quickPickResponse);
   });
 
   suiteTeardown(() => {
@@ -300,7 +300,7 @@ suite('Extension Test Suite', () => {
 
       (vscode.window as any).showQuickPick = () => {
         editor.selection = new vscode.Selection(new vscode.Position(0, 0), new vscode.Position(0, 0));
-        return { label: 'Pretty' };
+        return Promise.resolve({ label: 'Pretty' });
       };
 
       try {
@@ -321,7 +321,7 @@ suite('Extension Test Suite', () => {
       (vscode.window as any).showQuickPick = () => {
         const lastLine = editor.document.lineAt(editor.document.lineCount - 1);
         editor.selection = new vscode.Selection(lastLine.range.end, lastLine.range.end);
-        return { label: 'Pretty' };
+        return Promise.resolve({ label: 'Pretty' });
       };
 
       try {
