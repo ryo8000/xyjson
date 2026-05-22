@@ -4,18 +4,41 @@ on:
   pull_request:
     branches:
       - main
-    paths:
-      - 'src/**'
-      - 'scripts/**'
-      - 'package.json'
-      - 'package-lock.json'
-      - 'tsconfig.json'
-      - 'eslint.config.mjs'
-      - '.github/workflows/**'
 
 jobs:
+  check-changes:
+    name: Detect relevant changes
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      test-needed: ${{ steps.filter.outputs.test-needed }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        with:
+          fetch-depth: 0
+
+      - name: Check changed files
+        id: filter
+        shell: bash
+        run: |
+          BASE=${{ github.event.pull_request.base.sha }}
+          HEAD=${{ github.event.pull_request.head.sha }}
+          CHANGED=$(git diff --name-only "$BASE" "$HEAD")
+          echo "Changed files:"
+          echo "$CHANGED"
+          if echo "$CHANGED" | grep -qE '^(src/|scripts/|package\.json$|package-lock\.json$|tsconfig\.json$|eslint\.config\.mjs$|\.github/workflows/)'; then
+            echo "test-needed=true" >> $GITHUB_OUTPUT
+          else
+            echo "test-needed=false" >> $GITHUB_OUTPUT
+          fi
+
   test:
     name: Test
+    needs: check-changes
+    if: needs.check-changes.outputs.test-needed == 'true'
     strategy:
       matrix:
         os: [macos-latest, ubuntu-latest, windows-latest]
@@ -25,10 +48,10 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
 
-      - name: Install Node.js
-        uses: actions/setup-node@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
         with:
           node-version: 22.x
           cache: 'npm'
@@ -37,9 +60,28 @@ jobs:
         run: npm ci
 
       - name: Run tests (Linux)
-        run: xvfb-run -a npm run test:integration
         if: runner.os == 'Linux'
+        run: xvfb-run -a npm run test:integration
 
       - name: Run tests (non-Linux)
-        run: npm run test:integration
         if: runner.os != 'Linux'
+        run: npm run test:integration
+
+  ci-status:
+    name: CI Status
+    needs: [check-changes, test]
+    if: always()
+    runs-on: ubuntu-latest
+    permissions: {}
+
+    steps:
+      - name: Check test result
+        shell: bash
+        run: |
+          TEST="${{ needs.test.result }}"
+          if [[ "$TEST" == "success" || "$TEST" == "skipped" ]]; then
+            echo "CI passed (test=$TEST)"
+          else
+            echo "CI failed (test=$TEST)"
+            exit 1
+          fi
