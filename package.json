@@ -183,6 +183,7 @@
     "watch": "tsc -watch -p ./",
     "copy-fixtures": "node ./scripts/copy-fixtures.js",
     "lint": "eslint src",
+    "lint:fix": "eslint src --fix",
     "pretest": "npm run compile && npm run copy-fixtures && npm run lint",
     "test": "mocha --ui tdd 'out/test/unit/**/*.test.js'",
     "pretest:integration": "npm run pretest",
