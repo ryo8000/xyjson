@@ -12,14 +12,14 @@
       "Bash(npm run copy-fixtures)",
       "Bash(npm test)",
       "Bash(npm run test:integration)",
-      "Bash(npm run vscode:package)",
-      "Bash(npm run vscode:publish)"
+      "Bash(npm run vscode:package)"
     ],
     "ask": [
       "Bash(git commit *)",
       "Bash(git push)",
       "Bash(git push *)",
-      "Bash(npm install *)"
+      "Bash(npm install *)",
+      "Bash(npm run vscode:publish)"
     ],
     "deny": [
       "Bash(rm -rf /)",
