@@ -68,6 +68,10 @@ jobs:
         if: runner.os != 'Linux'
         run: npm run test:integration
 
+      - name: Package extension
+        if: runner.os == 'Linux'
+        run: npm run vscode:package
+
   ci-status:
     name: CI Status
     needs: [check-changes, test]
