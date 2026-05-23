@@ -2,25 +2,31 @@
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
   "permissions": {
     "allow": [
+      "Bash(git add *)",
+      "Bash(git fetch)",
+      "Bash(git fetch *)",
+      "Bash(npm install)",
       "Bash(npm run compile)",
       "Bash(npm run lint)",
+      "Bash(npm run lint:*)",
       "Bash(npm run copy-fixtures)",
       "Bash(npm test)",
       "Bash(npm run test:integration)",
-      "Bash(git add:*)",
-      "Bash(git fetch:*)"
+      "Bash(npm run vscode:package)",
+      "Bash(npm run vscode:publish)"
     ],
     "ask": [
-      "Bash(git commit:*)",
-      "Bash(git push:*)",
-      "Bash(npm install:*)"
+      "Bash(git commit *)",
+      "Bash(git push)",
+      "Bash(git push *)",
+      "Bash(npm install *)"
     ],
     "deny": [
       "Bash(rm -rf /)",
       "Bash(rm -rf ~)",
       "Bash(rm -rf ~/*)",
       "Bash(rm -rf /*)",
-      "Bash(sudo:*)",
+      "Bash(sudo *)",
       "Read(./.env)",
       "Read(./.env.*)"
     ]
