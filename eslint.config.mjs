@@ -1,7 +1,8 @@
 import typescriptEslint from "typescript-eslint";
 
 export default [
-  ...typescriptEslint.configs.recommendedTypeChecked,
+  ...typescriptEslint.configs.strictTypeChecked,
+  ...typescriptEslint.configs.stylisticTypeChecked,
   {
     files: ["**/*.ts"],
     languageOptions: {
@@ -13,6 +14,16 @@ export default [
       sourceType: "module",
     },
     rules: {
+      curly: "error",
+      eqeqeq: "error",
+      "no-console": "warn",
+      semi: "error",
+      "@typescript-eslint/consistent-type-imports": [
+        "error",
+        {
+          fixStyle: "inline-type-imports"
+        },
+      ],
       "@typescript-eslint/naming-convention": [
         "error",
         {
@@ -20,19 +31,22 @@ export default [
           format: ["camelCase", "PascalCase"],
         },
       ],
-      curly: "error",
-      eqeqeq: "error",
-      "no-console": "warn",
-      "prefer-const": "error",
-      "@typescript-eslint/no-unused-vars": ["error", { args: "all", argsIgnorePattern: "^_" }],
-      "@typescript-eslint/consistent-type-imports": ["error", { fixStyle: "inline-type-imports" }],
-      semi: "error",
+      "@typescript-eslint/no-shadow": "error",
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        {
+          args: "all",
+          argsIgnorePattern: "^_"
+        },
+      ],
+      "@typescript-eslint/switch-exhaustiveness-check": "error",
     },
   },
   {
     files: ["src/test/**/*.ts"],
     rules: {
       "@typescript-eslint/no-explicit-any": "off",
+      "@typescript-eslint/no-non-null-assertion": "off",
       "@typescript-eslint/no-unsafe-assignment": "off",
       "@typescript-eslint/no-unsafe-member-access": "off",
     },

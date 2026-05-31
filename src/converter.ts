@@ -4,11 +4,11 @@ import yaml from 'js-yaml';
 
 export type SupportedFormat = 'json' | 'xml' | 'yaml';
 
-type ConvertOptions = {
+interface ConvertOptions {
   minify: boolean;
   indentSize: number;
   attributeNamePrefix: string;
-};
+}
 
 export const convert = (content: string, to: SupportedFormat, options: ConvertOptions): string => {
   let intermediate: unknown;

@@ -43,14 +43,14 @@ suite('Converter Test Suite', () => {
     },
   };
 
-  type TestCase = {
+  interface TestCase {
     to: SupportedFormat;
     minify: boolean;
     indentSize?: number;
     attributeNamePrefix?: string;
     expected: string;
     description: string;
-  };
+  }
 
   const createTestSuite = (suiteName: string, input: string, testCases: TestCase[]) => {
     suite(suiteName, () => {

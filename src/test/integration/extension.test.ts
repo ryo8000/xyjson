@@ -166,7 +166,11 @@ suite('Extension Test Suite', () => {
       await vscode.commands.executeCommand('xyjson.toYaml');
       assert.strictEqual(getActiveEditorText(), readFixture('yaml-pretty.yaml'));
       assert.strictEqual(getEditorText(editor), readFixture('json-pretty.json'));
-      assert.strictEqual(vscode.window.activeTextEditor?.viewColumn, editor.viewColumn, 'Output should be in the same column');
+      assert.strictEqual(
+        vscode.window.activeTextEditor?.viewColumn,
+        editor.viewColumn,
+        'Output should be in the same column',
+      );
     });
 
     test('opens result beside current editor, leaving original unchanged when convertOutput is "beside"', async () => {
@@ -176,7 +180,11 @@ suite('Extension Test Suite', () => {
       assert.strictEqual(getActiveEditorText(), readFixture('yaml-pretty.yaml'));
       assert.strictEqual(getEditorText(editor), readFixture('json-pretty.json'));
       assert.ok(vscode.window.activeTextEditor, 'Expected an active editor after conversion');
-      assert.notStrictEqual(vscode.window.activeTextEditor.viewColumn, editor.viewColumn, 'Output should be in a different column');
+      assert.notStrictEqual(
+        vscode.window.activeTextEditor.viewColumn,
+        editor.viewColumn,
+        'Output should be in a different column',
+      );
     });
   });
 
@@ -276,7 +284,9 @@ suite('Extension Test Suite', () => {
 
       (vscode.window as any).showQuickPick = async () => {
         const lastLine = editor.document.lineAt(editor.document.lineCount - 1);
-        await editor.edit((b) => b.insert(lastLine.range.end, ' '));
+        await editor.edit((b) => {
+          b.insert(lastLine.range.end, ' ');
+        });
         editedContent = getEditorText(editor);
         return { label: 'Pretty' };
       };
@@ -299,7 +309,10 @@ suite('Extension Test Suite', () => {
       editor.selection = new vscode.Selection(startPos, endPos);
 
       (vscode.window as any).showQuickPick = () => {
-        editor.selection = new vscode.Selection(new vscode.Position(0, 0), new vscode.Position(0, 0));
+        editor.selection = new vscode.Selection(
+          new vscode.Position(0, 0),
+          new vscode.Position(0, 0),
+        );
         return Promise.resolve({ label: 'Pretty' });
       };
 
