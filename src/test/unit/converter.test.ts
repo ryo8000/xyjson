@@ -50,7 +50,7 @@ suite('Converter Test Suite', () => {
     attributeNamePrefix?: string;
     expected: string;
     description: string;
-  };
+  }
 
   const createTestSuite = (suiteName: string, input: string, testCases: TestCase[]) => {
     suite(suiteName, () => {
