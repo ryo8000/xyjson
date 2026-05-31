@@ -43,7 +43,7 @@ suite('Converter Test Suite', () => {
     },
   };
 
-  type TestCase = {
+  interface TestCase {
     to: SupportedFormat;
     minify: boolean;
     indentSize?: number;
