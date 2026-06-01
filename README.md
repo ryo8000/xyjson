@@ -10,7 +10,7 @@ Working with API responses, config files, or legacy XML? Convert between formats
 
 ## Demo
 
-![XYJson demo](images/demo.gif)
+![XYJson demo showing conversion between XML, YAML, and JSON in VS Code](https://raw.githubusercontent.com/ryo8000/xyjson/main/images/demo.gif)
 
 ## Features
 
