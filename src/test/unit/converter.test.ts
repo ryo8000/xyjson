@@ -52,7 +52,7 @@ suite('Converter Test Suite', () => {
     description: string;
   }
 
-  const createTestSuite = (suiteName: string, input: string, testCases: TestCase[]) => {
+  const createTestSuite = (suiteName: string, input: string, testCases: TestCase[]): void => {
     suite(suiteName, () => {
       for (const { to, minify, indentSize = 2, attributeNamePrefix = '@_', expected, description } of testCases) {
         test(description, () => {
