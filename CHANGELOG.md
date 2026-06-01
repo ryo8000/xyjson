@@ -2,6 +2,14 @@
 
 ## [Unreleased]
 
+## [0.2.2] - 2026-06-01
+
+### Changed
+
+- Updated dependencies:
+  - `fast-xml-builder` 1.2.0 added
+  - `fast-xml-parser` from 5.7.3 to 5.8.0
+
 ## [0.2.1] - 2026-05-17
 
 ### Added
