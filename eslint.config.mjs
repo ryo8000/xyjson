@@ -18,10 +18,17 @@ export default [
       eqeqeq: "error",
       "no-console": "warn",
       semi: "error",
+      "@typescript-eslint/consistent-type-exports": "error",
       "@typescript-eslint/consistent-type-imports": [
         "error",
         {
           fixStyle: "inline-type-imports"
+        },
+      ],
+      "@typescript-eslint/explicit-function-return-type": [
+        "error",
+        {
+          allowExpressions: true
         },
       ],
       "@typescript-eslint/naming-convention": [
@@ -31,6 +38,7 @@ export default [
           format: ["camelCase", "PascalCase"],
         },
       ],
+      "@typescript-eslint/no-loop-func": "error",
       "@typescript-eslint/no-shadow": "error",
       "@typescript-eslint/no-unused-vars": [
         "error",
@@ -39,6 +47,10 @@ export default [
           argsIgnorePattern: "^_"
         },
       ],
+      "@typescript-eslint/no-use-before-define": "error",
+      "@typescript-eslint/promise-function-async": "error",
+      "@typescript-eslint/require-array-sort-compare": "error",
+      "@typescript-eslint/strict-boolean-expressions": "error",
       "@typescript-eslint/switch-exhaustiveness-check": "error",
     },
   },
@@ -46,9 +58,11 @@ export default [
     files: ["src/test/**/*.ts"],
     rules: {
       "@typescript-eslint/no-explicit-any": "off",
+      "@typescript-eslint/no-loop-func": "off",
       "@typescript-eslint/no-non-null-assertion": "off",
       "@typescript-eslint/no-unsafe-assignment": "off",
       "@typescript-eslint/no-unsafe-member-access": "off",
+      "@typescript-eslint/require-await": "off",
     },
   },
 ];
