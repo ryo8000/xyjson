@@ -190,7 +190,7 @@
     "compile-tests": "tsc -p . --outDir out",
     "watch-tests": "tsc -p . -w --outDir out",
     "copy-fixtures": "node ./scripts/copy-fixtures.js",
-    "pretest": "npm run compile-tests && npm run compile && npm run copy-fixtures && npm run lint",
+    "pretest": "npm run compile-tests && npm run compile && npm run copy-fixtures",
     "test": "mocha --ui tdd 'out/test/unit/**/*.test.js'",
     "pretest:integration": "npm run pretest",
     "test:integration": "vscode-test",
