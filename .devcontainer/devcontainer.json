@@ -23,6 +23,7 @@
         "dbaeumer.vscode-eslint", // ESLint(Default)
         "GitHub.vscode-pull-request-github", // GitHub Pull Requests(Default)
         "anthropic.claude-code", // Claude Code for VS Code
+        "connor4312.esbuild-problem-matchers", // esbuild Problem Matchers
         "ms-vscode.extension-test-runner", // Extension Test Runner
       ]
     }

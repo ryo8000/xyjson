@@ -4,13 +4,15 @@
 .github/**
 .vscode/**
 .vscode-test/**
-out/test/**
+out/**
+node_modules/**
 scripts/**
 src/**
 AGENTS.md
 CLAUDE.md
 .gitignore
 .yarnrc
+esbuild.js
 vsc-extension-quickstart.md
 **/tsconfig.json
 **/eslint.config.mjs
