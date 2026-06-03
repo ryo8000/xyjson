@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+## [0.2.3] - 2026-06-03
+
+### Changed
+
+- Reduced extension bundle size by migrating the build system to esbuild.
+
 ## [0.2.2] - 2026-06-01
 
 ### Changed
