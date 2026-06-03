@@ -208,6 +208,6 @@
     "eslint": "10.4.0",
     "mocha": "11.7.6",
     "typescript": "6.0.3",
-    "typescript-eslint": "8.59.4"
+    "typescript-eslint": "8.60.0"
   }
 }
