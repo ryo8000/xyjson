@@ -31,5 +31,19 @@
       "Read(./.env.*)"
     ]
   },
-  "enableAllProjectMcpServers": false
+  "enableAllProjectMcpServers": false,
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "npm test",
+            "statusMessage": "Validating: npm test...",
+            "timeout": 120
+          }
+        ]
+      }
+    ]
+  }
 }

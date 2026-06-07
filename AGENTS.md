@@ -11,10 +11,6 @@
 - For any bug fix, prefer adding or updating tests in `src/test/`.
 - Keep changes focused; avoid unrelated refactors.
 
-## Validation checklist (run after edits)
-1. `npm test` — compile, lint, copy-fixtures, and unit tests (no VS Code runtime required)
-2. `npm run test:integration` — full tests including VS Code integration tests (requires VS Code runtime)
-
 ## Repository conventions
 - Use TypeScript and existing coding style in `src/`.
 - Preserve public command IDs in `package.json`:
