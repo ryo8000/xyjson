@@ -2,13 +2,21 @@
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
   "permissions": {
     "allow": [
+      "Bash(find *)",
+      "Bash(ls *)",
+      "Bash(git status)",
+      "Bash(git log *)",
+      "Bash(git diff *)",
       "Bash(git add *)",
       "Bash(git fetch)",
       "Bash(git fetch *)",
       "Bash(npm install)",
+      "Bash(npm run check-types)",
       "Bash(npm run compile)",
+      "Bash(npm run package)",
       "Bash(npm run lint)",
       "Bash(npm run lint:*)",
+      "Bash(npm run compile-tests)",
       "Bash(npm run copy-fixtures)",
       "Bash(npm test)",
       "Bash(npm run test:integration)",
@@ -22,10 +30,8 @@
       "Bash(npm run vscode:publish)"
     ],
     "deny": [
-      "Bash(rm -rf /)",
-      "Bash(rm -rf ~)",
-      "Bash(rm -rf ~/*)",
-      "Bash(rm -rf /*)",
+      "Bash(rm -rf *)",
+      "Bash(rm -fr *)",
       "Bash(sudo *)",
       "Read(./.env)",
       "Read(./.env.*)"
