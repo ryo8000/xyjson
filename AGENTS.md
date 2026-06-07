@@ -12,11 +12,8 @@
 - Keep changes focused; avoid unrelated refactors.
 
 ## Validation checklist (run after edits)
-1. `npm run compile`
-2. `npm run lint`
-3. `npm run copy-fixtures`
-4. `npm test` — unit tests only, no VS Code runtime required
-5. `npm run test:integration` — full tests including VS Code integration tests (requires VS Code runtime)
+1. `npm test` — compile, lint, copy-fixtures, and unit tests (no VS Code runtime required)
+2. `npm run test:integration` — full tests including VS Code integration tests (requires VS Code runtime)
 
 ## Repository conventions
 - Use TypeScript and existing coding style in `src/`.
