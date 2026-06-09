@@ -6,7 +6,6 @@ export default [
   ...typescriptEslint.configs.stylisticTypeChecked,
   {
     files: ["**/*.ts"],
-    plugins: { "simple-import-sort": simpleImportSort },
     languageOptions: {
       parserOptions: {
         projectService: true,
@@ -14,6 +13,12 @@ export default [
       },
       ecmaVersion: "latest",
       sourceType: "module",
+    },
+    linterOptions: {
+      reportUnusedDisableDirectives: "error",
+    },
+    plugins: {
+      "simple-import-sort": simpleImportSort
     },
     rules: {
       curly: "error",
