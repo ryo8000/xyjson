@@ -1,3 +1,4 @@
+import simpleImportSort from "eslint-plugin-simple-import-sort";
 import typescriptEslint from "typescript-eslint";
 
 export default [
@@ -5,6 +6,7 @@ export default [
   ...typescriptEslint.configs.stylisticTypeChecked,
   {
     files: ["**/*.ts"],
+    plugins: { "simple-import-sort": simpleImportSort },
     languageOptions: {
       parserOptions: {
         projectService: true,
@@ -52,6 +54,8 @@ export default [
       "@typescript-eslint/require-array-sort-compare": "error",
       "@typescript-eslint/strict-boolean-expressions": "error",
       "@typescript-eslint/switch-exhaustiveness-check": "error",
+      "simple-import-sort/imports": "error",
+      "simple-import-sort/exports": "error",
     },
   },
   {
