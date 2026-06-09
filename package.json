@@ -144,7 +144,11 @@
       "properties": {
         "xyjson.outputStyle": {
           "type": "string",
-          "enum": ["ask", "pretty", "minified"],
+          "enum": [
+            "ask",
+            "pretty",
+            "minified"
+          ],
           "enumDescriptions": [
             "Show a Quick Pick prompt each time to choose between pretty and minified.",
             "Always output with indentation and newlines.",
@@ -155,7 +159,10 @@
         },
         "xyjson.convertOutput": {
           "type": "string",
-          "enum": ["newTab", "beside"],
+          "enum": [
+            "newTab",
+            "beside"
+          ],
           "enumDescriptions": [
             "Open the converted result in a new tab.",
             "Open the converted result beside the current editor."
@@ -208,6 +215,7 @@
     "@vscode/vsce": "3.9.1",
     "esbuild": "0.28.0",
     "eslint": "10.4.0",
+    "eslint-plugin-simple-import-sort": "13.0.0",
     "fast-xml-builder": "1.2.0",
     "fast-xml-parser": "5.8.0",
     "js-yaml": "4.1.1",
