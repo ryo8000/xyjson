@@ -1,41 +1,37 @@
 import simpleImportSort from "eslint-plugin-simple-import-sort";
 import typescriptEslint from "typescript-eslint";
 
-export default [
+export default typescriptEslint.config(
   ...typescriptEslint.configs.strictTypeChecked,
   ...typescriptEslint.configs.stylisticTypeChecked,
   {
     files: ["**/*.ts"],
     languageOptions: {
+      ecmaVersion: "latest",
+      sourceType: "module",
       parserOptions: {
         projectService: true,
         tsconfigRootDir: import.meta.dirname,
       },
-      ecmaVersion: "latest",
-      sourceType: "module",
     },
     linterOptions: {
       reportUnusedDisableDirectives: "error",
     },
     plugins: {
-      "simple-import-sort": simpleImportSort
+      "simple-import-sort": simpleImportSort,
     },
     rules: {
-      curly: "error",
-      eqeqeq: "error",
-      "no-console": "warn",
-      semi: "error",
       "@typescript-eslint/consistent-type-exports": "error",
       "@typescript-eslint/consistent-type-imports": [
         "error",
         {
-          fixStyle: "inline-type-imports"
+          fixStyle: "inline-type-imports",
         },
       ],
       "@typescript-eslint/explicit-function-return-type": [
         "error",
         {
-          allowExpressions: true
+          allowExpressions: true,
         },
       ],
       "@typescript-eslint/naming-convention": [
@@ -51,14 +47,28 @@ export default [
         "error",
         {
           args: "all",
-          argsIgnorePattern: "^_"
+          argsIgnorePattern: "^_",
+          varsIgnorePattern: "^_",
+          ignoreRestSiblings: true,
+          caughtErrors: "all",
+          caughtErrorsIgnorePattern: "^_",
         },
       ],
       "@typescript-eslint/no-use-before-define": "error",
       "@typescript-eslint/promise-function-async": "error",
-      "@typescript-eslint/require-array-sort-compare": "error",
+      "@typescript-eslint/require-array-sort-compare": [
+        "error",
+        {
+          ignoreStringArrays: true,
+        },
+      ],
       "@typescript-eslint/strict-boolean-expressions": "error",
       "@typescript-eslint/switch-exhaustiveness-check": "error",
+      curly: "error",
+      eqeqeq: "error",
+      "no-console": "warn",
+      "no-shadow": "off",
+      semi: "error",
       "simple-import-sort/imports": "error",
       "simple-import-sort/exports": "error",
     },
@@ -74,4 +84,4 @@ export default [
       "@typescript-eslint/require-await": "off",
     },
   },
-];
+);
