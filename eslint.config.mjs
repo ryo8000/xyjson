@@ -37,6 +37,24 @@ export default typescriptEslint.config(
       "@typescript-eslint/naming-convention": [
         "error",
         {
+          selector: "default",
+          format: ["camelCase"],
+        },
+        {
+          selector: "typeLike",
+          format: ["PascalCase"],
+        },
+        {
+          selector: ["variable", "parameter"],
+          format: ["camelCase"],
+          leadingUnderscore: "allow",
+        },
+        {
+          selector: "variable",
+          modifiers: ["const", "global"],
+          format: ["camelCase", "UPPER_CASE"],
+        },
+        {
           selector: "import",
           format: ["camelCase", "PascalCase"],
         },
@@ -76,6 +94,7 @@ export default typescriptEslint.config(
   {
     files: ["src/test/**/*.ts"],
     rules: {
+      "@typescript-eslint/naming-convention": "off",
       "@typescript-eslint/no-explicit-any": "off",
       "@typescript-eslint/no-loop-func": "off",
       "@typescript-eslint/no-non-null-assertion": "off",
