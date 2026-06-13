@@ -140,3 +140,5 @@ vite.config.ts.timestamp-*
 
 # VS Code extension package
 *.vsix
+
+temp/

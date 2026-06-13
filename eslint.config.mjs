@@ -37,8 +37,35 @@ export default typescriptEslint.config(
       "@typescript-eslint/naming-convention": [
         "error",
         {
+          selector: "default",
+          format: ["camelCase"],
+        },
+        {
+          selector: "typeLike",
+          format: ["PascalCase"],
+        },
+        {
+          selector: "enumMember",
+          format: ["PascalCase", "UPPER_CASE"],
+        },
+        {
           selector: "import",
           format: ["camelCase", "PascalCase"],
+        },
+        {
+          selector: ["variable", "parameter"],
+          format: ["camelCase"],
+          leadingUnderscore: "allow",
+        },
+        {
+          selector: "variable",
+          modifiers: ["const", "global"],
+          format: ["camelCase", "UPPER_CASE"],
+        },
+        {
+          selector: ["enumMember", "objectLiteralMethod", "objectLiteralProperty", "typeMethod", "typeProperty"],
+          modifiers: ["requiresQuotes"],
+          format: null,
         },
       ],
       "@typescript-eslint/no-loop-func": "error",
@@ -76,6 +103,7 @@ export default typescriptEslint.config(
   {
     files: ["src/test/**/*.ts"],
     rules: {
+      "@typescript-eslint/naming-convention": "off",
       "@typescript-eslint/no-explicit-any": "off",
       "@typescript-eslint/no-loop-func": "off",
       "@typescript-eslint/no-non-null-assertion": "off",
