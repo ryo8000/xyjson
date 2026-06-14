@@ -21,7 +21,13 @@ export default typescriptEslint.config(
       "simple-import-sort": simpleImportSort,
     },
     rules: {
-      "@typescript-eslint/consistent-type-exports": "error",
+      "@typescript-eslint/class-methods-use-this": "error",
+      "@typescript-eslint/consistent-type-exports": [
+        "error",
+        {
+          fixMixedExportsWithInlineTypeSpecifier: true,
+        },
+      ],
       "@typescript-eslint/consistent-type-imports": [
         "error",
         {
@@ -34,6 +40,13 @@ export default typescriptEslint.config(
           allowExpressions: true,
         },
       ],
+      "@typescript-eslint/explicit-member-accessibility": [
+        "error",
+        {
+          accessibility: "no-public",
+        },
+      ],
+      "@typescript-eslint/member-ordering": "error",
       "@typescript-eslint/naming-convention": [
         "error",
         {
@@ -63,13 +76,20 @@ export default typescriptEslint.config(
           format: ["camelCase", "UPPER_CASE"],
         },
         {
-          selector: ["enumMember", "objectLiteralMethod", "objectLiteralProperty", "typeMethod", "typeProperty"],
+          selector: [
+            "enumMember",
+            "objectLiteralMethod",
+            "objectLiteralProperty",
+            "typeMethod",
+            "typeProperty",
+          ],
           modifiers: ["requiresQuotes"],
           format: null,
         },
       ],
       "@typescript-eslint/no-loop-func": "error",
       "@typescript-eslint/no-shadow": "error",
+      "@typescript-eslint/no-unused-private-class-members": "error",
       "@typescript-eslint/no-unused-vars": [
         "error",
         {
@@ -82,6 +102,8 @@ export default typescriptEslint.config(
         },
       ],
       "@typescript-eslint/no-use-before-define": "error",
+      "@typescript-eslint/parameter-properties": "error",
+      "@typescript-eslint/prefer-enum-initializers": "error",
       "@typescript-eslint/promise-function-async": "error",
       "@typescript-eslint/require-array-sort-compare": [
         "error",
@@ -103,7 +125,6 @@ export default typescriptEslint.config(
   {
     files: ["src/test/**/*.ts"],
     rules: {
-      "@typescript-eslint/naming-convention": "off",
       "@typescript-eslint/no-explicit-any": "off",
       "@typescript-eslint/no-loop-func": "off",
       "@typescript-eslint/no-non-null-assertion": "off",
