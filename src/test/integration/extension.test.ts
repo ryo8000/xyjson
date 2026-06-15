@@ -179,7 +179,7 @@ suite('Extension Test Suite', () => {
       await vscode.commands.executeCommand('xyjson.toYaml');
       assert.strictEqual(getActiveEditorText(), readFixture('yaml-pretty.yaml'));
       assert.strictEqual(getEditorText(editor), readFixture('json-pretty.json'));
-      assert.ok(vscode.window.activeTextEditor, 'Expected an active editor after conversion');
+      assert.ok(vscode.window.activeTextEditor !== undefined, 'Expected an active editor after conversion');
       assert.notStrictEqual(
         vscode.window.activeTextEditor.viewColumn,
         editor.viewColumn,
@@ -377,7 +377,7 @@ suite('Extension Test Suite', () => {
           await vscode.commands.executeCommand('workbench.action.closeAllEditors');
           await vscode.env.clipboard.writeText(readFixture('json-pretty.json'));
           await vscode.commands.executeCommand(c.command);
-          assert.ok(vscode.window.activeTextEditor, 'Expected a new editor to be opened');
+          assert.ok(vscode.window.activeTextEditor !== undefined, 'Expected a new editor to be opened');
           assert.strictEqual(getActiveEditorText(), readFixture(c.expectedFixture));
         });
 

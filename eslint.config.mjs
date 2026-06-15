@@ -47,6 +47,7 @@ export default typescriptEslint.config(
         },
       ],
       "@typescript-eslint/member-ordering": "error",
+      "@typescript-eslint/method-signature-style": ["error", "property"],
       "@typescript-eslint/naming-convention": [
         "error",
         {
@@ -87,6 +88,7 @@ export default typescriptEslint.config(
           format: null,
         },
       ],
+      "@typescript-eslint/no-import-type-side-effects": "error",
       "@typescript-eslint/no-loop-func": "error",
       "@typescript-eslint/no-shadow": "error",
       "@typescript-eslint/no-unused-private-class-members": "error",
@@ -104,6 +106,7 @@ export default typescriptEslint.config(
       "@typescript-eslint/no-use-before-define": "error",
       "@typescript-eslint/parameter-properties": "error",
       "@typescript-eslint/prefer-enum-initializers": "error",
+      "@typescript-eslint/prefer-readonly": "error",
       "@typescript-eslint/promise-function-async": "error",
       "@typescript-eslint/require-array-sort-compare": [
         "error",
@@ -111,13 +114,101 @@ export default typescriptEslint.config(
           ignoreStringArrays: true,
         },
       ],
-      "@typescript-eslint/strict-boolean-expressions": "error",
-      "@typescript-eslint/switch-exhaustiveness-check": "error",
+      "@typescript-eslint/strict-boolean-expressions": [
+        "error",
+        {
+          allowAny: false,
+          allowNullableBoolean: false,
+          allowNullableEnum: false,
+          allowNullableNumber: false,
+          allowNullableObject: false,
+          allowNullableString: false,
+          allowNumber: false,
+          allowString: false,
+        },
+      ],
+      "@typescript-eslint/strict-void-return": [
+        "error",
+        {
+          allowReturnAny: false,
+        },
+      ],
+      "@typescript-eslint/switch-exhaustiveness-check": [
+        "error",
+        {
+          allowDefaultCaseForExhaustiveSwitch: false,
+          considerDefaultExhaustiveForUnions: false,
+          requireDefaultForNonUnion: true,
+        },
+      ],
+      "array-callback-return": [
+        "error",
+        {
+          checkForEach: true,
+        },
+      ],
       curly: "error",
-      eqeqeq: "error",
+      "default-case-last": "error",
+      eqeqeq: [
+        "error",
+        "always",
+        {
+          null: "ignore",
+        },
+      ],
+      "no-alert": "error",
+      "no-await-in-loop": "error",
+      "no-cond-assign": ["error", "always"],
       "no-console": "warn",
+      "no-constructor-return": "error",
+      "no-duplicate-imports": [
+        "error",
+        {
+          allowSeparateTypeImports: true,
+        },
+      ],
+      "no-eval": "error",
+      "no-extend-native": "error",
+      "no-extra-bind": "error",
+      "no-implicit-coercion": "error",
+      "no-new-func": "error",
+      "no-new-wrappers": "error",
+      "no-promise-executor-return": "error",
+      "no-proto": "error",
+      "no-return-assign": ["error", "always"],
+      "no-self-compare": "error",
       "no-shadow": "off",
+      "no-template-curly-in-string": "error",
+      "no-unassigned-vars": "error",
+      "no-unmodified-loop-condition": "error",
+      "no-useless-assignment": "error",
+      "no-useless-call": "error",
+      "no-useless-concat": "error",
+      "no-useless-return": "error",
+      "object-shorthand": ["error", "always"],
+      "prefer-object-has-own": "error",
+      "prefer-object-spread": "error",
+      "prefer-regex-literals": [
+        "error",
+        {
+          disallowRedundantWrapping: true,
+        },
+      ],
+      radix: "error",
       semi: "error",
+      "valid-typeof": [
+        "error",
+        {
+          requireStringLiterals: true,
+        },
+      ],
+      yoda: [
+        "error",
+        "never",
+        {
+          exceptRange: true,
+        },
+      ],
       "simple-import-sort/imports": "error",
       "simple-import-sort/exports": "error",
     },

@@ -58,7 +58,7 @@ async function convertAndReplace(to: SupportedFormat, action: Action): Promise<v
   const editor = vscode.window.activeTextEditor;
   const label = action === 'format' ? 'Formatting' : 'Conversion';
 
-  if (!editor) {
+  if (editor === undefined) {
     vscode.window.showErrorMessage(`${label} failed: No active editor found`);
     return;
   }
@@ -70,7 +70,7 @@ async function convertAndReplace(to: SupportedFormat, action: Action): Promise<v
 
   const content = hasSelection ? document.getText(selection).trim() : document.getText().trim();
 
-  if (!content) {
+  if (content === '') {
     vscode.window.showErrorMessage(`${label} failed: Document is empty`);
     return;
   }
@@ -131,7 +131,7 @@ async function convertAndReplace(to: SupportedFormat, action: Action): Promise<v
 
 async function convertFromClipboard(to: SupportedFormat): Promise<void> {
   const content = (await vscode.env.clipboard.readText()).trim();
-  if (!content) {
+  if (content === '') {
     vscode.window.showErrorMessage('Conversion failed: Clipboard is empty');
     return;
   }
