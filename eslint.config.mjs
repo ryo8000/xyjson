@@ -141,6 +141,7 @@ export default typescriptEslint.config(
           requireDefaultForNonUnion: true,
         },
       ],
+      "accessor-pairs": "error",
       "array-callback-return": [
         "error",
         {
@@ -158,6 +159,7 @@ export default typescriptEslint.config(
       ],
       "no-alert": "error",
       "no-await-in-loop": "error",
+      "no-caller": "error",
       "no-cond-assign": ["error", "always"],
       "no-console": "warn",
       "no-constructor-return": "error",
@@ -171,21 +173,49 @@ export default typescriptEslint.config(
       "no-extend-native": "error",
       "no-extra-bind": "error",
       "no-implicit-coercion": "error",
+      "no-labels": "error",
+      "no-lone-blocks": "error",
+      "no-multi-str": "error",
+      "no-new": "error",
       "no-new-func": "error",
       "no-new-wrappers": "error",
+      "no-octal-escape": "error",
       "no-promise-executor-return": "error",
       "no-proto": "error",
       "no-return-assign": ["error", "always"],
       "no-self-compare": "error",
+      "no-sequences": "error",
       "no-shadow": "off",
       "no-template-curly-in-string": "error",
       "no-unassigned-vars": "error",
+      "no-undef-init": "error",
       "no-unmodified-loop-condition": "error",
+      "no-unneeded-ternary": [
+        "error",
+        {
+          defaultAssignment: false,
+        },
+      ],
       "no-useless-assignment": "error",
       "no-useless-call": "error",
+      "no-useless-computed-key": "error",
       "no-useless-concat": "error",
+      "no-useless-rename": "error",
       "no-useless-return": "error",
+      "no-with": "error",
       "object-shorthand": ["error", "always"],
+      "one-var": [
+        "error",
+        {
+          initialized: "never",
+        },
+      ],
+      "prefer-const": [
+        "error",
+        {
+          destructuring: "all",
+        },
+      ],
       "prefer-object-has-own": "error",
       "prefer-object-spread": "error",
       "prefer-regex-literals": [
@@ -196,6 +226,7 @@ export default typescriptEslint.config(
       ],
       radix: "error",
       semi: "error",
+      "symbol-description": "error",
       "valid-typeof": [
         "error",
         {
