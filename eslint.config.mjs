@@ -34,6 +34,7 @@ export default typescriptEslint.config(
           fixStyle: "inline-type-imports",
         },
       ],
+      "@typescript-eslint/default-param-last": "error",
       "@typescript-eslint/explicit-function-return-type": [
         "error",
         {
@@ -157,6 +158,16 @@ export default typescriptEslint.config(
           null: "ignore",
         },
       ],
+      "grouped-accessor-pairs": "error",
+      "guard-for-in": "error",
+      "new-cap": [
+        "error",
+        {
+          newIsCap: true,
+          capIsNew: false,
+          properties: true,
+        },
+      ],
       "no-alert": "error",
       "no-await-in-loop": "error",
       "no-caller": "error",
@@ -169,20 +180,100 @@ export default typescriptEslint.config(
           allowSeparateTypeImports: true,
         },
       ],
+      "no-else-return": [
+        "error",
+        {
+          allowElseIf: false,
+        },
+      ],
       "no-eval": "error",
       "no-extend-native": "error",
       "no-extra-bind": "error",
       "no-implicit-coercion": "error",
+      "no-iterator": "error",
       "no-labels": "error",
       "no-lone-blocks": "error",
+      "no-lonely-if": "error",
+      "no-mixed-operators": [
+        "error",
+        {
+          groups: [
+            ["==", "!=", "===", "!==", ">", ">=", "<", "<="],
+            ["&&", "||"],
+            ["in", "instanceof"],
+          ],
+          allowSamePrecedence: true,
+        },
+      ],
+      "no-multi-assign": "error",
       "no-multi-str": "error",
+      "no-nested-ternary": "error",
       "no-new": "error",
       "no-new-func": "error",
       "no-new-wrappers": "error",
       "no-octal-escape": "error",
       "no-promise-executor-return": "error",
       "no-proto": "error",
+      "no-restricted-exports": [
+        "error",
+        {
+          restrictedNamedExports: ["then"],
+        },
+      ],
+      "no-restricted-globals": [
+        "error",
+        {
+          name: "isFinite",
+          message: "Use Number.isFinite instead",
+        },
+        {
+          name: "isNaN",
+          message: "Use Number.isNaN instead",
+        },
+      ],
+      "no-restricted-properties": [
+        "error",
+        {
+          object: "global",
+          property: "isFinite",
+          message: "Use Number.isFinite instead",
+        },
+        {
+          object: "self",
+          property: "isFinite",
+          message: "Use Number.isFinite instead",
+        },
+        {
+          object: "window",
+          property: "isFinite",
+          message: "Use Number.isFinite instead",
+        },
+        {
+          object: "global",
+          property: "isNaN",
+          message: "Use Number.isNaN instead",
+        },
+        {
+          object: "self",
+          property: "isNaN",
+          message: "Use Number.isNaN instead",
+        },
+        {
+          object: "window",
+          property: "isNaN",
+          message: "Use Number.isNaN instead",
+        },
+        {
+          property: "__defineGetter__",
+          message: "Use Object.defineProperty instead",
+        },
+        {
+          property: "__defineSetter__",
+          message: "Use Object.defineProperty instead",
+        },
+      ],
       "no-return-assign": ["error", "always"],
+      "no-script-url": "error",
       "no-self-compare": "error",
       "no-sequences": "error",
       "no-shadow": "off",
@@ -196,12 +287,19 @@ export default typescriptEslint.config(
           defaultAssignment: false,
         },
       ],
+      "no-unsafe-optional-chaining": [
+        "error",
+        {
+          disallowArithmeticOperators: true,
+        },
+      ],
       "no-useless-assignment": "error",
       "no-useless-call": "error",
       "no-useless-computed-key": "error",
       "no-useless-concat": "error",
       "no-useless-rename": "error",
       "no-useless-return": "error",
+      "no-var": "error",
       "no-with": "error",
       "object-shorthand": ["error", "always"],
       "one-var": [
@@ -210,23 +308,43 @@ export default typescriptEslint.config(
           initialized: "never",
         },
       ],
+      "operator-assignment": ["error", "always"],
+      "prefer-arrow-callback": "error",
       "prefer-const": [
         "error",
         {
           destructuring: "all",
         },
       ],
+      "prefer-exponentiation-operator": "error",
+      "prefer-numeric-literals": "error",
       "prefer-object-has-own": "error",
       "prefer-object-spread": "error",
+      "prefer-promise-reject-errors": [
+        "error",
+        {
+          allowEmptyReject: true,
+        },
+      ],
       "prefer-regex-literals": [
         "error",
         {
           disallowRedundantWrapping: true,
         },
       ],
+      "prefer-rest-params": "error",
+      "prefer-spread": "error",
+      "prefer-template": "error",
       radix: "error",
       semi: "error",
       "symbol-description": "error",
+      "use-isnan": [
+        "error",
+        {
+          enforceForSwitchCase: true,
+          enforceForIndexOf: true,
+        },
+      ],
       "valid-typeof": [
         "error",
         {

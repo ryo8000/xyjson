@@ -32,7 +32,7 @@ export const convert = (content: string, to: SupportedFormat, options: ConvertOp
   if (to === 'json') {
     return options.minify
       ? JSON.stringify(intermediate)
-      : JSON.stringify(intermediate, null, options.indentSize) + '\n';
+      : `${JSON.stringify(intermediate, null, options.indentSize)}\n`;
   }
 
   if (to === 'xml') {
