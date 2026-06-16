@@ -234,11 +234,6 @@ export default typescriptEslint.config(
       "no-restricted-properties": [
         "error",
         {
-          object: "arguments",
-          property: "callee",
-          message: "arguments.callee is deprecated",
-        },
-        {
           object: "global",
           property: "isFinite",
           message: "Use Number.isFinite instead",
@@ -275,11 +270,6 @@ export default typescriptEslint.config(
         {
           property: "__defineSetter__",
           message: "Use Object.defineProperty instead",
-        },
-        {
-          object: "Math",
-          property: "pow",
-          message: "Use the ** operator instead",
         },
       ],
       "no-return-assign": ["error", "always"],
