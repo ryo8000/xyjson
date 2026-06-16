@@ -141,13 +141,7 @@ export default typescriptEslint.config(
           requireDefaultForNonUnion: true,
         },
       ],
-      "accessor-pairs": [
-        "error",
-        {
-          setWithoutGet: true,
-          enforceForClassMembers: true,
-        },
-      ],
+      "accessor-pairs": "error",
       "array-callback-return": [
         "error",
         {
@@ -179,13 +173,7 @@ export default typescriptEslint.config(
       "no-extend-native": "error",
       "no-extra-bind": "error",
       "no-implicit-coercion": "error",
-      "no-labels": [
-        "error",
-        {
-          allowLoop: false,
-          allowSwitch: false,
-        },
-      ],
+      "no-labels": "error",
       "no-lone-blocks": "error",
       "no-multi-str": "error",
       "no-new": "error",
