@@ -107,6 +107,12 @@ export default typescriptEslint.config(
       "@typescript-eslint/no-use-before-define": "error",
       "@typescript-eslint/parameter-properties": "error",
       "@typescript-eslint/prefer-enum-initializers": "error",
+      "@typescript-eslint/prefer-promise-reject-errors": [
+        "error",
+        {
+          allowEmptyReject: true,
+        },
+      ],
       "@typescript-eslint/prefer-readonly": "error",
       "@typescript-eslint/promise-function-async": "error",
       "@typescript-eslint/require-array-sort-compare": [
@@ -239,6 +245,11 @@ export default typescriptEslint.config(
           message: "Use Number.isFinite instead",
         },
         {
+          object: "globalThis",
+          property: "isFinite",
+          message: "Use Number.isFinite instead",
+        },
+        {
           object: "self",
           property: "isFinite",
           message: "Use Number.isFinite instead",
@@ -250,6 +261,11 @@ export default typescriptEslint.config(
         },
         {
           object: "global",
+          property: "isNaN",
+          message: "Use Number.isNaN instead",
+        },
+        {
+          object: "globalThis",
           property: "isNaN",
           message: "Use Number.isNaN instead",
         },
@@ -320,12 +336,6 @@ export default typescriptEslint.config(
       "prefer-numeric-literals": "error",
       "prefer-object-has-own": "error",
       "prefer-object-spread": "error",
-      "prefer-promise-reject-errors": [
-        "error",
-        {
-          allowEmptyReject: true,
-        },
-      ],
       "prefer-regex-literals": [
         "error",
         {
