@@ -24,7 +24,7 @@ suite('Extension Test Suite', () => {
 
   const openEditorWithContent = async (content: string): Promise<vscode.TextEditor> => {
     const doc = await vscode.workspace.openTextDocument({ content, language: 'plaintext' });
-    return vscode.window.showTextDocument(doc);
+    return await vscode.window.showTextDocument(doc);
   };
 
   const getEditorText = (editor: vscode.TextEditor): string => {
@@ -73,11 +73,7 @@ suite('Extension Test Suite', () => {
       { command: 'xyjson.toYaml', expectedFixture: 'yaml-pretty.yaml' },
     ] as const;
 
-    const inputFixtures = [
-      'json-pretty.json',
-      'xml-pretty.xml',
-      'yaml-pretty.yaml',
-    ] as const;
+    const inputFixtures = ['json-pretty.json', 'xml-pretty.xml', 'yaml-pretty.yaml'] as const;
 
     for (const c of cases) {
       suite(`${commandLabel(c.command)} command`, () => {
@@ -179,7 +175,10 @@ suite('Extension Test Suite', () => {
       await vscode.commands.executeCommand('xyjson.toYaml');
       assert.strictEqual(getActiveEditorText(), readFixture('yaml-pretty.yaml'));
       assert.strictEqual(getEditorText(editor), readFixture('json-pretty.json'));
-      assert.ok(vscode.window.activeTextEditor !== undefined, 'Expected an active editor after conversion');
+      assert.ok(
+        vscode.window.activeTextEditor !== undefined,
+        'Expected an active editor after conversion',
+      );
       assert.notStrictEqual(
         vscode.window.activeTextEditor.viewColumn,
         editor.viewColumn,
@@ -377,7 +376,10 @@ suite('Extension Test Suite', () => {
           await vscode.commands.executeCommand('workbench.action.closeAllEditors');
           await vscode.env.clipboard.writeText(readFixture('json-pretty.json'));
           await vscode.commands.executeCommand(c.command);
-          assert.ok(vscode.window.activeTextEditor !== undefined, 'Expected a new editor to be opened');
+          assert.ok(
+            vscode.window.activeTextEditor !== undefined,
+            'Expected a new editor to be opened',
+          );
           assert.strictEqual(getActiveEditorText(), readFixture(c.expectedFixture));
         });
 
