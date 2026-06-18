@@ -105,7 +105,15 @@ export default typescriptEslint.config(
         },
       ],
       "@typescript-eslint/no-use-before-define": "error",
+      "@typescript-eslint/no-useless-empty-export": "error",
       "@typescript-eslint/parameter-properties": "error",
+      "@typescript-eslint/prefer-destructuring": [
+        "error",
+        {
+          VariableDeclarator: { array: false, object: true },
+          AssignmentExpression: { array: false, object: false },
+        },
+      ],
       "@typescript-eslint/prefer-enum-initializers": "error",
       "@typescript-eslint/prefer-promise-reject-errors": [
         "error",
@@ -121,6 +129,7 @@ export default typescriptEslint.config(
           ignoreStringArrays: true,
         },
       ],
+      "@typescript-eslint/return-await": ["error", "always"],
       "@typescript-eslint/strict-boolean-expressions": [
         "error",
         {
@@ -166,6 +175,7 @@ export default typescriptEslint.config(
       ],
       "grouped-accessor-pairs": "error",
       "guard-for-in": "error",
+      "logical-assignment-operators": ["error", "always"],
       "new-cap": [
         "error",
         {
@@ -287,6 +297,19 @@ export default typescriptEslint.config(
           property: "__defineSetter__",
           message: "Use Object.defineProperty instead",
         },
+        {
+          property: "__lookupGetter__",
+          message: "Use Object.getOwnPropertyDescriptor instead",
+        },
+        {
+          property: "__lookupSetter__",
+          message: "Use Object.getOwnPropertyDescriptor instead",
+        },
+      ],
+      "no-restricted-syntax": [
+        "error",
+        "TSEnumDeclaration[const=true]",
+        "TSExportAssignment",
       ],
       "no-return-assign": ["error", "always"],
       "no-script-url": "error",
@@ -315,8 +338,6 @@ export default typescriptEslint.config(
       "no-useless-concat": "error",
       "no-useless-rename": "error",
       "no-useless-return": "error",
-      "no-var": "error",
-      "no-with": "error",
       "object-shorthand": ["error", "always"],
       "one-var": [
         "error",
@@ -342,8 +363,6 @@ export default typescriptEslint.config(
           disallowRedundantWrapping: true,
         },
       ],
-      "prefer-rest-params": "error",
-      "prefer-spread": "error",
       "prefer-template": "error",
       radix: "error",
       semi: "error",
@@ -351,7 +370,6 @@ export default typescriptEslint.config(
       "use-isnan": [
         "error",
         {
-          enforceForSwitchCase: true,
           enforceForIndexOf: true,
         },
       ],
