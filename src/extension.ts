@@ -63,9 +63,9 @@ async function convertAndReplace(to: SupportedFormat, action: Action): Promise<v
     return;
   }
 
-  const document = editor.document;
+  const {document} = editor;
   const documentVersion = document.version;
-  const selection = editor.selection;
+  const {selection} = editor;
   const hasSelection = !selection.isEmpty;
 
   const content = hasSelection ? document.getText(selection).trim() : document.getText().trim();
@@ -160,15 +160,15 @@ async function convertFromClipboard(to: SupportedFormat): Promise<void> {
 
 export function activate(context: vscode.ExtensionContext): void {
   context.subscriptions.push(
-    vscode.commands.registerCommand('xyjson.toJson', async () => convertAndReplace('json', 'convert')),
-    vscode.commands.registerCommand('xyjson.toXml', async () => convertAndReplace('xml', 'convert')),
-    vscode.commands.registerCommand('xyjson.toYaml', async () => convertAndReplace('yaml', 'convert')),
-    vscode.commands.registerCommand('xyjson.formatJson', async () => convertAndReplace('json', 'format')),
-    vscode.commands.registerCommand('xyjson.formatXml', async () => convertAndReplace('xml', 'format')),
-    vscode.commands.registerCommand('xyjson.formatYaml', async () => convertAndReplace('yaml', 'format')),
-    vscode.commands.registerCommand('xyjson.clipboardToJson', async () => convertFromClipboard('json')),
-    vscode.commands.registerCommand('xyjson.clipboardToXml', async () => convertFromClipboard('xml')),
-    vscode.commands.registerCommand('xyjson.clipboardToYaml', async () => convertFromClipboard('yaml')),
+    vscode.commands.registerCommand('xyjson.toJson', async () => { await convertAndReplace('json', 'convert'); }),
+    vscode.commands.registerCommand('xyjson.toXml', async () => { await convertAndReplace('xml', 'convert'); }),
+    vscode.commands.registerCommand('xyjson.toYaml', async () => { await convertAndReplace('yaml', 'convert'); }),
+    vscode.commands.registerCommand('xyjson.formatJson', async () => { await convertAndReplace('json', 'format'); }),
+    vscode.commands.registerCommand('xyjson.formatXml', async () => { await convertAndReplace('xml', 'format'); }),
+    vscode.commands.registerCommand('xyjson.formatYaml', async () => { await convertAndReplace('yaml', 'format'); }),
+    vscode.commands.registerCommand('xyjson.clipboardToJson', async () => { await convertFromClipboard('json'); }),
+    vscode.commands.registerCommand('xyjson.clipboardToXml', async () => { await convertFromClipboard('xml'); }),
+    vscode.commands.registerCommand('xyjson.clipboardToYaml', async () => { await convertFromClipboard('yaml'); }),
   );
 }
 

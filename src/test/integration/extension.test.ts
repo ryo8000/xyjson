@@ -24,7 +24,7 @@ suite('Extension Test Suite', () => {
 
   const openEditorWithContent = async (content: string): Promise<vscode.TextEditor> => {
     const doc = await vscode.workspace.openTextDocument({ content, language: 'plaintext' });
-    return vscode.window.showTextDocument(doc);
+    return await vscode.window.showTextDocument(doc);
   };
 
   const getEditorText = (editor: vscode.TextEditor): string => {
