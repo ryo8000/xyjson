@@ -31,7 +31,7 @@ export default typescriptEslint.config(
       "@typescript-eslint/consistent-type-imports": [
         "error",
         {
-          fixStyle: "inline-type-imports",
+          fixStyle: "separate-type-imports",
         },
       ],
       "@typescript-eslint/default-param-last": "error",
@@ -184,7 +184,6 @@ export default typescriptEslint.config(
           properties: true,
         },
       ],
-      "no-alert": "error",
       "no-await-in-loop": "error",
       "no-caller": "error",
       "no-cond-assign": ["error", "always"],
@@ -318,10 +317,8 @@ export default typescriptEslint.config(
         },
       ],
       "no-return-assign": ["error", "always"],
-      "no-script-url": "error",
       "no-self-compare": "error",
       "no-sequences": "error",
-      "no-shadow": "off",
       "no-template-curly-in-string": "error",
       "no-unassigned-vars": "error",
       "no-undef-init": "error",

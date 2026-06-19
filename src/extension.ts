@@ -1,6 +1,7 @@
 import * as vscode from 'vscode';
 
-import { convert, type SupportedFormat } from './converter';
+import type { SupportedFormat } from './converter';
+import { convert } from './converter';
 
 type Action = 'convert' | 'format';
 
