@@ -11,7 +11,7 @@ description: Verify a change to this VS Code extension end-to-end - which tests 
 |---|---|
 | `src/converter.ts` or unit tests | `npm test` |
 | `src/extension.ts`, `package.json` `contributes`, integration tests | `npm test` and `npm run test:integration` |
-| Docs/config only (README, CHANGELOG, .github, .claude) | `npm run lint` if lintable files changed; otherwise nothing to run |
+| Docs/config only (README, CHANGELOG, .github, .claude) | Nothing to run (no linters are configured for these files) |
 
 ## Commands
 
