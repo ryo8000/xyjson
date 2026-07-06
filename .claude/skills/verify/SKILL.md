@@ -24,7 +24,6 @@ Both suites passing is the strongest automated signal; the integration suite cov
 
 When behavior needs to be seen rather than asserted (Quick Pick flow, context menu visibility, clipboard commands):
 
-1. Run `npm run compile` (or `npm run watch` for iteration).
-2. Launch the Extension Development Host: `F5` in VS Code (uses `.vscode/launch.json`, preLaunchTask builds via `npm: watch`). From a terminal-only session, prefer the integration tests instead — they drive the same code paths headlessly.
-3. In the dev host, open or create an XML/JSON/YAML file, then run `XYJson: ...` commands from the Command Palette or the editor context menu.
-4. Check: correct output format, pretty/minified Quick Pick (when `xyjson.outputStyle` is `ask`), result placement per `xyjson.convertOutput`, and in-place edits for Format commands.
+1. Launch the Extension Development Host: Press `F5` in VS Code (uses `.vscode/launch.json`, where the `preLaunchTask` automatically builds the extension). From a terminal-only session, prefer the integration tests instead — they drive the same code paths headlessly.
+2. In the dev host, open or create an XML/JSON/YAML file, then run `XYJson: ...` commands from the Command Palette or the editor context menu.
+3. Check: correct output format, pretty/minified Quick Pick (when `xyjson.outputStyle` is `ask`), result placement per `xyjson.convertOutput`, and in-place edits for Format commands.
