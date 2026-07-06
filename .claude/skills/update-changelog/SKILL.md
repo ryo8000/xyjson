@@ -21,6 +21,6 @@ Omit empty sections:
 - Dependabot commits look like `Bump <pkg> from <old> to <new>` with no Conventional Commits prefix — treat them as dependency updates.
 - Exclude `devDependencies` changes entirely (check which section of `package.json` the bump commit touched, e.g. `git show <sha> -- package.json`).
 - Exclude `test:` and `ci:` commits.
-- Consolidate runtime `dependencies` updates into a single "Updated dependencies:" bullet under **Changed**, listing each package once with its final version.
+- Consolidate runtime `dependencies` updates into a single "Updated dependencies:" bullet under **Changed**, listing each package with its transition (e.g., "from X to Y" or "X added").
 - Write entries as user-facing descriptions, not commit messages verbatim.
-- Keep the existing style: one bullet per change, sentence case, no trailing periods if existing entries have none.
+- Keep the existing style: main bullets should end with a period, while nested sub-bullets (like dependency lists) should not.
