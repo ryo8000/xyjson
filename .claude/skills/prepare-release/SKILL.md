@@ -23,6 +23,10 @@ Show a grouped commit summary and proposed version (e.g. `0.2.3 → 0.2.4 patch`
 
 **Stop here and wait for user confirmation before proceeding.**
 
+## Create release branch
+
+Run `git checkout -b release/vX.Y.Z` so any aborted release only needs the branch deleted, leaving `main` untouched.
+
 ## Update versions
 
 Run `npm version <X.Y.Z> --no-git-tag-version` to update `package.json` and `package-lock.json`.
@@ -31,9 +35,8 @@ Run `npm version <X.Y.Z> --no-git-tag-version` to update `package.json` and `pac
 
 Follow the `update-changelog` skill (`.claude/skills/update-changelog/SKILL.md`) to categorize the collected commits, then replace `## [Unreleased]` with `## [X.Y.Z] - YYYY-MM-DD` and add a new empty `## [Unreleased]` section above it.
 
-## Branch and commit
+## Commit
 
-1. `git checkout -b release/vX.Y.Z`
-2. `git add package.json package-lock.json CHANGELOG.md`
-3. `git commit -m "chore: release vX.Y.Z"`
-4. Report the branch name.
+1. `git add package.json package-lock.json CHANGELOG.md`
+2. `git commit -m "chore: release vX.Y.Z"`
+3. Report the branch name.
