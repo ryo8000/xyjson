@@ -214,7 +214,7 @@
     "@vscode/test-electron": "3.0.0",
     "@vscode/vsce": "3.9.2",
     "esbuild": "0.28.1",
-    "eslint": "10.5.0",
+    "eslint": "10.6.0",
     "eslint-plugin-simple-import-sort": "13.0.0",
     "fast-xml-builder": "1.2.0",
     "fast-xml-parser": "5.9.3",
