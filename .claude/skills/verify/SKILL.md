@@ -10,7 +10,7 @@ description: Verify a change to this VS Code extension end-to-end - which tests 
 | What changed | Minimum verification |
 |---|---|
 | `src/converter.ts` or unit tests | `npm test` |
-| `src/extension.ts`, `package.json` (`contributes`), integration tests | `npm test` and `npm run test:integration` |
+| `src/extension.ts`, `package.json` (`contributes` or dependencies), `esbuild.js`, `tsconfig.json`, integration tests | `npm test` and `npm run test:integration` |
 | Docs/config only (`README`, `CHANGELOG`, `.github/`, `.claude/`) | Nothing to run (no linters are configured for these files) |
 
 ## Commands
