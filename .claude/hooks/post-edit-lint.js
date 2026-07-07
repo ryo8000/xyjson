@@ -20,15 +20,19 @@ process.stdin.on('end', () => {
   }
 
   const projectDir = path.resolve(__dirname, '..', '..');
-  const srcDir = path.join(projectDir, 'src') + path.sep;
-  if (!path.resolve(filePath).startsWith(srcDir)) {
+  const srcDir = path.join(projectDir, 'src');
+  const resolvedFilePath = path.resolve(projectDir, filePath);
+  const relative = path.relative(srcDir, resolvedFilePath);
+  if (relative.startsWith('..') || path.isAbsolute(relative)) {
     process.exit(0);
   }
 
   try {
-    execFileSync('npx', ['eslint', '--fix', filePath], {
+    const npxCmd = process.platform === 'win32' ? 'npx.cmd' : 'npx';
+    execFileSync(npxCmd, ['eslint', '--fix', resolvedFilePath], {
       cwd: projectDir,
       stdio: ['ignore', 'pipe', 'pipe'],
+      encoding: 'utf8',
     });
   } catch (err) {
     const out = [err.stdout, err.stderr].filter(Boolean).join('\n').trim();
