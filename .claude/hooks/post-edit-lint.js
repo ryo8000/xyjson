@@ -43,7 +43,7 @@ process.stdin.on('end', () => {
     });
   } catch (err) {
     const out = [err.stdout, err.stderr].filter(Boolean).join('\n').trim();
-    process.stderr.write(out || `eslint failed: ${err.message}`);
-    process.exit(2);
+    process.stderr.write((out || `eslint failed: ${err.message}`) + '\n');
+    process.exitCode = 2;
   }
 });
