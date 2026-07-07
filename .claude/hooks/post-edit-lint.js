@@ -28,8 +28,8 @@ process.stdin.on('end', () => {
   }
 
   try {
-    const npxCmd = process.platform === 'win32' ? 'npx.cmd' : 'npx';
-    execFileSync(npxCmd, ['eslint', '--fix', resolvedFilePath], {
+    const eslintCli = path.join(projectDir, 'node_modules', 'eslint', 'bin', 'eslint.js');
+    execFileSync(process.execPath, [eslintCli, '--fix', resolvedFilePath], {
       cwd: projectDir,
       stdio: ['ignore', 'pipe', 'pipe'],
       encoding: 'utf8',
