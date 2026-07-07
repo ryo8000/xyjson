@@ -16,7 +16,7 @@ description: Verify a change to this VS Code extension end-to-end - which tests 
 ## Commands
 
 - `npm test` — unit tests (mocha, tdd UI). `pretest` runs type-check, lint, esbuild bundle, and fixture copy first, so a green run also proves the build.
-- `npm run test:integration` — launches a downloaded VS Code and runs `src/test/integration/extension.test.ts` against the real editor (registers commands, executes conversions, checks documents). Slow on first run (VS Code download to `.vscode-test/`).
+- `npm run test:integration` — launches a downloaded VS Code and runs the compiled `out/test/integration/extension.test.js` (built from `src/test/integration/extension.test.ts`) against the real editor (registers commands, executes conversions, checks documents). Slow on first run (VS Code download to `.vscode-test/`).
 
 Both suites passing is the strongest automated signal; the integration suite covers every command ID and the `xyjson.*` settings.
 
