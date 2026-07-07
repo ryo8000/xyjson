@@ -28,7 +28,7 @@ process.stdin.on('end', () => {
   }
 
   try {
-    const eslintCli = path.join(projectDir, 'node_modules', 'eslint', 'bin', 'eslint.js');
+    const eslintCli = path.join(path.dirname(require.resolve('eslint/package.json')), 'bin', 'eslint.js');
     execFileSync(process.execPath, [eslintCli, '--fix', resolvedFilePath], {
       cwd: projectDir,
       stdio: ['ignore', 'pipe', 'pipe'],
