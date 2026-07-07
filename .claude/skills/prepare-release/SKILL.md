@@ -25,7 +25,7 @@ Show a grouped commit summary and proposed version (e.g. `0.2.3 → 0.2.4 patch`
 
 ## Create release branch
 
-Run `git checkout -b release/vX.Y.Z main` so any aborted release only needs the branch deleted, leaving `main` untouched.
+Run `git checkout -b release/vX.Y.Z` so any aborted release only needs the branch deleted, leaving the current branch untouched.
 
 ## Update versions
 
