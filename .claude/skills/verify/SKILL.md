@@ -10,8 +10,8 @@ description: Verify a change to this VS Code extension end-to-end - which tests 
 | What changed | Minimum verification |
 |---|---|
 | `src/converter.ts` or `src/test/unit/` | `npm test` |
-| `src/extension.ts`, `package.json` (`contributes` or dependencies), `esbuild.js`, `tsconfig.json`, `scripts/`, `.github/workflows/`, or `src/test/integration/` | `npm test` and `npm run test:integration` |
-| Docs/config only (`README`, `CHANGELOG`, `.github/ISSUE_TEMPLATE/`, `.github/dependabot.yml`, `.claude/`) | Nothing to run (no linters are configured for these files) |
+| `src/extension.ts`, `package.json`/`package-lock.json` (`contributes` or dependencies), `esbuild.js`, `tsconfig.json`, `eslint.config.mjs`, `scripts/`, `.github/workflows/`, or `src/test/integration/` | `npm test` and `npm run test:integration` |
+| Docs/config only (`README`, `CHANGELOG`, `.github/ISSUE_TEMPLATE/`, `.github/dependabot.yml`, `.claude/`, `.gitignore`) | Nothing to run (no linters are configured for these files) |
 
 ## Commands
 
