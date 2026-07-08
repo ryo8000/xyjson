@@ -7,7 +7,7 @@ description: Prepare a release - determine the next version from commits, bump p
 
 ## Collect changes
 
-1. Run `git tag -l 'v[0-9]*' --sort=-v:refname | head -1` to find the last version tag. If no tag exists, use all commits.
+1. Run `git tag -l '[0-9]*' --sort=-v:refname | head -1` to find the last version tag. If no tag exists, use all commits.
 2. Run `git log --oneline <last-tag>..HEAD` (or `git log --oneline` if no tag exists) to list commits since last release.
 3. Read `package.json` and `CHANGELOG.md`.
 
