@@ -45,7 +45,9 @@
     "deny": [
       "Bash(rm -fr *)",
       "Bash(rm -rf *)",
-      "Bash(sudo *)"
+      "Bash(sudo *)",
+      "Read(./.env)",
+      "Read(./.env.*)"
     ]
   },
   "enableAllProjectMcpServers": false,
