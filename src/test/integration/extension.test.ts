@@ -7,7 +7,9 @@ suite('Extension Test Suite', () => {
   let quickPickResponse: { label: string } | undefined = { label: 'Pretty' };
   const originalShowQuickPick = (vscode.window as any).showQuickPick;
 
-  suiteSetup(() => {
+  suiteSetup(async () => {
+    // Pre-activate so the first test doesn't hit activation cost and time out (flaky).
+    await vscode.extensions.getExtension('ryo8000.xyjson')?.activate();
     (vscode.window as any).showQuickPick = async () => quickPickResponse;
   });
 
