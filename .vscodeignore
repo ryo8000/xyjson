@@ -2,6 +2,7 @@
 .claude/**
 .devcontainer/**
 .github/**
+.husky/**
 .vscode/**
 .vscode-test/**
 out/**
@@ -12,6 +13,7 @@ AGENTS.md
 CLAUDE.md
 .gitignore
 .yarnrc
+commitlint.config.js
 esbuild.js
 vsc-extension-quickstart.md
 **/tsconfig.json
