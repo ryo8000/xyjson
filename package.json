@@ -220,7 +220,7 @@
     "eslint": "10.6.0",
     "eslint-plugin-simple-import-sort": "13.0.0",
     "fast-xml-builder": "1.2.1",
-    "fast-xml-parser": "5.9.3",
+    "fast-xml-parser": "5.10.1",
     "husky": "9.1.7",
     "js-yaml": "4.3.0",
     "mocha": "11.7.6",
