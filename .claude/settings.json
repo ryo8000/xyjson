@@ -24,6 +24,7 @@
       "Bash(git stash push:*)",
       "Bash(git switch:*)",
       "Bash(node -e:*)",
+      "Bash(npm audit fix:*)",
       "Bash(npm install:*)",
       "Bash(npm run vscode:publish)",
       "Bash(npm version:*)"
@@ -49,8 +50,6 @@
       "Bash(npm info:*)",
       "Bash(npm ls:*)",
       "Bash(npx eslint:*)",
-      "Bash(npx jest:*)",
-      "Bash(npx prettier:*)",
       "Bash(npx tsc:*)",
       "Bash(npm run check-types)",
       "Bash(npm run compile)",
