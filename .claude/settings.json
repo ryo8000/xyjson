@@ -1,53 +1,62 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
   "permissions": {
+    "deny": [
+      "Bash(rm -fr:*)",
+      "Bash(rm -rf:*)",
+      "Bash(sudo:*)",
+      "Read(./.env)",
+      "Read(./.env.*)"
+    ],
+    "ask": [
+      "Bash(git branch -D:*)",
+      "Bash(git branch -d:*)",
+      "Bash(git checkout:*)",
+      "Bash(git clean:*)",
+      "Bash(git commit:*)",
+      "Bash(git merge:*)",
+      "Bash(git push:*)",
+      "Bash(git rebase:*)",
+      "Bash(git reset:*)",
+      "Bash(git restore:*)",
+      "Bash(git stash)",
+      "Bash(git stash pop:*)",
+      "Bash(git stash push:*)",
+      "Bash(git switch:*)",
+      "Bash(node -e:*)",
+      "Bash(npm install:*)",
+      "Bash(npm run vscode:publish)",
+      "Bash(npm version:*)"
+    ],
     "allow": [
       "Skill(prepare-release)",
       "Skill(update-changelog)",
       "Skill(verify)",
-      "Bash(git add *)",
-      "Bash(git diff *)",
-      "Bash(git fetch)",
-      "Bash(git fetch *)",
-      "Bash(git log *)",
-      "Bash(git ls-files *)",
-      "Bash(git show *)",
-      "Bash(git status)",
-      "Bash(git tag -l *)",
+      "Bash(git add:*)",
+      "Bash(git blame:*)",
+      "Bash(git branch:*)",
+      "Bash(git diff:*)",
+      "Bash(git fetch:*)",
+      "Bash(git log:*)",
+      "Bash(git ls-files:*)",
+      "Bash(git rev-parse:*)",
+      "Bash(git show:*)",
+      "Bash(git stash list)",
+      "Bash(git status:*)",
+      "Bash(git tag -l:*)",
       "Bash(npm audit)",
-      "Bash(npm install)",
-      "Bash(npm ls *)",
+      "Bash(npm ls:*)",
       "Bash(npm run check-types)",
       "Bash(npm run compile)",
       "Bash(npm run compile-tests)",
       "Bash(npm run copy-fixtures)",
-      "Bash(npm run lint)",
       "Bash(npm run lint:*)",
+      "Bash(npm run lint:fix:*)",
       "Bash(npm run package)",
       "Bash(npm run test:integration)",
       "Bash(npm run vscode:package)",
-      "Bash(npm test)",
-      "Bash(npm view *)"
-    ],
-    "ask": [
-      "Bash(git clean)",
-      "Bash(git clean *)",
-      "Bash(git commit *)",
-      "Bash(git push)",
-      "Bash(git push *)",
-      "Bash(git reset)",
-      "Bash(git reset *)",
-      "Bash(node -e *)",
-      "Bash(npm install *)",
-      "Bash(npm run vscode:publish)",
-      "Bash(npm version *)"
-    ],
-    "deny": [
-      "Bash(rm -fr *)",
-      "Bash(rm -rf *)",
-      "Bash(sudo *)",
-      "Read(./.env)",
-      "Read(./.env.*)"
+      "Bash(npm test:*)",
+      "Bash(npm view:*)"
     ]
   },
   "enableAllProjectMcpServers": false,
@@ -71,8 +80,8 @@
           {
             "type": "command",
             "command": "npm test",
-            "statusMessage": "Validating: npm test...",
-            "timeout": 120
+            "statusMessage": "Running tests...",
+            "timeout": 60
           }
         ]
       }
