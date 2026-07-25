@@ -33,7 +33,7 @@ Run `npm version <X.Y.Z> --no-git-tag-version` to update `package.json` and `pac
 
 ## Update CHANGELOG.md
 
-Follow the `update-changelog` skill (`.claude/skills/update-changelog/SKILL.md`) to categorize the collected commits, then replace `## [Unreleased]` with `## [X.Y.Z] - YYYY-MM-DD` and add a new empty `## [Unreleased]` section above it.
+Load and follow the `update-changelog` skill to categorize the collected commits, then replace `## [Unreleased]` with `## [X.Y.Z] - YYYY-MM-DD` and add a new empty `## [Unreleased]` section above it.
 
 ## Commit
 
