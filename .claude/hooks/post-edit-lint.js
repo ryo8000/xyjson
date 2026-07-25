@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// PostToolUse hook (Edit|Write): auto-fix the edited file with ESLint.
+// PostToolUse hook (Edit|Write): auto-fix edited src/**/*.ts files with ESLint.
 // Exits 2 with the remaining problems on stderr so Claude sees them.
 'use strict';
 
