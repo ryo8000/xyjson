@@ -1,0 +1,15 @@
+#:schema https://developers.openai.com/codex/config-schema.json
+
+approval_policy = "on-request"
+default_permissions = "xyjson-workspace"
+
+[permissions.xyjson-workspace]
+description = "Workspace access for XYJson while protecting local environment files."
+extends = ":workspace"
+
+[permissions.xyjson-workspace.filesystem.":workspace_roots"]
+".env" = "deny"
+".env.*" = "deny"
+
+[features]
+hooks = true
