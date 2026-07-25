@@ -128,6 +128,12 @@ suite('Extension Integration Test Suite', () => {
     assert.strictEqual(getActiveEditorText(), readFixture('xml-pretty.xml'));
   });
 
+  test('aborts a format command when no editor is open', async () => {
+    await vscode.commands.executeCommand('workbench.action.closeAllEditors');
+    await vscode.commands.executeCommand('xyjson.formatJson');
+    assert.strictEqual(vscode.window.activeTextEditor, undefined);
+  });
+
   test('cancelling Quick Pick leaves the source document unchanged', async () => {
     quickPickResponse = undefined;
     const content = readFixture('json-pretty.json');
