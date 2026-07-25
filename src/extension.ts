@@ -1,51 +1,34 @@
 import * as vscode from 'vscode';
 
 import type { SupportedFormat } from './converter';
-import { convert } from './converter';
-
-type Action = 'convert' | 'format';
-
-interface Config {
-  outputStyle: 'ask' | 'pretty' | 'minified';
-  convertOutput: 'newTab' | 'beside';
-  indentSize: number;
-  attributeNamePrefix: string;
-}
+import type {
+  Action,
+  CommandDependencies,
+  Config,
+  ConvertOutput,
+  FormatTarget,
+  OutputStyle,
+} from './extensionCore';
+import {
+  executeClipboardCommand,
+  executeEditorCommand,
+  isDocumentStateStale,
+} from './extensionCore';
 
 function readConfig(resource?: vscode.Uri): Config {
   const config = vscode.workspace.getConfiguration('xyjson', resource);
   return {
-    outputStyle: config.get<'ask' | 'pretty' | 'minified'>('outputStyle', 'ask'),
-    convertOutput: config.get<'newTab' | 'beside'>('convertOutput', 'newTab'),
+    outputStyle: config.get<OutputStyle>('outputStyle', 'ask'),
+    convertOutput: config.get<ConvertOutput>('convertOutput', 'newTab'),
     indentSize: config.get<number>('indentSize', 2),
     attributeNamePrefix: config.get<string>('xmlAttributeNamePrefix', '@_'),
   };
 }
 
-async function resolveMinify(
-  outputStyle: 'ask' | 'pretty' | 'minified',
-  title: string,
-): Promise<boolean | undefined> {
-  if (outputStyle === 'minified') {
-    return true;
-  }
-  if (outputStyle === 'pretty') {
-    return false;
-  }
-  const pick = await vscode.window.showQuickPick(
-    [
-      { label: 'Pretty', description: 'indented with newlines' },
-      { label: 'Minified', description: 'single line, no whitespace' },
-    ],
-    { placeHolder: 'Select output format', title },
-  );
-  return pick === undefined ? undefined : pick.label === 'Minified';
-}
-
 async function openConvertedDocument(
   content: string,
   language: SupportedFormat,
-  convertOutput: 'newTab' | 'beside',
+  convertOutput: ConvertOutput,
 ): Promise<void> {
   const doc = await vscode.workspace.openTextDocument({ content, language });
   const showOptions: vscode.TextDocumentShowOptions = { preview: false };
@@ -55,107 +38,75 @@ async function openConvertedDocument(
   await vscode.window.showTextDocument(doc, showOptions);
 }
 
-async function convertAndReplace(to: SupportedFormat, action: Action): Promise<void> {
-  const editor = vscode.window.activeTextEditor;
-  const label = action === 'format' ? 'Formatting' : 'Conversion';
+const dependencies: CommandDependencies = {
+  showQuickPick: async (items, options) => await vscode.window.showQuickPick(items, options),
+  openConvertedDocument,
+  showErrorMessage: (message) => {
+    vscode.window.showErrorMessage(message);
+  },
+  showInformationMessage: (message) => {
+    vscode.window.showInformationMessage(message);
+  },
+};
 
-  if (editor === undefined) {
-    vscode.window.showErrorMessage(`${label} failed: No active editor found`);
-    return;
-  }
-
+function createFormatTarget(editor: vscode.TextEditor): FormatTarget {
   const { document, selection } = editor;
-  const documentVersion = document.version;
+  const initialVersion = document.version;
   const hasSelection = !selection.isEmpty;
 
-  const content = hasSelection ? document.getText(selection).trim() : document.getText().trim();
-
-  if (content === '') {
-    vscode.window.showErrorMessage(`${label} failed: Document is empty`);
-    return;
-  }
-
-  const { outputStyle, convertOutput, indentSize, attributeNamePrefix } = readConfig(document.uri);
-  const title =
-    action === 'format' ? `Format ${to.toUpperCase()}` : `Convert to ${to.toUpperCase()}`;
-
-  const minify = await resolveMinify(outputStyle, title);
-  if (minify === undefined) {
-    return;
-  }
-
-  try {
-    const result = convert(content, to, { minify, indentSize, attributeNamePrefix });
-
-    if (action === 'convert') {
-      await openConvertedDocument(result, to, convertOutput);
-    } else {
-      // showQuickPick is async; guard against document state changes while picker was open.
-      // Selection is only checked when there was an initial selection — a cursor move on a
-      // whole-document format is harmless and should not abort the operation.
-      if (
-        document.isClosed ||
-        vscode.window.activeTextEditor?.document !== document ||
-        document.version !== documentVersion ||
-        (hasSelection && !editor.selection.isEqual(selection))
-      ) {
-        vscode.window.showErrorMessage(`${label} failed: document state changed`);
-        return;
-      }
+  return {
+    isStale: () =>
+      isDocumentStateStale({
+        document,
+        activeDocument: vscode.window.activeTextEditor?.document,
+        initialVersion,
+        initialSelection: selection,
+        currentSelection: editor.selection,
+        hasSelection,
+      }),
+    replace: async (content) => {
       const replaceRange = hasSelection
         ? selection
         : new vscode.Range(
             document.lineAt(0).range.start,
             document.lineAt(document.lineCount - 1).range.end,
           );
-      const applied = await editor.edit((editBuilder) => {
-        editBuilder.replace(replaceRange, result);
+      return await editor.edit((editBuilder) => {
+        editBuilder.replace(replaceRange, content);
       });
-      if (!applied) {
-        vscode.window.showErrorMessage(`${label} failed: Could not apply edits`);
-        return;
-      }
-    }
+    },
+  };
+}
 
-    vscode.window.showInformationMessage(
-      action === 'format'
-        ? `Formatted ${to} (${minify ? 'minified' : 'pretty'})`
-        : `Converted to ${to} (${minify ? 'minified' : 'pretty'})`,
-    );
-  } catch (err) {
-    vscode.window.showErrorMessage(
-      `${label} failed: ${err instanceof Error ? err.message : String(err)}`,
-    );
+async function convertAndReplace(to: SupportedFormat, action: Action): Promise<void> {
+  const editor = vscode.window.activeTextEditor;
+  if (editor === undefined) {
+    const label = action === 'format' ? 'Formatting' : 'Conversion';
+    vscode.window.showErrorMessage(`${label} failed: No active editor found`);
+    return;
   }
+
+  const { document, selection } = editor;
+  const content = selection.isEmpty ? document.getText() : document.getText(selection);
+  const config = readConfig(document.uri);
+
+  await executeEditorCommand(
+    action === 'format'
+      ? { content, to, config, action, formatTarget: createFormatTarget(editor) }
+      : { content, to, config, action },
+    dependencies,
+  );
 }
 
 async function convertFromClipboard(to: SupportedFormat): Promise<void> {
-  const content = (await vscode.env.clipboard.readText()).trim();
-  if (content === '') {
-    vscode.window.showErrorMessage('Conversion failed: Clipboard is empty');
-    return;
-  }
-
-  const { outputStyle, convertOutput, indentSize, attributeNamePrefix } = readConfig(
-    vscode.window.activeTextEditor?.document.uri,
+  await executeClipboardCommand(
+    {
+      content: await vscode.env.clipboard.readText(),
+      to,
+      config: readConfig(vscode.window.activeTextEditor?.document.uri),
+    },
+    dependencies,
   );
-
-  const minify = await resolveMinify(outputStyle, `Paste Clipboard as ${to.toUpperCase()}`);
-  if (minify === undefined) {
-    return;
-  }
-
-  try {
-    const result = convert(content, to, { minify, indentSize, attributeNamePrefix });
-    await openConvertedDocument(result, to, convertOutput);
-    vscode.window.showInformationMessage(
-      `Pasted clipboard as ${to} (${minify ? 'minified' : 'pretty'})`,
-    );
-  } catch (err) {
-    vscode.window.showErrorMessage(
-      `Conversion failed: ${err instanceof Error ? err.message : String(err)}`,
-    );
-  }
 }
 
 export function activate(context: vscode.ExtensionContext): void {

@@ -60,11 +60,14 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run tests (Linux)
+      - name: Run unit tests
+        run: npm test
+
+      - name: Run integration tests (Linux)
         if: runner.os == 'Linux'
         run: xvfb-run -a npm run test:integration
 
-      - name: Run tests (non-Linux)
+      - name: Run integration tests (non-Linux)
         if: runner.os != 'Linux'
         run: npm run test:integration
 
