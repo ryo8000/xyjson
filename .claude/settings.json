@@ -35,6 +35,7 @@
       "Bash(git add:*)",
       "Bash(git blame:*)",
       "Bash(git branch:*)",
+      "Bash(git check-ignore:*)",
       "Bash(git diff:*)",
       "Bash(git fetch:*)",
       "Bash(git log:*)",
@@ -44,8 +45,13 @@
       "Bash(git stash list)",
       "Bash(git status:*)",
       "Bash(git tag -l:*)",
-      "Bash(npm audit)",
+      "Bash(npm audit:*)",
+      "Bash(npm info:*)",
       "Bash(npm ls:*)",
+      "Bash(npx eslint:*)",
+      "Bash(npx jest:*)",
+      "Bash(npx prettier:*)",
+      "Bash(npx tsc:*)",
       "Bash(npm run check-types)",
       "Bash(npm run compile)",
       "Bash(npm run compile-tests)",
@@ -59,7 +65,6 @@
       "Bash(npm view:*)"
     ]
   },
-  "enableAllProjectMcpServers": false,
   "hooks": {
     "PostToolUse": [
       {
