@@ -1,5 +1,7 @@
 *.vsix
+.agents/**
 .claude/**
+.codex/**
 .devcontainer/**
 .github/**
 .husky/**
