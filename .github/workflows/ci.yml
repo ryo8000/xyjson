@@ -30,7 +30,7 @@ jobs:
           CHANGED=$(git diff --name-only "$BASE...$HEAD")
           echo "Changed files:"
           echo "$CHANGED"
-          if echo "$CHANGED" | grep -qE '^(src/|scripts/|package\.json$|package-lock\.json$|tsconfig\.json$|eslint\.config\.mjs$|\.github/workflows/)'; then
+          if echo "$CHANGED" | grep -qE '^(\.github/workflows/|scripts/|src/|\.vscode-test\.mjs$|\.vscodeignore$|esbuild\.js$|eslint\.config\.mjs$|package-lock\.json$|package\.json$|tsconfig\.json$)'; then
             echo "test-needed=true" >> $GITHUB_OUTPUT
           else
             echo "test-needed=false" >> $GITHUB_OUTPUT
