@@ -9,14 +9,16 @@ description: Verify a change to this VS Code extension end-to-end - which tests 
 
 | What changed | Minimum verification |
 |---|---|
-| Only `src/converter.ts` and/or `src/test/unit/` | `npm test` (fast local check; CI still runs the full suite on push since `src/` falls under its `check-changes` filter) |
+| Only `src/converter.ts` and/or `src/test/unit/` | `npm test` (fast local check; CI still runs the full suite on pull requests to `main` since `src/` falls under its `check-changes` filter) |
+| `.vscodeignore` and/or `esbuild.js` | `npm run vscode:package`; for `esbuild.js` also `npm run test:integration` |
 | Anything else matched by the `check-changes` file filter in `.github/workflows/ci.yml` | `npm test` and `npm run test:integration` |
 | Everything else | Nothing to run (no linters are configured for these files) |
 
 ## Commands
 
 - `npm test` — unit tests; `pretest` also runs type-check, lint, and the build, so a green run proves the build too.
-- `npm run test:integration` — runs unit and integration tests together inside a real VS Code instance. Slow on first run (downloads VS Code).
+- `npm run test:integration` — runs unit and integration tests together inside a real VS Code instance, loading the esbuild bundle through `main`. Slow on first run (downloads VS Code).
+- `npm run vscode:package` — production build plus VSIX packaging; the only check that covers `.vscodeignore`. Use `npx vsce ls` to list what would be packaged without building.
 
 ## Manual check (Extension Development Host)
 
