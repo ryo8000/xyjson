@@ -2,6 +2,15 @@
 
 ## [Unreleased]
 
+## [0.2.5] - 2026-09-24
+
+### Changed
+
+- Updated dependencies:
+  - `fast-xml-builder` from 1.2.1 to 1.3.1
+  - `fast-xml-parser` from 5.9.3 to 5.11.1
+  - `js-yaml` from 4.2.0 to 5.4.2
+
 ## [0.2.4] - 2026-07-24
 
 ### Changed
