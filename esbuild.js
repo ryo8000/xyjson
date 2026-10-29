@@ -1,4 +1,6 @@
 const esbuild = require("esbuild");
+const fs = require('fs');
+const path = require('path');
 
 const production = process.argv.includes('--production');
 const watch = process.argv.includes('--watch');
@@ -35,6 +37,40 @@ const esbuildProblemMatcherPlugin = {
   },
 };
 
+/**
+ * @type {import('esbuild').Plugin}
+ */
+const thirdPartyNoticesPlugin = {
+  name: 'third-party-notices',
+
+  setup(build) {
+    build.onEnd((result) => {
+      if (result.errors.length > 0) {
+        return;
+      }
+      const packageDirs = new Set();
+      for (const input of Object.keys(result.metafile.inputs)) {
+        const match = input.match(/^(.*node_modules\/(?:@[^/]+\/)?[^/]+)\//);
+        if (match) {
+          packageDirs.add(match[1]);
+        }
+      }
+      const notices = [...packageDirs].sort().map((dir) => {
+        const pkg = JSON.parse(fs.readFileSync(path.join(dir, 'package.json'), 'utf8'));
+        const licenseFile = fs.readdirSync(dir).find((file) => /^(licen[cs]e|copying)/i.test(file));
+        const text = licenseFile
+          ? fs.readFileSync(path.join(dir, licenseFile), 'utf8').trim()
+          : `License: ${pkg.license}\nAuthor: ${pkg.author?.name ?? pkg.author}`;
+        return `${pkg.name}@${pkg.version}\n\n${text}`;
+      });
+      fs.writeFileSync(
+        path.join(path.dirname(build.initialOptions.outfile), 'ThirdPartyNotices.txt'),
+        `This extension bundles the following third-party packages.\n\n${notices.join(`\n\n${'-'.repeat(80)}\n\n`)}\n`
+      );
+    });
+  },
+};
+
 const options = {
   entryPoints: [
     'src/extension.ts'
@@ -49,8 +85,9 @@ const options = {
   outfile: 'dist/extension.js',
   external: ['vscode'],
   logLevel: 'silent',
+  metafile: true,
   plugins: [
-    /* add to the end of plugins array */
+    thirdPartyNoticesPlugin,
     esbuildProblemMatcherPlugin,
   ],
 };
