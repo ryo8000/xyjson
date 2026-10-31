@@ -1,18 +1,15 @@
-# XYJson Claude Code Operating Instructions
+# XYJson Agent Instructions
 
 ## Project context
 - This repository is a VS Code extension that converts XML/YAML/JSON.
-- Core implementation lives in `src/converter.ts` and `src/extension.ts`.
+- Core implementation lives in `src/converter.ts`, `src/extension.ts`, and `src/extensionCore.ts`.
 - Tests live in `src/test/` and fixtures are copied by `npm run copy-fixtures`.
 
 ## Working rules
-- For multi-file or ambiguous changes, use **Plan Mode** first.
-- Before coding, identify impacted files and expected behavior in bullet points.
+- For multi-file or ambiguous changes, list the impacted files and expected behavior before editing.
 - For any bug fix, prefer adding or updating tests in `src/test/`.
-- Keep changes focused; avoid unrelated refactors.
 
 ## Repository conventions
-- Use TypeScript and existing coding style in `src/`.
 - Preserve public command IDs in `package.json`:
   - `xyjson.toJson`
   - `xyjson.toXml`
@@ -24,7 +21,3 @@
   - `xyjson.clipboardToXml`
   - `xyjson.clipboardToYaml`
 - Keep user-facing behavior aligned with README settings and usage docs.
-
-## PR/commit expectations
-- Include a concise summary and explicit test commands run.
-- If a check cannot run due to environment limits, state it clearly.
