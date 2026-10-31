@@ -42,8 +42,14 @@ jobs:
     needs: check-changes
     if: needs.check-changes.outputs.test-needed == 'true'
     strategy:
+      fail-fast: false
       matrix:
         os: [macos-latest, ubuntu-latest, windows-latest]
+        vscode: [stable]
+        include:
+          # Minimum from engines.vscode
+          - os: ubuntu-latest
+            vscode: 1.101.0
     runs-on: ${{ matrix.os }}
     permissions:
       contents: read
@@ -66,16 +72,23 @@ jobs:
       - name: Run unit tests
         run: npm test
 
+      - name: Cache VS Code
+        if: matrix.vscode != 'stable'
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: .vscode-test/vscode-*
+          key: vscode-${{ runner.os }}-${{ matrix.vscode }}
+
       - name: Run integration tests (Linux)
         if: runner.os == 'Linux'
-        run: xvfb-run -a npm run test:integration
+        run: xvfb-run -a npm run test:integration -- --code-version ${{ matrix.vscode }}
 
       - name: Run integration tests (non-Linux)
         if: runner.os != 'Linux'
         run: npm run test:integration
 
       - name: Package extension
-        if: runner.os == 'Linux'
+        if: runner.os == 'Linux' && matrix.vscode == 'stable'
         run: npm run vscode:package
 
   # New advisories for existing dependencies are left to Dependabot.
