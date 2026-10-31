@@ -5,9 +5,6 @@ on:
     branches:
       - main
 
-env:
-  NODE_VERSION: 22.x
-
 jobs:
   check-changes:
     name: Detect relevant changes
@@ -60,7 +57,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
-          node-version: ${{ env.NODE_VERSION }}
+          node-version: 22.x
           cache: 'npm'
 
       - name: Install dependencies
@@ -81,8 +78,9 @@ jobs:
         if: runner.os == 'Linux'
         run: npm run vscode:package
 
-  audit:
-    name: Audit dependencies
+  # New advisories for existing dependencies are left to Dependabot.
+  dependency-review:
+    name: Dependency review
     needs: check-changes
     if: needs.check-changes.outputs.test-needed == 'true'
     runs-on: ubuntu-latest
@@ -90,22 +88,15 @@ jobs:
       contents: read
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Review dependency changes
+        uses: actions/dependency-review-action@a1d282b36b6f3519aa1f3fc636f609c47dddb294 # v5.0.0
         with:
-          persist-credentials: false
-
-      - name: Set up Node.js
-        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-
-      - name: Audit production dependencies
-        run: npm audit --omit=dev --audit-level=moderate
+          fail-on-severity: moderate
+          fail-on-scopes: runtime
 
   ci-status:
     name: CI Status
-    needs: [check-changes, test, audit]
+    needs: [check-changes, test, dependency-review]
     if: always()
     runs-on: ubuntu-latest
     permissions: {}
@@ -115,7 +106,7 @@ jobs:
         env:
           CHECK_CHANGES: ${{ needs.check-changes.result }}
           TEST: ${{ needs.test.result }}
-          AUDIT: ${{ needs.audit.result }}
+          DEPENDENCY_REVIEW: ${{ needs.dependency-review.result }}
         shell: bash
         run: |
           if [[ "$CHECK_CHANGES" != "success" ]]; then
@@ -126,8 +117,8 @@ jobs:
             echo "CI failed (test=$TEST)"
             exit 1
           fi
-          if [[ "$AUDIT" != "success" && "$AUDIT" != "skipped" ]]; then
-            echo "CI failed (audit=$AUDIT)"
+          if [[ "$DEPENDENCY_REVIEW" != "success" && "$DEPENDENCY_REVIEW" != "skipped" ]]; then
+            echo "CI failed (dependency-review=$DEPENDENCY_REVIEW)"
             exit 1
           fi
-          echo "CI passed (test=$TEST, audit=$AUDIT)"
+          echo "CI passed (test=$TEST, dependency-review=$DEPENDENCY_REVIEW)"
