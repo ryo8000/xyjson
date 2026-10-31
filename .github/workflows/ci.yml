@@ -72,13 +72,6 @@ jobs:
       - name: Run unit tests
         run: npm test
 
-      - name: Cache VS Code
-        if: matrix.vscode != 'stable'
-        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
-        with:
-          path: .vscode-test/vscode-*
-          key: vscode-${{ runner.os }}-${{ matrix.vscode }}
-
       - name: Run integration tests (Linux)
         if: runner.os == 'Linux'
         run: xvfb-run -a npm run test:integration -- --code-version ${{ matrix.vscode }}
