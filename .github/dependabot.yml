@@ -13,6 +13,12 @@ updates:
       interval: "daily"
     cooldown:
       default-days: 7
+    ignore:
+      # Pinned to the engines.vscode minimum
+      - dependency-name: "@types/vscode"
+      # Major pinned to Node.js in the engines.vscode minimum
+      - dependency-name: "@types/node"
+        update-types: ["version-update:semver-major"]
   - package-ecosystem: "devcontainers"
     directory: "/"
     schedule:
