@@ -5,6 +5,9 @@ on:
     branches:
       - main
 
+env:
+  NODE_VERSION: 22.x
+
 jobs:
   check-changes:
     name: Detect relevant changes
@@ -57,7 +60,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
-          node-version: 22.x
+          node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
 
       - name: Install dependencies
@@ -78,27 +81,53 @@ jobs:
         if: runner.os == 'Linux'
         run: npm run vscode:package
 
+  audit:
+    name: Audit dependencies
+    needs: check-changes
+    if: needs.check-changes.outputs.test-needed == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Audit production dependencies
+        run: npm audit --omit=dev --audit-level=moderate
+
   ci-status:
     name: CI Status
-    needs: [check-changes, test]
+    needs: [check-changes, test, audit]
     if: always()
     runs-on: ubuntu-latest
     permissions: {}
 
     steps:
-      - name: Check test result
+      - name: Check job results
         env:
           CHECK_CHANGES: ${{ needs.check-changes.result }}
           TEST: ${{ needs.test.result }}
+          AUDIT: ${{ needs.audit.result }}
         shell: bash
         run: |
           if [[ "$CHECK_CHANGES" != "success" ]]; then
             echo "CI failed (check-changes=$CHECK_CHANGES)"
             exit 1
           fi
-          if [[ "$TEST" == "success" || "$TEST" == "skipped" ]]; then
-            echo "CI passed (test=$TEST)"
-          else
+          if [[ "$TEST" != "success" && "$TEST" != "skipped" ]]; then
             echo "CI failed (test=$TEST)"
             exit 1
           fi
+          if [[ "$AUDIT" != "success" && "$AUDIT" != "skipped" ]]; then
+            echo "CI failed (audit=$AUDIT)"
+            exit 1
+          fi
+          echo "CI passed (test=$TEST, audit=$AUDIT)"

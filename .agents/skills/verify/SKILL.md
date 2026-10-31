@@ -18,7 +18,7 @@ description: Verify a change to this VS Code extension end-to-end - which tests 
 
 - `npm test` — unit tests; `pretest` also runs type-check, lint, and the build, so a green run proves the build too.
 - `npm run test:integration` — runs unit and integration tests together inside a real VS Code instance, loading the esbuild bundle through `main`. Slow on first run (downloads VS Code).
-- `npm run vscode:package` — production build plus VSIX packaging; the only check that covers `.vscodeignore`. Use `npx vsce ls` to list what would be packaged without building.
+- `npm run vscode:package` — production build plus VSIX packaging; the only check that covers `.vscodeignore`. Use `npx vsce ls --no-dependencies` to list what would be packaged without building.
 
 ## Manual check (Extension Development Host)
 
